@@ -42,8 +42,6 @@ model address {
   id        Int      @id @default(autoincrement())
   street    String
   city      String
-  state     String
-  zip       String
   company   company? @relation(fields: [companyId], references: [id])
   companyId Int?
 

@@ -3,18 +3,7 @@ import { Prisma } from "@prisma/client";
 import z from "zod";
 
 export const itemRouter = createTRPCRouter({
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    try {
-      return await ctx.prisma.item.findMany({
-        select: {
-          name: true,
-        },
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  }),
-  addItem: publicProcedure
+  addUser: publicProcedure
     .input(
       z.object({
         name: z.string(),
