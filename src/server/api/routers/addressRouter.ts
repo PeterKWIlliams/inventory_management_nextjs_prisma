@@ -1,15 +1,13 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import z from "zod";
-import { prisma } from "~/server/db";
 
-export const itemRouter = createTRPCRouter({
+export const addressRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.item.findMany({
         select: {
           name: true,
-          id: true,
         },
       });
     } catch (error) {
@@ -36,30 +34,13 @@ export const itemRouter = createTRPCRouter({
   delete: publicProcedure
     .input(
       z.object({
-        id: z.number(),
+        name: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.item.delete({
-          where: {
-            id: input.id,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
-  getByname: publicProcedure
-    .input(
-      z.object({
-        name: z.string(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.item.findFirst({
-          where: {
+        await ctx.prisma.item.create({
+          data: {
             name: input.name,
           },
         });

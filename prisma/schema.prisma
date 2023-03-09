@@ -11,52 +11,69 @@ datasource db {
   relationMode = "prisma"
 }
 
-model user {
-  id    Int    @id @default(autoincrement())
-  name  String
-  items item[]
+model User {
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  name       String?
+  address    address[]
+  management management[]
 }
 
-model item {
-  id        Int         @id @default(autoincrement())
-  name      String
-  company   company?    @relation(fields: [companyId], references: [id])
-  companyId Int?
-  item_info item_info[]
-  user      user?       @relation(fields: [userId], references: [id])
-  userId    Int?
+model household {
+  id         Int          @id @default(autoincrement())
+  name       String
+  address    String
+  management management[]
 
-  @@index([companyId], name: "companyId")
+  storage_location storage_location[]
+}
+
+model management {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [userId], references: [id])
+  house_hold   household @relation(fields: [house_holdId], references: [id])
+  userId       Int
+  house_holdId Int
+  address      address[]
+
+  @@index([house_holdId])
   @@index([userId])
 }
 
-model company {
-  id        Int         @id @default(autoincrement())
-  name      String
-  items     item[]
-  address   address[]
-  item_info item_info[]
-}
-
 model address {
-  id        Int      @id @default(autoincrement())
-  street    String
-  city      String
-  company   company? @relation(fields: [companyId], references: [id])
-  companyId Int?
+  id Int @id @default(autoincrement())
 
-  @@index([companyId], name: "companyId")
+  management   management? @relation(fields: [managementId], references: [id])
+  managementId Int?
+  User         User?       @relation(fields: [userId], references: [id])
+  userId       Int?
+
+  @@index([managementId])
+  @@index([userId])
 }
 
-model item_info {
-  id           Int      @id @default(autoincrement())
-  item         item?    @relation(fields: [itemId], references: [id])
-  itemId       Int?
-  purchaseDate DateTime
-  price        Float
-  company      company? @relation(fields: [companyId], references: [id])
-  companyId    Int?
+model storage_location {
+  id           Int            @id @default(autoincrement())
+  name         String
+  address      String
+  house_hold   household      @relation(fields: [house_holdId], references: [id])
+  house_holdId Int
+  stored_items stored_items[]
 
-  @@index([itemId], name: "itemId")
-  @@index([companyId])
+  @@index([house_holdId])
+}
+
+model stored_items {
+  id                 Int              @id @default(autoincrement())
+  name               String
+  expiry_date        DateTime
+  purchase_date      DateTime
+  purchase_link      String
+  image_url          String
+  desired_quantity   Int
+  quantity           Int
+  storage_location   storage_location @relation(fields: [storage_locationId], references: [id])
+  storage_locationId Int
+
+  @@index([storage_locationId])
 }
