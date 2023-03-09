@@ -15,17 +15,22 @@ model User {
   id         Int          @id @default(autoincrement())
   email      String       @unique
   name       String?
-  address    address[]
+  address    address      @relation(fields: [addressId], references: [id])
+  addressId  Int
   management management[]
+
+  @@index([addressId])
 }
 
 model household {
-  id         Int          @id @default(autoincrement())
-  name       String
-  address    String
-  management management[]
-
+  id               Int                @id @default(autoincrement())
+  name             String
+  address          address            @relation(fields: [addressId], references: [id])
+  management       management[]
+  addressId        Int
   storage_location storage_location[]
+
+  @@index([addressId])
 }
 
 model management {
@@ -34,22 +39,18 @@ model management {
   house_hold   household @relation(fields: [house_holdId], references: [id])
   userId       Int
   house_holdId Int
-  address      address[]
 
   @@index([house_holdId])
   @@index([userId])
 }
 
 model address {
-  id Int @id @default(autoincrement())
-
-  management   management? @relation(fields: [managementId], references: [id])
-  managementId Int?
-  User         User?       @relation(fields: [userId], references: [id])
-  userId       Int?
-
-  @@index([managementId])
-  @@index([userId])
+  id        Int         @id @default(autoincrement())
+  street    String
+  city      String
+  postcode  String
+  household household[]
+  User      User[]
 }
 
 model storage_location {
@@ -76,4 +77,22 @@ model stored_items {
   storage_locationId Int
 
   @@index([storage_locationId])
+}
+
+model distributor {
+  id      Int    @id @default(autoincrement())
+  name    String
+  address String
+  item    item[]
+}
+
+model item {
+  id            Int          @id @default(autoincrement())
+  name          String
+  puchaase_link String
+  image_url     String
+  distributor   distributor? @relation(fields: [distributorId], references: [id])
+  distributorId Int?
+
+  @@index([distributorId])
 }
