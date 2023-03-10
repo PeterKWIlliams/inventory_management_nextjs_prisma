@@ -23,22 +23,22 @@ model User {
 }
 
 model household {
-  id               Int                @id @default(autoincrement())
-  name             String
-  address          address            @relation(fields: [addressId], references: [id])
-  management       management[]
-  addressId        Int
-  storage_location storage_location[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  address    address      @relation(fields: [addressId], references: [id])
+  addressId  Int
+  management management[]
 
   @@index([addressId])
 }
 
 model management {
-  id           Int       @id @default(autoincrement())
-  user         User      @relation(fields: [userId], references: [id])
-  house_hold   household @relation(fields: [house_holdId], references: [id])
-  userId       Int
-  house_holdId Int
+  id               Int                @id @default(autoincrement())
+  user             User               @relation(fields: [userId], references: [id])
+  house_hold       household          @relation(fields: [house_holdId], references: [id])
+  userId           Int
+  house_holdId     Int
+  storage_location storage_location[]
 
   @@index([house_holdId])
   @@index([userId])
@@ -57,8 +57,8 @@ model storage_location {
   id           Int            @id @default(autoincrement())
   name         String
   address      String
-  house_hold   household      @relation(fields: [house_holdId], references: [id])
   house_holdId Int
+  management   management     @relation(fields: [house_holdId], references: [id])
   stored_items stored_items[]
 
   @@index([house_holdId])
@@ -80,19 +80,28 @@ model stored_items {
 }
 
 model distributor {
-  id      Int    @id @default(autoincrement())
-  name    String
-  address String
-  item    item[]
+  id                Int                 @id @default(autoincrement())
+  name              String
+  address           String
+  purchasable_items purchasable_items[]
+}
+
+model purchasable_items {
+  id            Int         @id @default(autoincrement())
+  distributor   distributor @relation(fields: [distributorId], references: [id])
+  distributorId Int
+  item          item        @relation(fields: [itemId], references: [id])
+  itemId        Int
+
+  @@index([itemId])
+  @@index([distributorId])
 }
 
 model item {
-  id            Int          @id @default(autoincrement())
-  name          String
-  puchaase_link String
-  image_url     String
-  distributor   distributor? @relation(fields: [distributorId], references: [id])
-  distributorId Int?
-
-  @@index([distributorId])
+  id                Int                 @id @default(autoincrement())
+  name              String
+  purchase_link     String
+  image_url         String
+  price             Float
+  purchasable_items purchasable_items[]
 }
