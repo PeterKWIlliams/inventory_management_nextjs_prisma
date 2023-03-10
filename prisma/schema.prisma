@@ -32,18 +32,6 @@ model household {
   @@index([addressId])
 }
 
-model management {
-  id               Int                @id @default(autoincrement())
-  user             User               @relation(fields: [userId], references: [id])
-  house_hold       household          @relation(fields: [house_holdId], references: [id])
-  userId           Int
-  house_holdId     Int
-  storage_location storage_location[]
-
-  @@index([house_holdId])
-  @@index([userId])
-}
-
 model address {
   id        Int         @id @default(autoincrement())
   street    String
@@ -53,15 +41,37 @@ model address {
   User      User[]
 }
 
+model management {
+  id           Int         @id @default(autoincrement())
+  user         User        @relation(fields: [userId], references: [id])
+  house_hold   household   @relation(fields: [house_holdId], references: [id])
+  userId       Int
+  house_holdId Int
+  inventory    inventory[]
+
+  @@index([house_holdId])
+  @@index([userId])
+}
+
+model inventory {
+  id                 Int              @id @default(autoincrement())
+  management         management       @relation(fields: [managementId], references: [id])
+  managementId       Int
+  storage_location   storage_location @relation(fields: [storage_locationId], references: [id])
+  storage_locationId Int
+
+  @@index([storage_locationId])
+  @@index([managementId])
+}
+
 model storage_location {
-  id           Int            @id @default(autoincrement())
-  name         String
-  Location     String
-  management   management     @relation(fields: [managementId], references: [id])
-  managementId Int
+  id       Int    @id @default(autoincrement())
+  name     String
+  Location String
+
   stored_items stored_items[]
 
-  @@index([managementId])
+  inventory inventory[]
 }
 
 model stored_items {
