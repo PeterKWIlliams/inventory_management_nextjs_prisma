@@ -56,12 +56,12 @@ model address {
 model storage_location {
   id           Int            @id @default(autoincrement())
   name         String
-  address      String
-  house_holdId Int
-  management   management     @relation(fields: [house_holdId], references: [id])
+  Location     String
+  management   management     @relation(fields: [managementId], references: [id])
+  managementId Int
   stored_items stored_items[]
 
-  @@index([house_holdId])
+  @@index([managementId])
 }
 
 model stored_items {
