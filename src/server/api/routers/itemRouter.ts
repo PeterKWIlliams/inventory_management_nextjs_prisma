@@ -20,6 +20,7 @@ export const itemRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string(),
+        address,
       })
     )
     .mutation(async ({ ctx, input }) => {

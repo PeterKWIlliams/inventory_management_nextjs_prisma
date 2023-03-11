@@ -5,47 +5,59 @@ import z from "zod";
 export const addressRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.item.findMany({
+      return await ctx.prisma.address.findMany({
         select: {
-          name: true,
+          id: true,
+          street: true,
+          city: true,
+          postcode: true,
+          household: true,
+          User: true,
         },
       });
     } catch (error) {
       console.log("error", error);
     }
   }),
-  add: publicProcedure
+  getById: publicProcedure
     .input(
       z.object({
-        name: z.string(),
+        id: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.item.create({
-          data: {
-            name: input.name,
+        await ctx.prisma.item.findFirst({
+          where: {
+            id: input.id,
           },
         });
       } catch (error) {
         console.log(error);
       }
     }),
-  delete: publicProcedure
+    add: publicProcedure
     .input(
-      z.object({
-        name: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.item.create({
-          data: {
-            name: input.name,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
+      z.object{
+        street: z.string(),
+        city: z.string(),
+        postcode: z.string(),
+        household: z.string(),
+        household: z.houserhold(),
+        user: z.user(),
+      }).mutation(async ({ ctx, input }) => {
+        try {
+          await ctx.prisma.address.create({
+            data: {
+              street: input.street,
+              city: input.city,
+              postcode: input.postcode,
+              household: input.household,
+              User: input.user,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      },
 });
