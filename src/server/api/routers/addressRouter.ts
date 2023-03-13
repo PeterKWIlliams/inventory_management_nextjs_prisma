@@ -19,45 +19,21 @@ export const addressRouter = createTRPCRouter({
       console.log("error", error);
     }
   }),
-  getById: publicProcedure
+  getByname: publicProcedure
     .input(
       z.object({
-        id: z.number(),
+        name: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       try {
         await ctx.prisma.item.findFirst({
           where: {
-            id: input.id,
+            name: input.name,
           },
         });
       } catch (error) {
         console.log(error);
       }
     }),
-    add: publicProcedure
-    .input(
-      z.object{
-        street: z.string(),
-        city: z.string(),
-        postcode: z.string(),
-        household: z.string(),
-        household: z.houserhold(),
-        user: z.user(),
-      }).mutation(async ({ ctx, input }) => {
-        try {
-          await ctx.prisma.address.create({
-            data: {
-              street: input.street,
-              city: input.city,
-              postcode: input.postcode,
-              household: input.household,
-              User: input.user,
-            },
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      },
 });
