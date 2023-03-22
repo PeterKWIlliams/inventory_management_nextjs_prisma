@@ -11,7 +11,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User {
+model user {
   id         Int          @id @default(autoincrement())
   email      String       @unique
   name       String?
@@ -38,12 +38,12 @@ model address {
   city      String
   postcode  String
   household household[]
-  User      User[]
+  User      user[]
 }
 
 model management {
   id           Int         @id @default(autoincrement())
-  user         User        @relation(fields: [userId], references: [id])
+  user         user        @relation(fields: [userId], references: [id])
   house_hold   household   @relation(fields: [house_holdId], references: [id])
   userId       Int
   house_holdId Int

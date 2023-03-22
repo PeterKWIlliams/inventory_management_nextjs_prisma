@@ -2,22 +2,20 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
 import z, { any, number, string } from "zod";
 
-export const addressRouter = createTRPCRouter({
+export const distributorRouter = createTRPCRouter({
   add: publicProcedure
     .input(
       z.object({
-        street: z.string(),
-        city: z.string(),
-        postcode: z.string(),
+        name: z.string(),
+        address: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.address.create({
+        await ctx.prisma.distributor.create({
           data: {
-            street: input.street,
-            city: input.city,
-            postcode: input.postcode,
+            name: input.name,
+            address: input.address,
           },
         });
       } catch (error) {
@@ -26,14 +24,11 @@ export const addressRouter = createTRPCRouter({
     }),
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.address.findMany({
+      return await ctx.prisma.distributor.findMany({
         select: {
           id: true,
-          street: true,
-          city: true,
-          postcode: true,
-          household: true,
-          User: true,
+          name: true,
+          address: true,
         },
       });
     } catch (error) {
@@ -42,7 +37,7 @@ export const addressRouter = createTRPCRouter({
   }),
   getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.address.findFirst({
+      await ctx.prisma.distributor.findFirst({
         where: {
           id: input,
         },
@@ -55,21 +50,19 @@ export const addressRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        street: z.string(),
-        city: z.string(),
-        postcode: z.string(),
+        name: z.string(),
+        address: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.address.update({
+        await ctx.prisma.distributor.update({
           where: {
             id: input.id,
           },
           data: {
-            street: input.street,
-            city: input.city,
-            postcode: input.postcode,
+            name: input.name,
+            address: input.address,
           },
         });
       } catch (error) {
@@ -78,7 +71,7 @@ export const addressRouter = createTRPCRouter({
     }),
   delete: publicProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.address.delete({
+      await ctx.prisma.distributor.delete({
         where: {
           id: input,
         },

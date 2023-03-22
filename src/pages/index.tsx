@@ -1,19 +1,76 @@
 import { api } from "../utils/api";
+import Trpc from "./api/trpc/[trpc]";
+import Image from "next/image";
 
-const Items = () => {
-  const { data: items, isLoading } = api.item.getAll.useQuery();
-  const { mutate: deleteItem } = api.item.delete.useMutation();
+export default function Address() {
+  const { mutate: deleteAddress } = api.address.delete.useMutation();
+  const { data: addresses, isLoading } = api.address.getAll.useQuery();
+  const { mutate: updateAddress } = api.address.update.useMutation();
+  const { mutate: createAddress } = api.address.create.useMutation();
+  const { mutate: createUser } = api.user.create.useMutation();
+  if (isLoading) return <div>Loading...</div>;
 
-  if (isLoading) return <div>Fetching messages...</div>;
-  //   console.log(items);
   return (
-    <div className="flex flex-col gap-4">
-      {items?.map((item) => {
-        const { id, name } = item;
-        return <></>;
-      })}
+    <div>
+      <ul>
+        {addresses?.map((address) => {
+          const { id, street, city, postcode } = address;
+          return (
+            <li key={id}>
+              <p>{street}</p>
+              <p>{city}</p>
+              <p>{postcode}</p>
+            </li>
+          );
+        })}
+      </ul>
+
+      <button
+        onClick={() => {
+          console.log(addresses);
+          createAddress({
+            street: "test",
+            city: "test",
+            postcode: "test",
+          });
+        }}
+      >
+        create
+      </button>
+      <button
+        onClick={() => {
+          console.log(addresses);
+          createAddress({
+            street: "test",
+            city: "test",
+            postcode: "test",
+          });
+        }}
+      >
+        delete
+      </button>
+      <button
+        onClick={() => {
+          console.log(addresses);
+          createAddress({
+            street: "test",
+            city: "test",
+            postcode: "test",
+          });
+        }}
+      >
+        update
+      </button>
+      <button
+        onClick={() => {
+          console.log(addresses);
+          createAddress({
+            street: "test",
+            city: "test",
+            postcode: "test",
+          });
+        }}
+      ></button>
     </div>
   );
-};
-
-export default Items;
+}

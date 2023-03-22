@@ -1,26 +1,33 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
-import z from "zod";
-import { prisma } from "~/server/db";
+import z, { any, number, string } from "zod";
 
-export const itemRouter = createTRPCRouter({
-  add: publicProcedure
+export const storedItemsRouter = createTRPCRouter({
+  create: publicProcedure
     .input(
       z.object({
         name: z.string(),
+        expiry_date: z.string(),
+        purchase_date: z.string(),
         purchase_link: z.string(),
         image_url: z.string(),
-        price: z.number(),
+        desired_quantity: z.number(),
+        quantity: z.number(),
+        storage_LocationId: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.item.create({
+        await ctx.prisma.stored_items.create({
           data: {
             name: input.name,
+            expiry_date: input.expiry_date,
+            purchase_date: input.purchase_date,
             purchase_link: input.purchase_link,
             image_url: input.image_url,
-            price: input.price,
+            desired_quantity: input.desired_quantity,
+            quantity: input.quantity,
+            storage_locationId: input.storage_LocationId,
           },
         });
       } catch (error) {
@@ -29,13 +36,17 @@ export const itemRouter = createTRPCRouter({
     }),
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.item.findMany({
+      return await ctx.prisma.stored_items.findMany({
         select: {
-          name: true,
           id: true,
+          name: true,
+          expiry_date: true,
+          purchase_date: true,
           purchase_link: true,
           image_url: true,
-          price: true,
+          desired_quantity: true,
+          quantity: true,
+          storage_locationId: true,
         },
       });
     } catch (error) {
@@ -44,7 +55,7 @@ export const itemRouter = createTRPCRouter({
   }),
   getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.item.findFirst({
+      await ctx.prisma.stored_items.findFirst({
         where: {
           id: input,
         },
@@ -58,18 +69,30 @@ export const itemRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         name: z.string(),
-        addressId: z.number(),
+        expiry_date: z.string(),
+        purchase_date: z.string(),
+        purchase_link: z.string(),
+        image_url: z.string(),
+        desired_quantity: z.number(),
+        quantity: z.number(),
+        storage_LocationId: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.item.update({
+        await ctx.prisma.stored_items.update({
           where: {
             id: input.id,
           },
           data: {
             name: input.name,
-            addressId: input.addressId,
+            expiry_date: input.expiry_date,
+            purchase_date: input.purchase_date,
+            purchase_link: input.purchase_link,
+            image_url: input.image_url,
+            desired_quantity: input.desired_quantity,
+            quantity: input.quantity,
+            storage_locationId: input.storage_LocationId,
           },
         });
       } catch (error) {
@@ -78,7 +101,7 @@ export const itemRouter = createTRPCRouter({
     }),
   delete: publicProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.item.delete({
+      await ctx.prisma.stored_items.delete({
         where: {
           id: input,
         },

@@ -1,32 +1,56 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
-import z from "zod";
-import { item } from "@prisma/client";
-import { purchasable_items } from "@prisma/client";
+import z, { any } from "zod";
+import { user } from "@prisma/client";
+import { address } from "@prisma/client";
+import { api } from "~/utils/api";
 
-export const itemRouter = createTRPCRouter({
-  postMessage: publicProcedure
+export const userRouter = createTRPCRouter({
+  create: publicProcedure
     .input(
       z.object({
         name: z.string(),
-        purchase_link: z.string(),
-        image_url: z.string(),
-        price: z.number(),
-        purchasable_items: z.array(z.array)
+        email: z.string(),
+        addressId: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.item.create({
+        await ctx.prisma.user.create({
           data: {
             name: input.name,
-            purchase_link: input.purchase_link,
-            image_url: input.image_url,
-            price: input.price,
-            purchasable_items:,
+            email: input.email,
+            addressId: input.addressId,
+          },
         });
       } catch (error) {
         console.log(error);
       }
     }),
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    try {
+      return await ctx.prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          address: true,
+          management: true,
+        },
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }),
+  getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    try {
+      await ctx.prisma.item.findFirst({
+        where: {
+          id: input,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }),
 });
