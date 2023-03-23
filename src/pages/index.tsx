@@ -1,11 +1,14 @@
-import Head from "next/head";
-import { NextPage } from "next";
-import Layout from "components/layout";
 import Hello from "components/hello";
+import Layout from "components/layout";
+import { NextPage } from "next";
 
 // Define the Home page component
 const Home: NextPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <Layout children={<Hello />} />
+    </>
+  );
 };
 
 // Export the Home page component
