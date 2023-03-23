@@ -58,7 +58,9 @@ export const itemRouter = createTRPCRouter({
       z.object({
         id: z.number(),
         name: z.string(),
-        addressId: z.number(),
+        purchase_link: z.string(),
+        image_url: z.string(),
+        price: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -69,7 +71,9 @@ export const itemRouter = createTRPCRouter({
           },
           data: {
             name: input.name,
-            addressId: input.addressId,
+            purchase_link: input.purchase_link,
+            image_url: input.image_url,
+            price: input.price,
           },
         });
       } catch (error) {

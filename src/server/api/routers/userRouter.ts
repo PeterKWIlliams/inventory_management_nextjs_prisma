@@ -6,7 +6,7 @@ import { address } from "@prisma/client";
 import { api } from "~/utils/api";
 
 export const userRouter = createTRPCRouter({
-  create: publicProcedure
+  add: publicProcedure
     .input(
       z.object({
         name: z.string(),
@@ -53,4 +53,6 @@ export const userRouter = createTRPCRouter({
       console.log(error);
     }
   }),
+  
+  
 });

@@ -36,6 +36,17 @@ export const managementRouter = createTRPCRouter({
         console.log(error);
       }
     }),
+  getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    try {
+      await ctx.prisma.management.findFirst({
+        where: {
+          id: input,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }),
   update: publicProcedure
     .input(
       z.object({

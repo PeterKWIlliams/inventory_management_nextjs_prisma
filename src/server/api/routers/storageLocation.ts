@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import z, { any, number, string } from "zod";
 
 export const storageLocationRouter = createTRPCRouter({
-  create: publicProcedure
+  add: publicProcedure
     .input(
       z.object({
         name: z.string(),

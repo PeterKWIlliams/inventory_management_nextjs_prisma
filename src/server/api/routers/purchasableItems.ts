@@ -18,16 +18,17 @@ export const managementRouter = createTRPCRouter({
   add: publicProcedure
     .input(
       z.object({
-        userId: z.number(),
-        house_holdId: z.number(),
+        distributorId: z.number(),
+        itemId: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.management.create({
+        await ctx.prisma.purchasable_items.create({
           data: {
-            userId: input.userId,
-            house_holdId: input.house_holdId,
+            distributorId: input.distributorId,
+            itemId: input.itemId,
+
           },
         });
       } catch (error) {
@@ -38,28 +39,39 @@ export const managementRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.number(),
-        userId: z.number(),
-        house_holdId: z.number(),
+        distributorId: z.number(),
+        itemId: z.number(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.management.update({
+        await ctx.prisma.purchasable_items.update({
           where: {
             id: input.id,
           },
           data: {
-            userId: input.userId,
-            house_holdId: input.house_holdId,
+            distributorId: input.distributorId,
+            itemId: input.itemId,
           },
         });
       } catch (error) {
         console.log(error);
       }
     }),
+  getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    try {
+      await ctx.prisma.purchasable_items.findFirst({
+        where: {
+          id: input,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }),
   delete: publicProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.management.delete({
+      await ctx.prisma.purchasable_items.delete({
         where: {
           id: input,
         },
