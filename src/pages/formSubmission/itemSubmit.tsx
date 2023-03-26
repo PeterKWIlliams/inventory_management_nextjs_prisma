@@ -1,7 +1,7 @@
 // pages/AddProduct.tsx
 import React from "react";
 import ReusableForm from "components/reusableForm";
-
+type FormValue = string | number | Date;
 const ItemSubmit: React.FC = () => {
   const productFields = [
     {
@@ -36,7 +36,7 @@ const ItemSubmit: React.FC = () => {
     },
   ];
 
-  const handleProductSubmit = (data: Record<string, string>) => {
+  const handleProductSubmit = (data: Record<string, FormValue>) => {
     // Add your code here to submit the product data to the database
     console.log(data);
   };

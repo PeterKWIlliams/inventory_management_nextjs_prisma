@@ -1,7 +1,7 @@
 import Hello from "components/hello";
 import Layout from "components/layout";
 import { NextPage } from "next";
-import ItemSubmit from "./itemSubmit";
+import ItemSubmit from "./formSubmission/itemSubmit";
 
 // Define the Home page component
 const Home: NextPage = () => {
