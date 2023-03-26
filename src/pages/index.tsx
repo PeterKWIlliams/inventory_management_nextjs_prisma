@@ -1,12 +1,13 @@
 import Hello from "components/hello";
 import Layout from "components/layout";
 import { NextPage } from "next";
+import ItemSubmit from "./itemSubmit";
 
 // Define the Home page component
 const Home: NextPage = () => {
   return (
     <>
-      <Layout children={<Hello />} />
+      <Layout children={<ItemSubmit />} />
     </>
   );
 };
