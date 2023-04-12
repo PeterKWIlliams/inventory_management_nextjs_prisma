@@ -1,125 +1,67 @@
-// import React, { useState } from "react";
+import React, { PropsWithChildren } from "react";
+import { BsArrowLeftShort } from "react-icons/bs";
+import { useState } from "react";
+import { AiFillEnvironment } from "react-icons/ai";
+import Link from "next/link";
 
-// const Sidebar: React.FC = () => {
-//   const [isOpen, setIsOpen] = useState(true);
+const menuItems = ["Home", "About", "Contact", "Login"];
 
-//   const toggleSidebar = () => {
-//     setIsOpen(!isOpen);
-//   };
-
-//   return (
-//     <div
-//       className={`fixed top-0 left-0 min-h-screen w-64 bg-gray-800 text-white transition-all duration-300 ${
-//         isOpen ? "translate-x-0" : "-translate-x-full"
-//       }`}
-//     >
-//       <div className="p-4">
-//         <h1 className="text-2xl font-semibold">Inventory App</h1>
-//         <button
-//           className="mt-2 px-2 py-1 text-gray-500"
-//           onClick={toggleSidebar}
-//         >
-//           {isOpen ? "Hide Sidebar" : "Show Sidebar"}
-//         </button>
-//       </div>
-//       <nav className="p-4">
-//         <ul>
-//           <li className="mb-2">
-//             <a
-//               className="block rounded p-2 hover:bg-gray-700"
-//               href="#dashboard"
-//             >
-//               Dashboard
-//             </a>
-//           </li>
-//           <li className="mb-2">
-//             <a className="block rounded p-2 hover:bg-gray-700" href="#products">
-//               Products
-//             </a>
-//           </li>
-//           <li className="mb-2">
-//             <a className="block rounded p-2 hover:bg-gray-700" href="#orders">
-//               Orders
-//             </a>
-//           </li>
-//           <li className="mb-2">
-//             <a className="block rounded p-2 hover:bg-gray-700" href="#settings">
-//               Settings
-//             </a>
-//           </li>
-//         </ul>
-//       </nav>
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
-import React, { useState } from "react";
-
-const Sidebar: React.FC = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
+const Sidebar = (props: PropsWithChildren) => {
+  const [open, setOpen] = useState(true);
   return (
-    <>
-      {isSidebarOpen ? (
-        <div className="fixed left-0 top-0 h-screen w-64 bg-gray-800 p-4 text-white">
-          <h1 className="mb-4 text-2xl">Inventory Management</h1>
-          <button
-            className="rounded bg-red-500 p-2 text-white hover:bg-red-600"
-            onClick={toggleSidebar}
+    <div className="flex">
+      <div
+        className={`relative h-screen  bg-dark-purple p-5 pt-8 duration-300 ${
+          open ? "w-72" : "w-20"
+        }`}
+      >
+        <BsArrowLeftShort
+          className={`absolute -right-3 top-9 cursor-pointer rounded-full border border-dark-purple bg-white text-3xl text-dark-purple ${
+            open ? null : "rotate-180"
+          } `}
+          onClick={() => {
+            console.log(open);
+            setOpen(!open);
+          }}
+        />
+        <div className="inline-flex">
+          <AiFillEnvironment
+            className={`float-left rounded bg-amber-300 text-4xl text-dark-purple duration-500 ${
+              open && "rotate-[360deg]"
+            } mr-2 block`}
+          />
+          <h1
+            className={`p-2 ${
+              !open && "scale-0"
+            } origin-left text-2xl font-medium duration-500`}
           >
-            Hide Sidebar
-          </button>
-          <nav className="p-4">
-            <ul>
-              <li className="mb-2">
-                <a
-                  className="block rounded p-2 hover:bg-gray-700"
-                  href="#dashboard"
-                >
-                  Dashboard
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  className="block rounded p-2 hover:bg-gray-700"
-                  href="#products"
-                >
-                  Products
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  className="block rounded p-2 hover:bg-gray-700"
-                  href="#orders"
-                >
-                  Orders
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  className="block rounded p-2 hover:bg-gray-700"
-                  href="#settings"
-                >
-                  Settings
-                </a>
-              </li>
-            </ul>
-          </nav>
+            House Manager
+          </h1>
         </div>
-      ) : (
-        <button
-          className="fixed left-0 top-0 flex h-10 w-10 items-center justify-center rounded-r-full bg-blue-500 text-white"
-          onClick={toggleSidebar}
-        >
-          &gt;
-        </button>
-      )}
-    </>
+        <ul className="pt-2">
+          {menuItems.map((item, index) => (
+            <div
+              className={`${
+                !open && "pointer-events-none scale-50"
+              } duration-300`}
+            >
+              <li
+                key={index}
+                className="flex cursor-pointer items-center gap-x-4 p-3 text-sm text-gray-400"
+              >
+                <Link href={`/${item}`} className="">
+                  {item}
+                </Link>
+              </li>
+            </div>
+          ))}
+        </ul>
+      </div>
+
+      <div className="p-7">
+        <h1 className="text-2xl font-semibold">HomePage</h1>
+      </div>
+    </div>
   );
 };
 
