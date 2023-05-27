@@ -1,9 +1,7 @@
 import Sidebar from "components/sidebar";
 import { NextPage } from "next";
 
-// Define the Home page component
-
-const Home: NextPage = () => {
+const MyProfile: NextPage = ({}) => {
   return (
     <div>
       <Sidebar></Sidebar>
@@ -11,5 +9,4 @@ const Home: NextPage = () => {
   );
 };
 
-// Export the Home page component
-export default Home;
+export default MyProfile;

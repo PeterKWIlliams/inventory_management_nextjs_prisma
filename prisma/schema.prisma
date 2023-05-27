@@ -11,107 +11,108 @@ datasource db {
   relationMode = "prisma"
 }
 
-model user {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique
-  name       String?
-  address    address      @relation(fields: [addressId], references: [id])
-  addressId  Int
-  management management[]
+model User {
+  id                  Int                   @id @default(autoincrement())
+  email               String                @unique
+  name                String
+  user_address        Address               @relation("UserAddress", fields: [addressId], references: [id])
+  addressId           Int
+  inventoryManagement InventoryManagement[]
+  clerkId             String?               @unique
 
   @@index([addressId])
 }
 
-model household {
-  id         Int          @id @default(autoincrement())
-  name       String
-  address    address      @relation(fields: [addressId], references: [id])
-  addressId  Int
-  management management[]
+model Household {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  household_address   Address               @relation("HouseholdAddress", fields: [addressId], references: [id])
+  addressId           Int
+  inventoryManagement InventoryManagement[]
 
   @@index([addressId])
 }
 
-model address {
+model Address {
   id        Int         @id @default(autoincrement())
   street    String
   city      String
   postcode  String
-  household household[]
-  User      user[]
+  household Household[] @relation("HouseholdAddress")
+  User      User[]      @relation("UserAddress")
 }
 
-model management {
-  id           Int         @id @default(autoincrement())
-  user         user        @relation(fields: [userId], references: [id])
-  house_hold   household   @relation(fields: [house_holdId], references: [id])
-  userId       Int
-  house_holdId Int
-  inventory    inventory[]
+model InventoryManagement {
+  id        Int         @id @default(autoincrement())
+  user      User        @relation(fields: [userId], references: [id])
+  household Household   @relation(fields: [familyId], references: [id])
+  userId    Int
+  familyId  Int
+  inventory Inventory[]
 
-  @@index([house_holdId])
+  @@index([familyId])
   @@index([userId])
 }
 
-model inventory {
-  id                 Int              @id @default(autoincrement())
-  management         management       @relation(fields: [managementId], references: [id])
-  managementId       Int
-  storage_location   storage_location @relation(fields: [storage_locationId], references: [id])
-  storage_locationId Int
+model Inventory {
+  id                    Int                 @id @default(autoincrement())
+  inventoryManagement   InventoryManagement @relation(fields: [inventoryManagementId], references: [id])
+  inventoryManagementId Int
+  storageFacility       StorageFacility     @relation(fields: [storageFacilityId], references: [id])
+  storageFacilityId     Int
 
-  @@index([storage_locationId])
-  @@index([managementId])
+  @@index([storageFacilityId])
+  @@index([inventoryManagementId])
 }
 
-model storage_location {
+model StorageFacility {
   id       Int    @id @default(autoincrement())
   name     String
-  Location String
+  location String
 
-  stored_items stored_items[]
+  storedItems StoredItems[]
 
-  inventory inventory[]
+  inventory Inventory[]
 }
 
-model stored_items {
-  id                 Int              @id @default(autoincrement())
-  name               String
-  expiry_date        DateTime
-  purchase_date      DateTime
-  purchase_link      String
-  image_url          String
-  desired_quantity   Int
-  quantity           Int
-  storage_location   storage_location @relation(fields: [storage_locationId], references: [id])
-  storage_locationId Int
-
-  @@index([storage_locationId])
-}
-
-model distributor {
-  id                Int                 @id @default(autoincrement())
+model StoredItems {
+  id                Int             @id @default(autoincrement())
   name              String
-  address           String
-  purchasable_items purchasable_items[]
-}
-
-model purchasable_items {
-  id            Int         @id @default(autoincrement())
-  distributor   distributor @relation(fields: [distributorId], references: [id])
-  distributorId Int
-  item          item        @relation(fields: [itemId], references: [id])
-  itemId        Int
-
-  @@index([itemId])
-  @@index([distributorId])
-}
-
-model item {
-  id                Int                 @id @default(autoincrement())
-  name              String
+  expiry_date       DateTime?
+  purchase_date     DateTime
   purchase_link     String
   image_url         String
-  price             Float
-  purchasable_items purchasable_items[]
+  desired_quantity  Int?
+  quantity          Int
+  storageFacility   StorageFacility @relation(fields: [storageFacilityId], references: [id])
+  storageFacilityId Int
+
+  @@index([storageFacilityId])
+}
+
+model Supplier {
+  id       Int        @id @default(autoincrement())
+  name     String
+  address  String?
+  products Products[]
+}
+
+model Products {
+  id         Int      @id @default(autoincrement())
+  supplier   Supplier @relation(fields: [supplierId], references: [id])
+  supplierId Int
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+
+  @@index([productId])
+  @@index([supplierId])
+}
+
+model Product {
+  id            Int        @id @default(autoincrement())
+  name          String
+  purchase_link String?
+  image_url     String?
+  price         Float?
+  products      Products[]
 }

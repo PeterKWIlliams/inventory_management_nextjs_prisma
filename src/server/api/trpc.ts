@@ -42,8 +42,17 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+// export const createTRPCContext = (_opts: CreateNextContextOptions) => {
+//   return createInnerTRPCContext({});
+// };
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
+  const { req } = opts;
+  const sesh = getAuth(req);
+  const userId = sesh.userId;
+  return {
+    prisma,
+    userId,
+  };
 };
 
 /**
@@ -51,13 +60,22 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
  *
  * This is where the tRPC API is initialized, connecting the context and transformer.
  */
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
-
+import { ZodError } from "zod";
+import { getAuth } from "@clerk/nextjs/server";
+import { error } from "console";
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
-  errorFormatter({ shape }) {
-    return shape;
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
+    };
   },
 });
 
@@ -82,4 +100,20 @@ export const createTRPCRouter = t.router;
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
+
+const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+  if (!ctx.userId) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+    });
+  }
+
+  return next({
+    ctx: {
+      userId: ctx.userId,
+    },
+  });
+});
+
 export const publicProcedure = t.procedure;
+export const privateProcedure = publicProcedure.use(enforceUserIsAuthed);
