@@ -3,9 +3,9 @@ import { NextPage } from "next";
 
 const MyProfile: NextPage = ({}) => {
   return (
-    <div>
-      <Sidebar></Sidebar>
-    </div>
+    <Sidebar>
+      <h1>this is the profile page</h1>;
+    </Sidebar>
   );
 };
 

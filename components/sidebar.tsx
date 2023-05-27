@@ -109,9 +109,7 @@ const Sidebar = (props: PropsWithChildren) => {
       </div>
 
       <aside className="max-h-scren container w-full py-16 md:py-12">
-        <div className="flex items-center justify-center">
-          <div>{props.children}</div>
-        </div>
+        <div>{props.children}</div>
       </aside>
     </div>
   );
