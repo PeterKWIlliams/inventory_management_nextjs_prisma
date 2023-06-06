@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { Prisma } from "@prisma/client";
-import z, { any, number, string } from "zod";
+import z from "zod";
 
 export const addressRouter = createTRPCRouter({
   add: publicProcedure

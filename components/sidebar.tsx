@@ -50,7 +50,7 @@ const Sidebar = (props: PropsWithChildren) => {
   return (
     <div className="flex">
       <div
-        className={`relative h-screen border-sky-900 bg-white p-5 pt-8 duration-300 ${
+        className={`relative h-screen border-solid border-sky-900 bg-white p-5 pt-8 duration-300 ${
           open ? "w-72" : "w-20"
         }`}
       >
