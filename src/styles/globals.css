@@ -3,5 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-}
+/* h1 {
+  margin-bottom: 100px;
+} */

@@ -19,20 +19,15 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <title>Roar</title>
         <meta name="description" content="😀" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <Toaster position="bottom-center" />
-      <>
-        <SignedIn>
-          <>
-            <Component {...pageProps} />
-            <Link href={"/"}>home</Link>
-          </>
-        </SignedIn>
-        <SignedOut>
-          <RedirectToSignIn />
-        </SignedOut>
-      </>
+
+      <SignedIn>
+        <Component {...pageProps} />
+      </SignedIn>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
     </ClerkProvider>
   );
 };

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { SidebarOption } from "~/types/typings";
 import { Icons } from "./Icons";
 import { UserButton, useUser } from "@clerk/nextjs";
+
 const test = process.env.DATABSE_URL;
 console.log("this is the teat variable", test);
 
@@ -37,7 +38,7 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 5,
     name: "Profile",
-    href: "/dashboard/add",
+    href: "/profile/profilesetup",
     Icon: "User",
   },
 ];
