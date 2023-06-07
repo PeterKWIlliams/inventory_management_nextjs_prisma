@@ -84,7 +84,7 @@ model StoredItems {
   id                Int             @id @default(autoincrement())
   name              String
   expiry_date       DateTime?
-  purchase_date     DateTime
+  purchase_date     DateTime        @default(now())
   purchase_link     String
   image_url         String
   desired_quantity  Int?

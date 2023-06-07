@@ -4,6 +4,8 @@ import ProfileForm from "components/ProfileForm";
 import Sidebar from "components/Sidebar";
 import { create } from "domain";
 import { NextPage } from "next";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
@@ -20,18 +22,26 @@ const profilesetup: NextPage = ({}) => {
   }
 
   const addUser = api.user.add.useMutation();
+  const [success, setSuccess] = useState<boolean>(false);
 
   const onSubmit = async (data: ProfileFormDataType) => {
     if (!userId) return;
-    addUser.mutate({
-      email: data.email,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      clerkId: userId,
-      city: data.city,
-      postcode: data.postcode,
-      street: data.street,
-    });
+
+    try {
+      addUser.mutate({
+        email: data.email,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        clerkId: userId,
+        city: data.city,
+        postcode: data.postcode,
+        street: data.street,
+      });
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+    toast.success("Profile successfully created");
   };
 
   return (

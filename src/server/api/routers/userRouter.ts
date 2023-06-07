@@ -25,13 +25,13 @@ export const userRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        console.log(error);
+        console.log("Error in creating an address for profile creation", error);
       }
       const address = await ctx.prisma.address.findFirst({
         where: {
-          city: input.city,
-          postcode: input.postcode,
           street: input.street,
+          postcode: input.postcode,
+          city: input.city,
         },
       });
 
@@ -48,7 +48,7 @@ export const userRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        console.log(error);
+        console.log("There an issue in creating a user", error);
       }
     }),
   getAll: publicProcedure.query(async ({ ctx }) => {

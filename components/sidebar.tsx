@@ -20,7 +20,7 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 2,
     name: "Households",
-    href: "/households/households",
+    href: "/households",
     Icon: "Warehouse",
   },
   {
@@ -46,7 +46,7 @@ const sidebarOptions: SidebarOption[] = [
 const Sidebar = (props: PropsWithChildren) => {
   const { isLoaded, isSignedIn, user } = useUser();
   const [open, setOpen] = useState(true);
-  console.log("this is the user", user);
+
   return (
     <div className="flex">
       <div
@@ -102,9 +102,9 @@ const Sidebar = (props: PropsWithChildren) => {
           </span>
           <div className="flex flex-col text-xs">
             <span className="truncate px-2.5">
-              peterkennethwilliams@gmail.com
+              {user?.firstName} {user?.lastName}
             </span>
-            <span className="truncate px-2.5">peter williams</span>
+            <span className="truncate px-2.5"></span>
           </div>
         </div>
       </div>
