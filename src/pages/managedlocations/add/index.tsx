@@ -1,41 +1,45 @@
 import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  HouseholdFormDataType,
-  addHouseholdFormValidator,
-} from "~/utils/validations/add-household";
+
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import HouseholdForm from "components/HouseHoldForm";
 import Sidebar from "components/Sidebar";
 import { AiFillEnvironment } from "react-icons/ai";
+import HouseholdForm from "components/ManagedLocationForm";
+import { useUser } from "@clerk/nextjs";
+import {
+  ManagedLocationFormDataType,
+  addManagedLocationFormValidator,
+} from "~/utils/validations/add-managedLocation";
 
-interface AddHouseholdProps {}
+interface addManagedLocationProps {}
 
-const AddHousehold: FC<AddHouseholdProps> = () => {
-  const addHousehold = api.household.add.useMutation();
+const addManagedLocation: FC<addManagedLocationProps> = () => {
+  const userId = useUser().user?.id;
+  if (!userId) return <div>you are not signed in</div>;
+  const addManagedLocation = api.managedLocation.add.useMutation();
   const {
     register,
     setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<HouseholdFormDataType>({
-    resolver: zodResolver(addHouseholdFormValidator),
+  } = useForm<ManagedLocationFormDataType>({
+    resolver: zodResolver(addManagedLocationFormValidator),
   });
-  const onSubmit = async (data: HouseholdFormDataType) => {
+
+  const onSubmit = async (data: ManagedLocationFormDataType) => {
     try {
-      addHousehold.mutate({
+      addManagedLocation.mutate({
         name: data.name,
         street: data.street,
         postcode: data.postcode,
         city: data.city,
+        userId: userId,
       });
     } catch (error) {
       toast.error("Error adding household");
-      console.log("Error adding household", error);
     }
-    toast.success("Household successfully added");
   };
 
   return (
@@ -53,4 +57,4 @@ const AddHousehold: FC<AddHouseholdProps> = () => {
   );
 };
 
-export default AddHousehold;
+export default addManagedLocation;

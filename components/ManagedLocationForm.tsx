@@ -1,37 +1,15 @@
 import { FC } from "react";
 import Button from "./ui/Button";
-import {
-  RegisterOptions,
-  UseFormRegisterReturn,
-  SubmitHandler,
-  UseFormRegister,
-  UseFormHandleSubmit,
-} from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { HouseholdFormDataType } from "~/utils/validations/add-household";
+import { UseFormRegister, UseFormHandleSubmit } from "react-hook-form";
+import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
 
-interface HouseHoldFormProps {
-  onSubmit: (data: HouseholdFormDataType) => void;
-
-  handleSubmit: UseFormHandleSubmit<
-    {
-      name: string;
-      street: string;
-      city: string;
-      postcode: string;
-    },
-    undefined
-  >;
-
-  register: UseFormRegister<{
-    name: string;
-    city: string;
-    street: string;
-    postcode: string;
-  }>;
+interface ManagedLocationProps {
+  onSubmit: (data: ManagedLocationFormDataType) => void;
+  handleSubmit: UseFormHandleSubmit<ManagedLocationFormDataType, undefined>;
+  register: UseFormRegister<ManagedLocationFormDataType>;
 }
 
-const HouseholdForm: FC<HouseHoldFormProps> = ({
+const ManagedLocation: FC<ManagedLocationProps> = ({
   onSubmit,
   handleSubmit,
   register,
@@ -47,18 +25,18 @@ const HouseholdForm: FC<HouseHoldFormProps> = ({
             className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
             htmlFor="household_name"
           >
-            Household Name
+            Location Name
           </label>
           <input
             {...register("name")}
-            className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+            className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
             id="household_name"
             type="text"
           />
         </div>
       </div>
       <div className="-mx-3 mb-2 flex flex-wrap">
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+        <div className="md:w-1/3 mb-6 w-full px-3 md:mb-0">
           <label
             className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
             htmlFor="city"
@@ -67,12 +45,12 @@ const HouseholdForm: FC<HouseHoldFormProps> = ({
           </label>
           <input
             {...register("city")}
-            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
             id="city"
             type="text"
           />
         </div>
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+        <div className="md:w-1/3 mb-6 w-full px-3 md:mb-0">
           <label
             className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
             htmlFor="street"
@@ -82,13 +60,13 @@ const HouseholdForm: FC<HouseHoldFormProps> = ({
           <div className="relative">
             <input
               {...register("street")}
-              className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+              className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
               id="user_address"
               type="text"
             />
           </div>
         </div>
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
+        <div className="md:w-1/3 mb-6 w-full px-3 md:mb-0">
           <label
             className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
             htmlFor="grid-zip"
@@ -97,7 +75,7 @@ const HouseholdForm: FC<HouseHoldFormProps> = ({
           </label>
           <input
             {...register("postcode")}
-            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 py-3 px-4 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
             id="grid-zip"
             type="text"
           />
@@ -110,4 +88,4 @@ const HouseholdForm: FC<HouseHoldFormProps> = ({
   );
 };
 
-export default HouseholdForm;
+export default ManagedLocation;

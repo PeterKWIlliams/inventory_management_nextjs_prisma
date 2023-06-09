@@ -15,109 +15,118 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User {
-  id                  Int                   @id @default(autoincrement())
-  email               String                @unique
-  first_name          String
-  last_name           String
-  user_address        Address               @relation("UserAddress", fields: [addressId], references: [id])
-  addressId           Int
-  inventoryManagement InventoryManagement[]
-  clerkId             String                @unique
-
-  @@index([addressId])
-}
-
-model Household {
-  id                  Int                   @id @default(autoincrement())
-  name                String
-  household_address   Address               @relation("HouseholdAddress", fields: [addressId], references: [id])
-  addressId           Int
-  inventoryManagement InventoryManagement[]
-
-  @@index([addressId])
-}
-
 model Address {
-  id        Int         @id @default(autoincrement())
-  street    String
-  city      String
-  postcode  String
-  household Household[] @relation("HouseholdAddress")
-  User      User[]      @relation("UserAddress")
+  id       String     @id @default(cuid())
+  street   String
+  city     String
+  postcode String
+  location Location[]
+  user     User[]
+  supplier Supplier[]
 }
 
-model InventoryManagement {
-  id        Int         @id @default(autoincrement())
-  user      User        @relation(fields: [userId], references: [id])
-  household Household   @relation(fields: [familyId], references: [id])
-  userId    Int
-  familyId  Int
-  inventory Inventory[]
+model User {
+  id              String            @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String            @unique
+  userAddress     Address           @relation(fields: [addressId], references: [id])
+  addressId       String
+  managedLocation ManagedLocation[]
 
-  @@index([familyId])
+  @@index([id])
+  @@index([addressId])
+}
+
+model Location {
+  id              String            @id @default(cuid())
+  name            String
+  address         Address           @relation(fields: [addressId], references: [id])
+  addressId       String
+  managedLocation ManagedLocation[]
+  image_url       String?
+
+  @@index([addressId])
+}
+
+model ManagedLocation {
+  id          String        @id @default(cuid())
+  user        User          @relation(fields: [userId], references: [id])
+  location    Location      @relation(fields: [locationId], references: [id])
+  userId      String
+  locationId  String
+  itemStorage ItemStorage[]
+
+  @@index([locationId])
   @@index([userId])
 }
 
-model Inventory {
-  id                    Int                 @id @default(autoincrement())
-  inventoryManagement   InventoryManagement @relation(fields: [inventoryManagementId], references: [id])
-  inventoryManagementId Int
-  storageFacility       StorageFacility     @relation(fields: [storageFacilityId], references: [id])
-  storageFacilityId     Int
-
-  @@index([storageFacilityId])
-  @@index([inventoryManagementId])
-}
-
-model StorageFacility {
-  id       Int    @id @default(autoincrement())
-  name     String
-  location String
-
-  storedItems StoredItems[]
-
-  inventory Inventory[]
-}
-
-model StoredItems {
-  id                Int             @id @default(autoincrement())
+model ItemStorage {
+  id                String           @id @default(cuid())
   name              String
-  expiry_date       DateTime?
-  purchase_date     DateTime        @default(now())
-  purchase_link     String
-  image_url         String
-  desired_quantity  Int?
-  quantity          Int
-  storageFacility   StorageFacility @relation(fields: [storageFacilityId], references: [id])
-  storageFacilityId Int
+  location          String
+  managedLocation   ManagedLocation  @relation(fields: [managedLocationId], references: [id])
+  managedLocationId String
+  storedItem        StoredItem[]
+  secondaryUsers    SecondaryUsers[]
 
-  @@index([storageFacilityId])
+  @@index([managedLocationId])
+}
+
+model SecondaryUsers {
+  id            String      @id @default(cuid())
+  type          String
+  itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id])
+  itemStorageId String
+
+  @@index([itemStorageId])
+}
+
+model StoredItem {
+  id            String      @id @default(cuid())
+  itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id])
+  itemStorageId String
+  ItemInfo      ItemInfo[]
+
+  @@index([itemStorageId])
+}
+
+model ItemInfo {
+  id              String      @id @default(cuid())
+  name            String
+  type            String
+  expiryDate      DateTime?
+  creationDate    DateTime    @default(now())
+  purchaseLink    String?
+  imageUrl        String?
+  desiredQuantity Int?
+  quantity        Int?
+  storedItem      StoredItem? @relation(fields: [storedItemId], references: [id])
+  storedItemId    String?
+  product         Product?    @relation(fields: [productId], references: [id])
+  productId       String?
+
+  @@index([storedItemId])
+  @@index([productId])
 }
 
 model Supplier {
-  id       Int        @id @default(autoincrement())
-  name     String
-  address  String?
-  products Products[]
-}
+  id   String @id @default(cuid())
+  name String
 
-model Products {
-  id         Int      @id @default(autoincrement())
-  supplier   Supplier @relation(fields: [supplierId], references: [id])
-  supplierId Int
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  Int
+  address   Address   @relation(fields: [addressId], references: [id])
+  addressId String
+  products  Product[]
 
-  @@index([productId])
-  @@index([supplierId])
+  @@index([addressId])
 }
 
 model Product {
-  id            Int        @id @default(autoincrement())
-  name          String
-  purchase_link String?
-  image_url     String?
-  price         Float?
-  products      Products[]
+  id String @id @default(cuid())
+
+  supplier   Supplier   @relation(fields: [supplierId], references: [id])
+  supplierId String
+  itemInfo   ItemInfo[]
+
+  @@index([supplierId])
 }

@@ -1,45 +1,47 @@
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import { Prisma } from "@prisma/client";
-import z, { any, number, string } from "zod";
+import { createTRPCRouter, privateProcedure } from "../trpc";
 
-export const householdRouter = createTRPCRouter({
-  add: publicProcedure
+import z from "zod";
+
+export const managedLocationRouter = createTRPCRouter({
+  add: privateProcedure
     .input(
       z.object({
         name: z.string(),
         city: z.string(),
         street: z.string(),
         postcode: z.string(),
+        userId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      try {
-        ctx.prisma.address.create({
-          data: {
-            city: input.city,
-            street: input.street,
-            postcode: input.postcode,
-          },
-        });
-      } catch (error) {}
-      const address = await ctx.prisma.address.findFirst({
+      const user = await ctx.prisma.user.findFirst({
         where: {
+          id: input.userId,
+        },
+      });
+      if (!user) throw new Error("User not found");
+      const address = await ctx.prisma.address.create({
+        data: {
           city: input.city,
           street: input.street,
           postcode: input.postcode,
         },
       });
-      if (!address) throw new Error("Address not found");
-      try {
-        await ctx.prisma.household.create({
-          data: {
-            name: input.name,
-            addressId: address.id,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      if (!address) throw new Error("Error creating address");
+      const location = await ctx.prisma.location.create({
+        data: {
+          name: input.name,
+          addressId: address.id,
+        },
+      });
+      if (!location) throw new Error("Error creating location");
+      const managedLocation = await ctx.prisma.managedLocation.create({
+        data: {
+          locationId: location.id,
+          userId: user.id,
+        },
+      });
+      if (!managedLocation) throw new Error("Error creating managed location");
     }),
 
   // getAll: publicProcedure.query(async ({ ctx }) => {

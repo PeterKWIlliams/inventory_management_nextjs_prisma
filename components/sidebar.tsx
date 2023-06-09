@@ -5,7 +5,7 @@ import { AiFillEnvironment } from "react-icons/ai";
 import Link from "next/link";
 import { SidebarOption } from "~/types/typings";
 import { Icons } from "./Icons";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 
 const test = process.env.DATABSE_URL;
 console.log("this is the teat variable", test);
@@ -19,13 +19,13 @@ const sidebarOptions: SidebarOption[] = [
   },
   {
     id: 2,
-    name: "Households",
-    href: "/households",
+    name: "Locations",
+    href: "/managedlocations",
     Icon: "Warehouse",
   },
   {
     id: 3,
-    name: "Storage",
+    name: "Storage Locations",
     href: "/storage/storage",
     Icon: "Home",
   },
@@ -38,13 +38,12 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 5,
     name: "Profile",
-    href: "/profile/profilesetup",
+    href: "/profile/add",
     Icon: "User",
   },
 ];
 
 const Sidebar = (props: PropsWithChildren) => {
-  const { isLoaded, isSignedIn, user } = useUser();
   const [open, setOpen] = useState(true);
 
   return (
@@ -101,9 +100,7 @@ const Sidebar = (props: PropsWithChildren) => {
             <UserButton />
           </span>
           <div className="flex flex-col text-xs">
-            <span className="truncate px-2.5">
-              {user?.firstName} {user?.lastName}
-            </span>
+            <span className="truncate px-2.5">Manage Account</span>
             <span className="truncate px-2.5"></span>
           </div>
         </div>

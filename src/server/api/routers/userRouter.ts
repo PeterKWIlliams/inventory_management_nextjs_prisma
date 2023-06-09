@@ -1,73 +1,75 @@
-import { api } from "~/utils/api";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { prisma } from "~/server/db";
+import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import z, { any } from "zod";
+import toast from "react-hot-toast";
 
 export const userRouter = createTRPCRouter({
-  add: publicProcedure
+  add: privateProcedure
     .input(
       z.object({
+        firstName: z.string(),
+        lastName: z.string(),
         email: z.string(),
-        first_name: z.string(),
-        last_name: z.string(),
-        clerkId: z.string(),
+        userId: z.string(),
         city: z.string(),
         postcode: z.string(),
         street: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.address.create({
-          data: {
-            city: input.city,
-            postcode: input.postcode,
-            street: input.street,
-          },
-        });
-      } catch (error) {
-        console.log("Error in creating an address for profile creation", error);
-      }
-      const address = await ctx.prisma.address.findFirst({
+      const user = await ctx.prisma.user.findFirst({
         where: {
-          street: input.street,
-          postcode: input.postcode,
-          city: input.city,
+          id: input.userId,
+        },
+        select: {
+          id: true,
+          firstName: true,
         },
       });
+      try {
+        if (user) throw new Error("User already exists");
+      } catch (error) {
+        return error;
+      }
 
-      if (!address) throw new Error("Address not found");
-
+      const address = await ctx.prisma.address.create({
+        data: {
+          city: input.city,
+          postcode: input.postcode,
+          street: input.street,
+        },
+      });
+      if (!address) throw new Error("Address not created");
       try {
         await ctx.prisma.user.create({
           data: {
-            first_name: input.first_name,
-            last_name: input.last_name,
+            id: input.userId,
+            firstName: input.firstName,
+            lastName: input.lastName,
             email: input.email,
             addressId: address.id,
-            clerkId: input.clerkId,
           },
         });
       } catch (error) {
-        console.log("There an issue in creating a user", error);
+        console.log("this is the error");
       }
     }),
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    try {
-      return await ctx.prisma.user.findMany({
-        select: {
-          id: true,
-          first_name: true,
-          last_name: true,
-          email: true,
-          user_address: true,
-          inventoryManagement: true,
-        },
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  }),
-  getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+  // getAll: publicProcedure.query(async ({ ctx }) => {
+  //   try {
+  //     return await ctx.prisma.user.findMany({
+  //       select: {
+  //         id: true,
+  //         firstName: true,
+  //         lastName: true,
+  //         email: true,
+  //         userAddress: true,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // }),
+  getById: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
     try {
       await ctx.prisma.user.findFirst({
         where: {
