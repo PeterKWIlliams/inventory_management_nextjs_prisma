@@ -1,7 +1,6 @@
-import { prisma } from "~/server/db";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import z, { any } from "zod";
-import toast from "react-hot-toast";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = createTRPCRouter({
   add: privateProcedure
@@ -17,19 +16,23 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findFirst({
-        where: {
-          id: input.userId,
-        },
-        select: {
-          id: true,
-          firstName: true,
-        },
-      });
       try {
-        if (user) throw new Error("User already exists");
-      } catch (error) {
-        return error;
+        const user = await ctx.prisma.user.findFirst({
+          where: {
+            id: ctx.userId,
+          },
+          select: {
+            id: true,
+            firstName: true,
+          },
+        });
+        if (user)
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "User already setup",
+          });
+      } catch (error: any) {
+        throw new Error(error);
       }
 
       const address = await ctx.prisma.address.create({
@@ -39,7 +42,11 @@ export const userRouter = createTRPCRouter({
           street: input.street,
         },
       });
-      if (!address) throw new Error("Address not created");
+      if (!address)
+        throw new TRPCError({
+          code: "UNPROCESSABLE_CONTENT",
+          message: "Address could not be created",
+        });
       try {
         await ctx.prisma.user.create({
           data: {

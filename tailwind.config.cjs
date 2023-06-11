@@ -13,7 +13,8 @@ const config = {
       },
     },
   },
-  plugins: [],
+  // @ts-ignore
+  plugins: [require("tailwindcss-animate")],
 };
 
 module.exports = config;

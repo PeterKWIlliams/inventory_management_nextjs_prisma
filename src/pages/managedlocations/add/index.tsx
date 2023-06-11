@@ -6,17 +6,18 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "components/Sidebar";
 import { AiFillEnvironment } from "react-icons/ai";
-import HouseholdForm from "components/ManagedLocationForm";
 import { useUser } from "@clerk/nextjs";
 import {
   ManagedLocationFormDataType,
   addManagedLocationFormValidator,
 } from "~/utils/validations/add-managedLocation";
+import ManagedLocationForm from "components/ManagedLocationForm";
 
 interface addManagedLocationProps {}
 
 const addManagedLocation: FC<addManagedLocationProps> = () => {
   const userId = useUser().user?.id;
+
   if (!userId) return <div>you are not signed in</div>;
   const addManagedLocation = api.managedLocation.add.useMutation();
   const {
@@ -47,7 +48,7 @@ const addManagedLocation: FC<addManagedLocationProps> = () => {
       <div className=" flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add Household</h1>
         <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
-        <HouseholdForm
+        <ManagedLocationForm
           register={register}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}

@@ -1,11 +1,11 @@
 import { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
-interface ProvidersProps {
+interface ToastNotificationProps {
   children: ReactNode;
 }
 
-const Providers: FC<ProvidersProps> = ({ children }) => {
+const ToastNotification: FC<ToastNotificationProps> = ({ children }) => {
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -14,4 +14,4 @@ const Providers: FC<ProvidersProps> = ({ children }) => {
   );
 };
 
-export default Providers;
+export default ToastNotification;

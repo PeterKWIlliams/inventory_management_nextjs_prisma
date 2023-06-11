@@ -2,14 +2,15 @@ import { FC } from "react";
 import Button from "./ui/Button";
 import { UseFormRegister, UseFormHandleSubmit } from "react-hook-form";
 import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
+import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 
-interface ManagedLocationProps {
-  onSubmit: (data: ManagedLocationFormDataType) => void;
-  handleSubmit: UseFormHandleSubmit<ManagedLocationFormDataType, undefined>;
-  register: UseFormRegister<ManagedLocationFormDataType>;
+interface ItemStorageFormProps {
+  onSubmit: (data: ItemStorageFormDataType) => void;
+  handleSubmit: UseFormHandleSubmit<ItemStorageFormDataType, undefined>;
+  register: UseFormRegister<ItemStorageFormDataType>;
 }
 
-const ManagedLocationForm: FC<ManagedLocationProps> = ({
+const ItemsStorageForm: FC<ItemStorageFormProps> = ({
   onSubmit,
   handleSubmit,
   register,
@@ -88,4 +89,4 @@ const ManagedLocationForm: FC<ManagedLocationProps> = ({
   );
 };
 
-export default ManagedLocationForm;
+export default ItemStorageForm;

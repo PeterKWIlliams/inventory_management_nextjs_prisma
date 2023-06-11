@@ -19,7 +19,7 @@ export const managedLocationRouter = createTRPCRouter({
           id: input.userId,
         },
       });
-      if (!user) throw new Error("User not found");
+      if (!user) throw new Error("Need to set up account first");
       const address = await ctx.prisma.address.create({
         data: {
           city: input.city,
