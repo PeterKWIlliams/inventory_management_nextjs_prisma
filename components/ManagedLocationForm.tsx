@@ -1,90 +1,101 @@
 import { FC } from "react";
-import Button from "./ui/Button";
-import { UseFormRegister, UseFormHandleSubmit } from "react-hook-form";
-import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
+import { Button } from "./ui/Button";
+import {
+  ManagedLocationFormDataType,
+  ManagedLocationFormSchema,
+} from "~/utils/validations/add-managedLocation";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/Form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "./ui/Input";
 
 interface ManagedLocationProps {
   onSubmit: (data: ManagedLocationFormDataType) => void;
-  handleSubmit: UseFormHandleSubmit<ManagedLocationFormDataType, undefined>;
-  register: UseFormRegister<ManagedLocationFormDataType>;
+  buttonAction: string;
 }
 
 const ManagedLocationForm: FC<ManagedLocationProps> = ({
+  buttonAction,
   onSubmit,
-  handleSubmit,
-  register,
 }) => {
+  const form = useForm<ManagedLocationFormDataType>({
+    resolver: zodResolver(ManagedLocationFormSchema),
+  });
   return (
-    <form
-      className="sm:max-w-2xl md:max-w-7xl "
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div className="-mx-3 mb-6 flex flex-wrap">
-        <div className="w-full px-3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="household_name"
-          >
-            Location Name
-          </label>
-          <input
-            {...register("name")}
-            className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-            id="household_name"
-            type="text"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col ">
+        <div className="mt-4 gap-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="eg. Family home" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-      </div>
-      <div className="-mx-3 mb-2 flex flex-wrap">
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="city"
-          >
-            City
-          </label>
-          <input
-            {...register("city")}
-            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-            id="city"
-            type="text"
+        <div className="mt-4 gap-4 md:inline-flex">
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="eg. Quebec" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="postcode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Postcode</FormLabel>
+                <FormControl>
+                  <Input placeholder="eg. 10A3BZ" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="street"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Street Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="eg. 3 salt lake drive" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="street"
-          >
-            Street
-          </label>
-          <div className="relative">
-            <input
-              {...register("street")}
-              className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-              id="user_address"
-              type="text"
-            />
-          </div>
+        <div className="mt-6 flex justify-center">
+          <Button type="submit">{buttonAction}</Button>
         </div>
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="grid-zip"
-          >
-            Postcode
-          </label>
-          <input
-            {...register("postcode")}
-            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-            id="grid-zip"
-            type="text"
-          />
-        </div>
-      </div>
-      <div className="mt-6 flex justify-center">
-        <Button size={"lg"}>Submit</Button>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
 };
 

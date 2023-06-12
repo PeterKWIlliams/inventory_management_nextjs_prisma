@@ -1,91 +1,160 @@
 import { FC } from "react";
-import Button from "./ui/Button";
-import { UseFormRegister, UseFormHandleSubmit } from "react-hook-form";
-import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
-import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
+import { Button } from "./ui/Button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/Form";
+import {
+  ItemStorageFormDataType,
+  ItemStorageFormSchema,
+} from "~/utils/validations/add-itemStorage";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "./ui/Command";
+
+import { cn } from "~/lib/utils";
+import { api } from "~/utils/api";
+import { Input } from "./ui/Input";
 
 interface ItemStorageFormProps {
   onSubmit: (data: ItemStorageFormDataType) => void;
-  handleSubmit: UseFormHandleSubmit<ItemStorageFormDataType, undefined>;
-  register: UseFormRegister<ItemStorageFormDataType>;
+  buttonAction: string;
 }
 
-const ItemsStorageForm: FC<ItemStorageFormProps> = ({
+
+
+
+const managedLocations = api.managedLocation.getAllForUser.useQuery().data?.map((location)=>{return {label:location.location.name,value:location.id}})
+
+if(!managedLocations) return <div>no managedlocations</div>
+
+// {label:location.name,value:ManagedLocation.id}
+
+const ItemStorageForm: FC<ItemStorageFormProps> = ({
   onSubmit,
-  handleSubmit,
-  register,
+  buttonAction,
 }) => {
-  return (
-    <form
-      className="sm:max-w-2xl md:max-w-7xl "
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div className="-mx-3 mb-6 flex flex-wrap">
-        <div className="w-full px-3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="household_name"
-          >
-            Location Name
-          </label>
-          <input
-            {...register("name")}
-            className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-            id="household_name"
-            type="text"
+  
+  const form = useForm<ItemStorageFormDataType>({
+    resolver: zodResolver(ItemStorageFormSchema),
+  });
+  
+  
+  // const getManagedLocations = api.managedLocation.getAllForUser.useQuery()
+
+
+
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col ">
+        <FormField
+          control={form.control}
+          name="managedLocationId"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Language</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? managedLocations.find(
+                            (managedLocation) => managedLocation.value === field.value
+                          )?.label
+                        : "Select language"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search framework..." />
+                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandGroup>
+                      {managedLocations.map((managedLocation) => (
+                        <CommandItem
+                          value={managedLocation.value}
+                          key={managedLocation.value}
+                          onSelect={(value) => {
+                            form.setValue("managedLocationId", value);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              managedLocation.value === field.value
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {managedLocation.label}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                This is the language that will be used in the dashboard.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="mt-4 gap-4 md:inline-flex">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="first name" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="imgUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="last name" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-      </div>
-      <div className="-mx-3 mb-2 flex flex-wrap">
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="city"
-          >
-            City
-          </label>
-          <input
-            {...register("city")}
-            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-            id="city"
-            type="text"
-          />
+        <div className="mt-6 flex justify-center">
+          <Button type="submit">{buttonAction}</Button>
         </div>
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="street"
-          >
-            Street
-          </label>
-          <div className="relative">
-            <input
-              {...register("street")}
-              className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-              id="user_address"
-              type="text"
-            />
-          </div>
-        </div>
-        <div className="mb-6 w-full px-3 md:mb-0 md:w-1/3">
-          <label
-            className="mb-2 block text-xs font-bold uppercase tracking-wide text-gray-700"
-            htmlFor="grid-zip"
-          >
-            Postcode
-          </label>
-          <input
-            {...register("postcode")}
-            className="block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
-            id="grid-zip"
-            type="text"
-          />
-        </div>
-      </div>
-      <div className="mt-6 flex justify-center">
-        <Button size={"lg"}>Submit</Button>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
 };
 

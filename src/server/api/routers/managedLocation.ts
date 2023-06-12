@@ -44,21 +44,18 @@ export const managedLocationRouter = createTRPCRouter({
       if (!managedLocation) throw new Error("Error creating managed location");
     }),
 
-  // getAll: publicProcedure.query(async ({ ctx }) => {
-  //   try {
-  //     return await ctx.prisma.household.findMany({
-  //       select: {
-  //         id: true,
-  //         name: true,
-  //         addressId: true,
-  //         management: true,
-  //         address: true,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   }
-  // }),
+  getAllForUser: privateProcedure.query(async ({ ctx }) => {
+    const managedLocations = await ctx.prisma.managedLocation.findMany({
+      where: {
+        userId: ctx.userId,
+      },
+      select: {
+        id: true,
+        location: true,
+      },
+    });
+    return managedLocations;
+  }),
   // getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
   //   try {
   //     await ctx.prisma.household.findFirst({

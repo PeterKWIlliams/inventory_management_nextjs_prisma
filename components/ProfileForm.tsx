@@ -14,21 +14,20 @@ import {
   ProfileFormDataType,
   ProfileFormSchema,
 } from "~/utils/validations/add-profile";
-import { toast } from "react-hot-toast";
 import { FC } from "react";
 
 interface ProfileFormProps {
   buttonAction: string;
-  onSubmit: (data: ProfileFormDataType) => void
+  onSubmit: (data: ProfileFormDataType) => void;
 }
 
-const ProfileForm: FC<ProfileFormProps> = ({ buttonAction,onSubmit }) => {
+const ProfileForm: FC<ProfileFormProps> = ({ buttonAction, onSubmit }) => {
   const form = useForm<ProfileFormDataType>({
     resolver: zodResolver(ProfileFormSchema),
   });
-return (
+  return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col">
         <div className="mt-4 gap-4 md:inline-flex">
           <FormField
             control={form.control}
@@ -59,7 +58,7 @@ return (
             )}
           />
         </div>
-        <div className="mt-4">
+        <div className="mt-4 ">
           <FormField
             control={form.control}
             name="email"

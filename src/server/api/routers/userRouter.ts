@@ -1,6 +1,7 @@
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import z, { any } from "zod";
 import { TRPCError } from "@trpc/server";
+import { error } from "console";
 
 export const userRouter = createTRPCRouter({
   add: privateProcedure
@@ -30,7 +31,6 @@ export const userRouter = createTRPCRouter({
           code: "CONFLICT",
           message: "User already setup",
         });
-
       const address = await ctx.prisma.address.create({
         data: {
           city: input.city,
@@ -44,7 +44,7 @@ export const userRouter = createTRPCRouter({
           message: "Address could not be created",
         });
       try {
-        await ctx.prisma.user.create({
+        const user = await ctx.prisma.user.create({
           data: {
             id: input.userId,
             firstName: input.firstName,
@@ -53,8 +53,12 @@ export const userRouter = createTRPCRouter({
             addressId: address.id,
           },
         });
+        if (!user) throw new Error();
       } catch (error) {
-        console.log("this is the error");
+        throw new TRPCError({
+          code: "UNPROCESSABLE_CONTENT",
+          message: "User could not be created",
+        });
       }
     }),
   // getAll: publicProcedure.query(async ({ ctx }) => {

@@ -9,11 +9,9 @@ import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { ProfileFormDataType } from "~/utils/validations/add-profile";
 
-interface profileSetupProps {}
+interface ProfileSetupProps {}
 
-const profilesetup: NextPage = ({}) => {
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
+const ProfileSetup: NextPage = ({}) => {
   const user = useUser();
   const userId = user.user?.id;
 
@@ -25,6 +23,8 @@ const profilesetup: NextPage = ({}) => {
       toast.error(error.message);
     },
   });
+
+  // const ManagedLocations = api.managedLocation.getAllForUser.useQuery();
 
   const onSubmit = async (data: ProfileFormDataType) => {
     addUser.mutate({
@@ -48,4 +48,4 @@ const profilesetup: NextPage = ({}) => {
   );
 };
 
-export default profilesetup;
+export default ProfileSetup;

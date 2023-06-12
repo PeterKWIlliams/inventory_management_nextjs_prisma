@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import ItemStorageForm from "components/ItemStorageForm";
 
 import { Sidebar } from "lucide-react";
 import * as React from "react";
@@ -6,18 +7,18 @@ import { useForm } from "react-hook-form";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api, RouterInputs } from "~/utils/api";
 import {
-  addItemStorageFormValidator,
   ItemStorageFormDataType,
+  ItemStorageFormSchema,
 } from "~/utils/validations/add-itemStorage";
 
-export const addItemStorage = () => {
+export const itemStorageSetup = () => {
   const {
     register,
     setError,
     handleSubmit,
     formState: { errors },
   } = useForm<ItemStorageFormDataType>({
-    resolver: zodResolver(addItemStorageFormValidator),
+    resolver: zodResolver(ItemStorageFormSchema),
   });
 
   const addStorage = api.itemStorage.add.useMutation({
@@ -42,15 +43,11 @@ export const addItemStorage = () => {
         <div className=" flex flex-col items-center">
           <h1 className="mb-7 text-5xl font-bold">Profile Setup</h1>
           <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
-          <ItemStorageForm
-            onSubmit={onSubmit}
-            handleSubmit={handleSubmit}
-            register={register}
-          />
+          <ItemStorageForm onSubmit={onSubmit} />
         </div>
       </Sidebar>
     </Sidebar>
   );
 };
 
-export default addItemStorage;
+export default itemStorageSetup;
