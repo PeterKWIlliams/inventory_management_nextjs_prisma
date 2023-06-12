@@ -26,7 +26,7 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 3,
     name: "Storage Locations",
-    href: "/storage/storage",
+    href: "/storage",
     Icon: "Home",
   },
   {
@@ -54,7 +54,7 @@ const Sidebar = (props: PropsWithChildren) => {
         }`}
       >
         <BsArrowLeftShort
-          className={`bg-text-3xl absolute -right-3 top-9 cursor-pointer rounded-full border border-dark-purple text-dark-purple ${
+          className={`bg-text-3xl border-dark-purple text-dark-purple absolute -right-3 top-9 cursor-pointer rounded-full border ${
             open ? null : "rotate-180"
           } `}
           onClick={() => {
@@ -64,7 +64,7 @@ const Sidebar = (props: PropsWithChildren) => {
         />
         <div className="inline-flex">
           <AiFillEnvironment
-            className={`float-left rounded bg-amber-300 text-4xl text-dark-purple duration-500 ${
+            className={`text-dark-purple float-left rounded bg-amber-300 text-4xl duration-500 ${
               open && "rotate-[360deg]"
             } mr-2 block`}
           />

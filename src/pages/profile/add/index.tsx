@@ -24,8 +24,6 @@ const ProfileSetup: NextPage = ({}) => {
     },
   });
 
-  // const ManagedLocations = api.managedLocation.getAllForUser.useQuery();
-
   const onSubmit = async (data: ProfileFormDataType) => {
     addUser.mutate({
       userId: userId,

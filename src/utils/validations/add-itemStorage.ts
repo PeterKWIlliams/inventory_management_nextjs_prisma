@@ -10,7 +10,7 @@ export const ItemStorageFormSchema = z.object({
   managedLocationId: z.string({
     required_error: "Please select a location to add storage to .",
   }),
-  imgUrl: z.string().nullable(),
+  imgUrl: z.string(),
 });
 
 export type ItemStorageFormDataType = z.infer<typeof ItemStorageFormSchema>;
