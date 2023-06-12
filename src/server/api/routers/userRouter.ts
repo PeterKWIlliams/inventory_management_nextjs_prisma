@@ -16,24 +16,20 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      try {
-        const user = await ctx.prisma.user.findFirst({
-          where: {
-            id: ctx.userId,
-          },
-          select: {
-            id: true,
-            firstName: true,
-          },
+      const user = await ctx.prisma.user.findFirst({
+        where: {
+          id: ctx.userId,
+        },
+        select: {
+          id: true,
+          firstName: true,
+        },
+      });
+      if (user)
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "User already setup",
         });
-        if (user)
-          throw new TRPCError({
-            code: "CONFLICT",
-            message: "User already setup",
-          });
-      } catch (error: any) {
-        throw new Error(error);
-      }
 
       const address = await ctx.prisma.address.create({
         data: {
