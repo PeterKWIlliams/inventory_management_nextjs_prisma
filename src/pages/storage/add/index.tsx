@@ -1,34 +1,34 @@
+import { useUser } from "@clerk/nextjs";
 import ItemStorageForm from "components/ItemStorageForm";
 import Sidebar from "components/Sidebar";
-import { NextPage } from "next";
+
+import { FC } from "react";
+import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 
-const itemStorageSetup: NextPage = () => {
-  const addStorage = api.itemStorage.add.useMutation({
+interface ItemStorageSetupProps {}
+
+const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
+  const addUser = api.itemStorage.add.useMutation({
     onError: (error: any) => {
-      console.log(error.message);
+      toast.error(error.message);
     },
   });
 
   const onSubmit = async (data: ItemStorageFormDataType) => {
-    addStorage.mutate({
-      name: data.name,
-      location: data.location,
-      managedLocationId: data.managedLocationId,
-    });
+    console.log(data);
   };
-
   return (
     <Sidebar>
-      <div className=" flex flex-col items-center">
-        <h1 className="mb-7 text-5xl font-bold">Profile Setup</h1>
+      <div className="mt-9 flex flex-col items-center">
+        <h1 className="mb-7 text-5xl font-bold"></h1>
         <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
-        <ItemStorageForm buttonAction={"Submit!"} onSubmit={onSubmit} />
+        <ItemStorageForm buttonAction={"Done!"} onSubmit={onSubmit} />
       </div>
     </Sidebar>
   );
 };
 
-export default itemStorageSetup;
+export default ItemStorageSetup;

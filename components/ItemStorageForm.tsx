@@ -30,44 +30,28 @@ import { Input } from "./ui/Input";
 import { api } from "~/utils/api";
 
 interface ItemStorageFormProps {
-  onSubmit: (data: ItemStorageFormDataType) => void;
   buttonAction: string;
+  onSubmit: (data: ItemStorageFormDataType) => void;
 }
-
-// {label:location.name,value:ManagedLocation.id}
 
 const ItemStorageForm: FC<ItemStorageFormProps> = ({
   onSubmit,
   buttonAction,
 }) => {
+  const form = useForm<ItemStorageFormDataType>({
+    resolver: zodResolver(ItemStorageFormSchema),
+  });
   const managedLocations = api.managedLocation.getAllForUser
     .useQuery()
     .data?.map((location) => {
       return { label: location.location.name, value: location.id };
     });
-  console.log(managedLocations);
-  const form = useForm<ItemStorageFormDataType>({
-    resolver: zodResolver(ItemStorageFormSchema),
-  });
-
   if (!managedLocations) return <div>no managedlocations</div>;
-
-  // const managedLocations = [
-  //   { label: "English", value: "en" },
-  //   { label: "French", value: "fr" },
-  //   { label: "German", value: "de" },
-  //   { label: "Spanish", value: "es" },
-  //   { label: "Portuguese", value: "pt" },
-  //   { label: "Russian", value: "ru" },
-  //   { label: "Japanese", value: "ja" },
-  //   { label: "Korean", value: "ko" },
-  //   { label: "Chinese", value: "zh" },
-  // ] as const;
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col ">
-        <div className="mt-4 gap-4 md:inline-flex">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col">
+        <div className="inline-flex justify-between">
           <FormField
             control={form.control}
             name="name"
@@ -75,23 +59,26 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="first name" {...field} />
+                  <Input placeholder="eg. Family home" {...field} />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
-            name="imgUrl"
+            name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last Name</FormLabel>
+                <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input placeholder="imgUrl" {...field} />
+                  <Input placeholder="eg. Quebec" {...field} />
                 </FormControl>
-
+                <FormDescription>
+                  The location of the itemStorage
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -119,7 +106,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
                             (managedLocation) =>
                               managedLocation.value === field.value
                           )?.label
-                        : "Select Location"}
+                        : "Select managedLocationId"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -134,7 +121,10 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
                           value={managedLocation.label}
                           key={managedLocation.value}
                           onSelect={(value) => {
-                            form.setValue("managedLocationId", value);
+                            form.setValue(
+                              "managedLocationId",
+                              managedLocation.value
+                            );
                           }}
                         >
                           <Check
@@ -157,7 +147,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
             </FormItem>
           )}
         />
-        <div className="mt-6 flex justify-center">
+        <div className="mt-5 flex justify-center">
           <Button type="submit">{buttonAction}</Button>
         </div>
       </form>

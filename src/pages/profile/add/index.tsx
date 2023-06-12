@@ -25,15 +25,16 @@ const ProfileSetup: NextPage = ({}) => {
   });
 
   const onSubmit = async (data: ProfileFormDataType) => {
-    addUser.mutate({
-      userId: userId,
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      city: data.city,
-      postcode: data.postcode,
-      street: data.street,
-    });
+    console.log(data);
+    // addUser.mutate({
+    //   userId: userId,
+    //   email: data.email,
+    //   firstName: data.firstName,
+    //   lastName: data.lastName,
+    //   city: data.city,
+    //   postcode: data.postcode,
+    //   street: data.street,
+    // });
   };
   return (
     <Sidebar>

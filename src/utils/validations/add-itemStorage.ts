@@ -5,12 +5,13 @@ export const ItemStorageFormSchema = z.object({
     required_error: "Please enter a name .",
   }),
   location: z.string({
-    required_error: "Please enter a location .",
+    required_error: "please enter a location.",
   }),
-  managedLocationId: z.string({
-    required_error: "Please select a location to add storage to .",
-  }),
-  imgUrl: z.string(),
+  managedLocationId: z
+    .string({
+      required_error: "Please enter current street address .",
+    })
+    .cuid(),
 });
 
 export type ItemStorageFormDataType = z.infer<typeof ItemStorageFormSchema>;
