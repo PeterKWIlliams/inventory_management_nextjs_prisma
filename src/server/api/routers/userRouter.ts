@@ -2,20 +2,13 @@ import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import z, { any } from "zod";
 import { TRPCError } from "@trpc/server";
 import { error } from "console";
+import { api } from "~/utils/api";
+import { getQueryKey } from "@trpc/react-query";
+import { ProfileFormSchema } from "~/utils/validations/profile-form";
 
 export const userRouter = createTRPCRouter({
   add: privateProcedure
-    .input(
-      z.object({
-        firstName: z.string(),
-        lastName: z.string(),
-        email: z.string(),
-        userId: z.string(),
-        city: z.string(),
-        postcode: z.string(),
-        street: z.string(),
-      })
-    )
+    .input(ProfileFormSchema)
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.prisma.user.findFirst({
         where: {
@@ -46,7 +39,7 @@ export const userRouter = createTRPCRouter({
       try {
         const user = await ctx.prisma.user.create({
           data: {
-            id: input.userId,
+            id: ctx.userId,
             firstName: input.firstName,
             lastName: input.lastName,
             email: input.email,
@@ -76,15 +69,49 @@ export const userRouter = createTRPCRouter({
   //     console.log("error", error);
   //   }
   // }),
-  getById: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    try {
-      await ctx.prisma.user.findFirst({
+  getById: privateProcedure.query(async ({ ctx }) => {
+    const profileData = await ctx.prisma.user.findFirst({
+      where: {
+        id: ctx.userId,
+      },
+      select: {
+        userAddress: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      },
+    });
+    if (!profileData)
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "User could not be found",
+      });
+    return profileData;
+  }),
+  update: privateProcedure
+    .input(ProfileFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      const updatedUser = await ctx.prisma.user.update({
         where: {
-          id: input,
+          id: ctx.userId,
+        },
+        data: {
+          firstName: input.firstName,
+          lastName: input.lastName,
+          email: input.email,
         },
       });
-    } catch (error) {
-      console.log(error);
-    }
-  }),
+      try {
+        await ctx.prisma.address.update({
+          where: {
+            id: updatedUser.addressId,
+          },
+          data: {
+            city: input.city,
+            postcode: input.postcode,
+            street: input.street,
+          },
+        });
+      } catch (error) {}
+    }),
 });

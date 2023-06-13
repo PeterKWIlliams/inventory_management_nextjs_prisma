@@ -13,17 +13,23 @@ import { Input } from "./ui/Input";
 import {
   ProfileFormDataType,
   ProfileFormSchema,
-} from "~/utils/validations/add-profile";
+} from "~/utils/validations/profile-form";
 import { FC } from "react";
 
 interface ProfileFormProps {
   buttonAction: string;
   onSubmit: (data: ProfileFormDataType) => void;
+  defaultValues?: ProfileFormDataType;
 }
 
-const ProfileForm: FC<ProfileFormProps> = ({ buttonAction, onSubmit }) => {
+const ProfileForm: FC<ProfileFormProps> = ({
+  buttonAction,
+  onSubmit,
+  defaultValues,
+}) => {
   const form = useForm<ProfileFormDataType>({
     resolver: zodResolver(ProfileFormSchema),
+    defaultValues: defaultValues,
   });
   return (
     <Form {...form}>

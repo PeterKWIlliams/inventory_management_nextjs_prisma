@@ -54,6 +54,7 @@ export const managedLocationRouter = createTRPCRouter({
         location: true,
       },
     });
+    console.log(managedLocations);
     return managedLocations;
   }),
   // getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {

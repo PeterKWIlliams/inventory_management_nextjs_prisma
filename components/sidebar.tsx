@@ -42,19 +42,18 @@ const sidebarOptions: SidebarOption[] = [
     Icon: "User",
   },
 ];
-
 const Sidebar = (props: PropsWithChildren) => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <div
         className={`relative h-screen border-solid border-sky-900 bg-white p-5 pt-8 duration-300 ${
           open ? "w-72" : "w-20"
         }`}
       >
         <BsArrowLeftShort
-          className={`bg-text-3xl border-dark-purple text-dark-purple absolute -right-3 top-9 cursor-pointer rounded-full border ${
+          className={`bg-text-3xl absolute -right-3 top-9 cursor-pointer rounded-full border border-dark-purple text-dark-purple ${
             open ? null : "rotate-180"
           } `}
           onClick={() => {
@@ -64,7 +63,7 @@ const Sidebar = (props: PropsWithChildren) => {
         />
         <div className="inline-flex">
           <AiFillEnvironment
-            className={`text-dark-purple float-left rounded bg-amber-300 text-4xl duration-500 ${
+            className={`float-left rounded bg-amber-300 text-4xl text-dark-purple duration-500 ${
               open && "rotate-[360deg]"
             } mr-2 block`}
           />
@@ -99,14 +98,14 @@ const Sidebar = (props: PropsWithChildren) => {
           <span>
             <UserButton />
           </span>
-          <div className="flex flex-col text-xs">
-            <span className="truncate px-2.5">Manage Account</span>
+          <div className="flex flex-col text-sm">
+            <span className="truncate px-2.5 font-bold"> Sign Out</span>
             <span className="truncate px-2.5"></span>
           </div>
         </div>
       </div>
 
-      <aside className="max-h-scren container w-full py-16 md:py-12">
+      <aside className="h-screen w-full overflow-auto py-16 md:py-12">
         <div>{props.children}</div>
       </aside>
     </div>
