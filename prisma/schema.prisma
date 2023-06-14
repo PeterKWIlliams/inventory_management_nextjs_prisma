@@ -84,6 +84,7 @@ model SecondaryUsers {
 
 model StoredItem {
   id            String      @id @default(cuid())
+  quantity      Int
   itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id])
   itemStorageId String
   ItemInfo      ItemInfo[]
@@ -95,11 +96,12 @@ model ItemInfo {
   id              String      @id @default(cuid())
   name            String
   type            String
+  price           Float
   expiryDate      DateTime?
   creationDate    DateTime    @default(now())
   purchaseLink    String?
   imageUrl        String?
-  desiredQuantity Int?
+  desiredQuantity Int
   quantity        Int?
   storedItem      StoredItem? @relation(fields: [storedItemId], references: [id])
   storedItemId    String?
