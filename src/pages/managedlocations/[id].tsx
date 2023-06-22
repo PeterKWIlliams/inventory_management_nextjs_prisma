@@ -1,14 +1,21 @@
+import ItemStorageCard from "components/ItemStorageCard";
+import Sidebar from "components/Sidebar";
 import { GetStaticProps } from "next";
 import { FC } from "react";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 
-interface singleManagedLocationProps {}
+interface singleManagedLocationProps {
+  id: string;
+}
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();
-  console.log(context);
-  await ssg.post.getById.prefetch({ id });
+
+  const id = context.params?.id as string;
+
+  await ssg.managedLocation.getById.prefetch(id);
+  console.log("this is the id", id);
 
   return {
     props: {
@@ -22,8 +29,11 @@ export const getStaticPaths = () => {
   return { paths: [], fallback: "blocking" };
 };
 
-const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
-  return <div>singleHousehold</div>;
+const singleManagedLocation: FC<singleManagedLocationProps> = (id) => {
+  const { data, isLoading } = api.managedLocation.getById.useQuery(id.id);
+  console.log("this is the data", data);
+
+  return <Sidebar></Sidebar>;
 };
 
 export default singleManagedLocation;

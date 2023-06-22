@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactComponentElement } from "react";
+import React, { PropsWithChildren, ReactComponentElement, useRef } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useState } from "react";
 import { AiFillEnvironment } from "react-icons/ai";
@@ -25,7 +25,7 @@ const sidebarOptions: SidebarOption[] = [
   },
   {
     id: 3,
-    name: "Storage Locations",
+    name: "Storage",
     href: "/storage",
     Icon: "Home",
   },
@@ -48,12 +48,12 @@ const Sidebar = (props: PropsWithChildren) => {
   return (
     <div className="flex ">
       <div
-        className={`relative h-screen border-solid border-sky-900 bg-white p-5 pt-8 duration-300 ${
-          open ? "w-72" : "w-20"
+        className={`relative h-screen overflow-hidden  border-r border-solid border-sky-900 bg-gray-50 p-5 pt-8 duration-300 ${
+          open ? "w-60" : "w-20"
         }`}
       >
         <BsArrowLeftShort
-          className={`bg-text-3xl absolute -right-3 top-9 cursor-pointer rounded-full border border-dark-purple text-dark-purple ${
+          className={`bg-text-3xl absolute -right-1 top-9 cursor-pointer rounded-full border border-dark-purple text-dark-purple ${
             open ? null : "rotate-180"
           } `}
           onClick={() => {
@@ -75,37 +75,51 @@ const Sidebar = (props: PropsWithChildren) => {
             House Manager
           </h1>
         </div>
-        <ul className="pt-10">
+        <ul className=" pt-10">
           {sidebarOptions.map((option) => {
             const Icon = Icons[option.Icon];
             return (
               <li key={option.id}>
                 <Link
                   href={option.href}
-                  className="group flex gap-3 rounded-md p-7 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                  className="group  flex items-center justify-center gap-3 rounded-md p-7 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
                 >
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600">
-                    <Icon className="h-4 w-4" />
-                  </span>
-
-                  <span className="truncate">{option.name}</span>
+                  <div
+                    className={`flex items-center ${
+                      open ? "justify-start" : "justify-center"
+                    } w-full`}
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className={`truncate ${open ? "block" : "hidden"} `}>
+                      {option.name}
+                    </span>
+                  </div>
                 </Link>
               </li>
             );
           })}
         </ul>
-        <div className=" absolute bottom-5 -mx-4 mt-auto flex items-center">
-          <span>
+
+        <div className="absolute bottom-5 -mx-4 mt-auto flex items-center">
+          <span className="ml-2">
             <UserButton />
           </span>
-          <div className="flex flex-col text-sm">
-            <span className="truncate px-2.5 font-bold"> Sign Out</span>
+          <div className="  flex flex-col text-sm">
+            <span
+              className={`truncate px-2.5 font-bold ${
+                !open && "scale-0"
+              } duration-500`}
+            >
+              Sign Out
+            </span>
             <span className="truncate px-2.5"></span>
           </div>
         </div>
       </div>
 
-      <aside className="h-screen w-full overflow-auto py-16 md:py-12">
+      <aside className=" h-screen w-full overflow-auto py-16 md:py-12">
         <div>{props.children}</div>
       </aside>
     </div>

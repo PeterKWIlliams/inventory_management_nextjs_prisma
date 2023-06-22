@@ -16,8 +16,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider>
       <Head>
-        <title>Roar</title>
-        <meta name="description" content="😀" />
+        <title>Inventory Management</title>
+        <meta name="description" content="Inventory management softwware" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Toaster position="bottom-center" />

@@ -1,4 +1,11 @@
-import { LucideProps, User, Warehouse, Home, Boxes } from "lucide-react";
+import {
+  LucideProps,
+  User,
+  Warehouse,
+  Home,
+  Boxes,
+  PlusCircle,
+} from "lucide-react";
 
 export const Icons = {
   Logo: (props: LucideProps) => (
@@ -13,6 +20,7 @@ export const Icons = {
   Home,
   Boxes,
   User,
+  PlusCircle,
 };
 
 export type Icon = keyof typeof Icons;

@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import warehouse_pic_1 from "../public/images/warehouse_pic_1.jpeg";
 import { Location } from "@prisma/client";
+import { useRouter } from "next/router";
 
 interface ManagedLocationCardProps {
   data: {
@@ -19,8 +20,17 @@ interface ManagedLocationCardProps {
 }
 
 const ManagedLocationCard: FC<ManagedLocationCardProps> = ({ data }) => {
+  const router = useRouter();
+
+  const handleNavigate = () => {
+    router.push(`/managedlocations/${data.id}`);
+  };
+
   return (
-    <Card className="mt-7 flex overflow-hidden rounded-tl-3xl bg-white shadow-lg hover:cursor-pointer hover:bg-purple-100 hover:font-extrabold">
+    <Card
+      className="mt-7 flex overflow-hidden rounded-tl-3xl bg-white shadow-lg hover:cursor-pointer hover:bg-purple-100 hover:font-extrabold"
+      onClick={handleNavigate}
+    >
       <Image
         alt="Location"
         src={warehouse_pic_1}

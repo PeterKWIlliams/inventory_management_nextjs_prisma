@@ -20,8 +20,8 @@ const ProfileUpdate: NextPage = ({}) => {
   });
 
   if (!profileData) return <div>set up profile please</div>;
-  const flattenProfileData = { ...profileData, ...profileData.userAddress };
-  if (!flattenProfileData) return <div>loaging</div>;
+  const flattendProfileData = { ...profileData, ...profileData.userAddress };
+  if (!flattendProfileData) return <div>loaging</div>;
 
   const onSubmit = async (data: ProfileFormDataType) => {
     updateUser.mutate({
@@ -41,7 +41,7 @@ const ProfileUpdate: NextPage = ({}) => {
         <h1 className="mb-7 text-5xl font-bold">Profile Setup</h1>
         <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ProfileForm
-          defaultValues={flattenProfileData}
+          defaultValues={flattendProfileData}
           buttonAction={"Update!"}
           onSubmit={onSubmit}
         />

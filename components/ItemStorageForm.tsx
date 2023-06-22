@@ -32,21 +32,20 @@ import { api } from "~/utils/api";
 interface ItemStorageFormProps {
   buttonAction: string;
   onSubmit: (data: ItemStorageFormDataType) => void;
+  managedLocations: {
+    label: string;
+    value: string;
+  }[];
 }
 
 const ItemStorageForm: FC<ItemStorageFormProps> = ({
   onSubmit,
   buttonAction,
+  managedLocations,
 }) => {
   const form = useForm<ItemStorageFormDataType>({
     resolver: zodResolver(ItemStorageFormSchema),
   });
-  const managedLocations = api.managedLocation.getAllForUser
-    .useQuery()
-    .data?.map((location) => {
-      return { label: location.location.name, value: location.id };
-    });
-  if (!managedLocations) return <div>no managedlocations</div>;
 
   return (
     <Form {...form}>

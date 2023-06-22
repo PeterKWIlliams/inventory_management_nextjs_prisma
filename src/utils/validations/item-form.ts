@@ -1,51 +1,32 @@
+import { check } from "prettier";
 import { z } from "zod";
-
-export const ItemFormSchema = z.object({
-  name: z.string(),
-  type: z.string(),
-  expiryDate: z.coerce.date().nullable(),
-  creationDate: z.coerce.date(),
-  purchaseLink: z.string().nullable(),
-  imageUrl: z.string().nullable(),
-  desiredQuantity: z.number().int().nullable(),
-  quantity: z.number().int().nullable(),
-  storedItemId: z.string().nullable(),
-  productId: z.string().nullable(),
-});
 
 export const StoredItemFormSchema = z.object({
   name: z.string(),
+  purchaseDate: z.coerce.date(),
+  purchasePrice: z.number(),
+  desiredQuantity: z.number(),
+  baseItemName: z.string(),
+  baseType: z.string(),
+  expiryDate: z.coerce.date(),
+  supplierName: z.string(),
+});
+export type StoredItemFormDataType = z.infer<typeof StoredItemFormSchema>;
+
+export const ProductFormSchema = z.object({
+  name: z.string(),
   type: z.string(),
-  expiryDate: z.coerce.date().nullable(),
-  creationDate: z.coerce.date(),
-  purchaseLink: z.string().nullable(),
-  imageUrl: z.string().nullable(),
-  desiredQuantity: z.number().int().nullable(),
-  quantity: z.number().int().nullable(),
-  storedItemId: z.string().nullable(),
-  productId: z.string().nullable(),
+  price: z.number(),
+  supplierId: z.string(),
+  productId: z.string(),
+  baseItemId: z.string(),
 });
 
-export const ProductFormSchema = z
-  .object({
-    name: z.string(),
-    type: z.string(),
-    creationDate: z.coerce.date(),
-    purchaseLink: z.string().nullable(),
-    imageUrl: z.string().nullable(),
-    desiredQuantity: z.number().int().nullable(),
-    storedItemId: z.string().nullable(),
-    productId: z.string().nullable(),
-  })
-  .refine((data) => data.storedItemId != null || data.productId != null, {
-    message: "Item must be either stored' or Product.",
-    path: ["storedItemId", "productId"], // This can help you show the error message in the correct field
-  });
+export type ProductFormDataType = z.infer<typeof ProductFormSchema>;
 
-const stuff = {
-  name: "input",
-  type: "input and select from list",
-  purchaselink: "input",
-  name: "input",
-  name: "input",
-};
+export const SupplierFormSchema = z.object({
+  name: z.string(),
+  street: z.string().nullable(),
+  city: z.string().nullable(),
+  postcode: z.string().nullable(),
+});

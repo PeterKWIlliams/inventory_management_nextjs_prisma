@@ -11,11 +11,17 @@ import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 interface ItemStorageSetupProps {}
 
 const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
-  const addUser = api.itemStorage.add.useMutation({
+  const managedLocations = api.managedLocation.getAllForUser
+    .useQuery()
+    .data?.map((location) => {
+      return { label: location.location.name, value: location.id };
+    });
+  const addItemStorage = api.itemStorage.add.useMutation({
     onError: (error: any) => {
       toast.error(error.message);
     },
   });
+  if (!managedLocations) return <div>no managedlocations to add </div>;
 
   const onSubmit = async (data: ItemStorageFormDataType) => {
     console.log(data);
@@ -24,8 +30,12 @@ const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold"></h1>
-        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
-        <ItemStorageForm buttonAction={"Done!"} onSubmit={onSubmit} />
+        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
+        <ItemStorageForm
+          managedLocations={managedLocations}
+          buttonAction={"Done!"}
+          onSubmit={onSubmit}
+        />
       </div>
     </Sidebar>
   );

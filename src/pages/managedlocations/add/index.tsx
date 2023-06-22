@@ -16,12 +16,18 @@ const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
   if (!userId) {
     return <div>you are not signed in</div>;
   }
+  const managedLocations = api.managedLocation.getAllForUser
+    .useQuery()
+    .data?.map((location) => {
+      return { label: location.location.name, value: location.id };
+    });
   const addManagedLocation = api.managedLocation.add.useMutation({
     onError: (error: any) => {
       toast.error(error.message);
       return;
     },
   });
+  if (!managedLocations) return <div>no managedlocations to add </div>;
 
   const onSubmit = async (data: ManagedLocationFormDataType) => {
     addManagedLocation.mutate({
@@ -37,7 +43,7 @@ const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add Location</h1>
-        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
+        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ManagedLocationForm buttonAction={"Done!"} onSubmit={onSubmit} />
       </div>
     </Sidebar>

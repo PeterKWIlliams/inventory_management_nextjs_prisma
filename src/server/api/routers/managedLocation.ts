@@ -57,17 +57,18 @@ export const managedLocationRouter = createTRPCRouter({
     console.log(managedLocations);
     return managedLocations;
   }),
-  // getById: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
-  //   try {
-  //     await ctx.prisma.household.findFirst({
-  //       where: {
-  //         id: input,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }),
+  getById: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    try {
+      const managedLocation = await ctx.prisma.managedLocation.findFirst({
+        where: {
+          id: input,
+        },
+      });
+      if (managedLocation) return managedLocation;
+    } catch (error) {
+      console.log(error);
+    }
+  }),
   // update: publicProcedure
   //   .input(
   //     z.object({
