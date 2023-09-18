@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import {
   ManagedLocationFormDataType,
   ManagedLocationFormSchema,
@@ -11,10 +11,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/Form";
+} from "../ui/Form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "./ui/Input";
+import { Input } from "../ui/Input";
 
 interface ManagedLocationProps {
   onSubmit: (data: ManagedLocationFormDataType) => void;

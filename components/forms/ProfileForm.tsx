@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import {
   Form,
   FormControl,
@@ -8,8 +8,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/Form";
-import { Input } from "./ui/Input";
+} from "../ui/Form";
+import { Input } from "../ui/Input";
 import {
   ProfileFormDataType,
   ProfileFormSchema,

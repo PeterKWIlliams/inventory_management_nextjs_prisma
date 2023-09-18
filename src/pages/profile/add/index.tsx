@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import ProfileForm from "components/ProfileForm";
+import ProfileForm from "components/forms/ProfileForm";
 import Sidebar from "components/Sidebar";
 import { NextPage } from "next";
 import { useState } from "react";

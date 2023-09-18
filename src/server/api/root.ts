@@ -2,7 +2,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { itemRouter } from "~/server/api/temp/itemRouter";
 import { addressRouter } from "~/server/api/routers/addressRouter";
 import { userRouter } from "./routers/userRouter";
-import { managedLocationRouter } from "./routers/managedLocation";
+import { managedLocationRouter } from "./routers/managedLocationRouter";
 import { itemStorageRouter } from "./routers/itemStorageRouter";
 import { storedItemRouter } from "./routers/storedItemRouter";
 

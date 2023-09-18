@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "./ui/Button";
+import { Button } from "../ui/Button";
 import {
   Form,
   FormControl,
@@ -8,7 +8,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/Form";
+} from "../ui/Form";
 import {
   ItemStorageFormDataType,
   ItemStorageFormSchema,
@@ -16,17 +16,17 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "./ui/Command";
+} from "../ui/Command";
 
 import { cn } from "~/lib/utils";
-import { Input } from "./ui/Input";
+import { Input } from "../ui/Input";
 import { api } from "~/utils/api";
 
 interface ItemStorageFormProps {
@@ -58,7 +58,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="eg. Family home" {...field} />
+                  <Input placeholder="eg. fridge" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -73,7 +73,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
               <FormItem>
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input placeholder="eg. Quebec" {...field} />
+                  <Input placeholder="eg. " {...field} />
                 </FormControl>
                 <FormDescription>
                   The location of the itemStorage
@@ -88,7 +88,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
           name="managedLocationId"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Language</FormLabel>
+              <FormLabel>Managed Location</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -105,7 +105,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
                             (managedLocation) =>
                               managedLocation.value === field.value
                           )?.label
-                        : "Select managedLocationId"}
+                        : "Select Managed Location"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -141,7 +141,9 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>Select Location To add storage</FormDescription>
+              <FormDescription>
+                Location You wish to add storage to
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

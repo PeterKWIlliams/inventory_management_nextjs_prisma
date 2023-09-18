@@ -26,4 +26,62 @@ export const itemStorageRouter = createTRPCRouter({
           message: "storage could not be created",
         });
     }),
+  getById: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const itemStorage = await ctx.prisma.itemStorage.findMany({
+      where: {
+        id: input,
+      },
+      include: {
+        managedLocation: true,
+
+        storedItem: true,
+      },
+    });
+    if (!itemStorage) throw new Error("Error getting storage");
+    return itemStorage;
+  }),
+  getAllForUser: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const itemStorage = await ctx.prisma.itemStorage.findMany({
+        where: {
+          managedLocationId: input.id,
+        },
+        include: {
+          managedLocation: true,
+
+          storedItem: {
+            include: {
+              itemStorage: true,
+            },
+          },
+        },
+      });
+    }),
+  getStorageWithLocation: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const itemStorage = await ctx.prisma.itemStorage.findMany({
+        where: {
+          managedLocationId: input.id,
+        },
+        include: {
+          managedLocation: true,
+
+          storedItem: {
+            include: {
+              itemStorage: true,
+            },
+          },
+        },
+      });
+    }),
 });

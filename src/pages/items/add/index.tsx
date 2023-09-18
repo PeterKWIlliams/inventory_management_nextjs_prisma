@@ -1,4 +1,4 @@
-import StoredItemForm from "components/storedItemForm";
+import StoredItemForm from "components/forms/StoredItemForm";
 
 import { FC } from "react";
 import { AiFillEnvironment } from "react-icons/ai";
@@ -10,17 +10,14 @@ import toast from "react-hot-toast";
 interface AddItemFormProps {}
 
 const AddItemForm: FC<AddItemFormProps> = ({}) => {
-
   const addItem = api.storedItem.add.useMutation({
     onError: (error: any) => {
       toast.error(error.message);
-    }
-  })
-
+    },
+  });
 
   const onSubmit = async (data: StoredItemFormDataType) => {
-   addItem.mutate({
-      
+    addItem.mutate({
       name: data.name,
       expiryDate: data.expiryDate,
       baseItemName: data.baseItemName,
@@ -29,9 +26,8 @@ const AddItemForm: FC<AddItemFormProps> = ({}) => {
       purchasePrice: data.purchasePrice,
       purchaseDate: data.purchaseDate,
       supplierName: data.supplierName,
-      itemStorageId: 'jdajfj'
-
-   })
+      itemStorageId: "jdajfj",
+    });
   };
   return (
     <Sidebar>

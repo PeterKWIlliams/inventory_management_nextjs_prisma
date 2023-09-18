@@ -1,4 +1,4 @@
-import ProfileForm from "components/ProfileForm";
+import ProfileForm from "components/forms/ProfileForm";
 import Sidebar from "components/Sidebar";
 import { NextPage } from "next";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ const ProfileUpdate: NextPage = ({}) => {
 
   if (!profileData) return <div>set up profile please</div>;
   const flattendProfileData = { ...profileData, ...profileData.userAddress };
-  if (!flattendProfileData) return <div>loaging</div>;
+  if (!flattendProfileData) return <div>loading</div>;
 
   const onSubmit = async (data: ProfileFormDataType) => {
     updateUser.mutate({

@@ -42,6 +42,7 @@ export const managedLocationRouter = createTRPCRouter({
         },
       });
       if (!managedLocation) throw new Error("Error creating managed location");
+      return managedLocation;
     }),
 
   getAllForUser: privateProcedure.query(async ({ ctx }) => {
@@ -49,26 +50,95 @@ export const managedLocationRouter = createTRPCRouter({
       where: {
         userId: ctx.userId,
       },
-      select: {
-        id: true,
-        location: true,
+      include: {
+        location: {
+          include: {
+            address: true,
+          },
+        },
       },
     });
-    console.log(managedLocations);
+
     return managedLocations;
   }),
   getById: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
     try {
-      const managedLocation = await ctx.prisma.managedLocation.findFirst({
+      const managedLocationData = await ctx.prisma.managedLocation.findFirst({
         where: {
           id: input,
         },
+
+        select: {
+          location: {
+            include: {
+              address: true,
+            },
+          },
+          itemStorage: {
+            include: {
+              _count: {
+                select: { storedItem: true },
+              },
+              storedItem: {
+                include: {
+                  ItemInfo: true,
+                },
+              },
+            },
+          },
+        },
       });
-      if (managedLocation) return managedLocation;
+      if (managedLocationData) return managedLocationData;
     } catch (error) {
       console.log(error);
     }
   }),
+  getAllWithItems: privateProcedure.query(async ({ ctx }) => {
+    const managedLocationsWithItems = await ctx.prisma.managedLocation.findMany(
+      {
+        where: {
+          userId: ctx.userId,
+        },
+        include: {
+          itemStorage: {
+            include: {
+              storedItem: true,
+            },
+          },
+        },
+      }
+    );
+    return managedLocationsWithItems;
+  }),
+  getAllForUserWithStorage: privateProcedure.query(async ({ ctx }) => {
+    const managedLocationsWithStorage =
+      await ctx.prisma.managedLocation.findMany({
+        where: {
+          userId: ctx.userId,
+        },
+        select: {
+          location: {
+            include: {
+              managedLocation: true,
+            },
+          },
+          itemStorage: {
+            include: {
+              storedItem: {
+                include: {
+                  ItemInfo: true,
+                },
+              },
+              _count: {
+                select: { storedItem: true },
+              },
+            },
+          },
+        },
+      });
+    return managedLocationsWithStorage;
+  }),
+
   // update: publicProcedure
   //   .input(
   //     z.object({

@@ -43,19 +43,16 @@ const ManagedLocations: FC<managedLocationsProps> = () => {
   return (
     <Sidebar>
       <div className="ml-10 mr-10">
-        <h1 className="flex justify-center border-b-4 text-4xl">
-          {" "}
-          Your Locations
-        </h1>
+        <h1 className="flex justify-center border-b-4 text-4xl"> </h1>
         <h2>
           {" "}
           <div
             className="mt-5 flex flex-shrink-0 
-           text-lg"
+            text-lg"
           >
             <Link
-              href="/managedlocations/add "
-              className="flex flex-shrink-0 flex-row"
+              href="/managed-locations/add "
+              className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               add new location{" "}
               <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />

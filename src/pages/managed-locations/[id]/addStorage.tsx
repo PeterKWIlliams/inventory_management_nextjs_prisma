@@ -1,22 +1,22 @@
-import { useUser } from "@clerk/nextjs";
-import ItemStorageForm from "components/forms/ItemStorageForm";
 import Sidebar from "components/Sidebar";
-import { add } from "date-fns";
-
+import ItemStorageForm from "components/forms/ItemStorageForm";
+import ManagedLocationForm from "components/forms/ManagedLocationForm";
+import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { FC } from "react";
 import toast from "react-hot-toast";
+
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
+import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
+interface tellProps {
+  id: string;
+}
 
-interface ItemStorageSetupProps {}
+const tell: FC<tellProps> = ({ id }) => {
+  const { data, isLoading } = api.managedLocation.getById.useQuery(id);
 
-const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
-  const managedLocations = api.managedLocation.getAllForUser
-    .useQuery()
-    .data?.map((location) => {
-      return { label: location.location.name, value: location.id };
-    });
   const addItemStorage = api.itemStorage.add.useMutation({
     onError: (error: any) => {
       toast.error(error.message);
@@ -25,7 +25,6 @@ const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
       toast.success("Item Storage added!");
     },
   });
-  if (!managedLocations) return <div>no managedlocations to add </div>;
 
   const onSubmit = async (data: ItemStorageFormDataType) => {
     addItemStorage.mutate({
@@ -34,19 +33,43 @@ const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
       managedLocationId: data.managedLocationId,
     });
   };
+
+  if (!data) return <div>no data</div>;
+
   return (
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add storage</h1>
         <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ItemStorageForm
-          managedLocations={managedLocations}
           buttonAction={"Done!"}
           onSubmit={onSubmit}
+          managedLocations={[
+            { label: data.location.name, value: data.location.id },
+          ]}
         />
       </div>
     </Sidebar>
   );
 };
 
-export default ItemStorageSetup;
+export default tell;
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const ssg = generateSSGHelper();
+
+  const id = context.params?.id as string;
+
+  await ssg.managedLocation.getById.prefetch(id);
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+      id: context.params?.id,
+    },
+  };
+};
+
+export const getStaticPaths = () => {
+  return { paths: [], fallback: "blocking" };
+};

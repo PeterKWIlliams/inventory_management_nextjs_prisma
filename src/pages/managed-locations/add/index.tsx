@@ -5,13 +5,15 @@ import Sidebar from "components/Sidebar";
 import { AiFillEnvironment } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
 import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
-import ManagedLocationForm from "components/ManagedLocationForm";
+import ManagedLocationForm from "components/forms/ManagedLocationForm";
+import { useRouter } from "next/router";
 
 interface addManagedLocationProps {}
 
 const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
   const user = useUser();
   const userId = user.user?.id;
+  const router = useRouter();
 
   if (!userId) {
     return <div>you are not signed in</div>;
@@ -26,6 +28,10 @@ const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
       toast.error(error.message);
       return;
     },
+    onSuccess: (data) => {
+      toast.success("Managed Location added!");
+      router.push(`/managed-locations/${data.id}`);
+    },
   });
   if (!managedLocations) return <div>no managedlocations to add </div>;
 
@@ -37,7 +43,6 @@ const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
       postcode: data.postcode,
       street: data.street,
     });
-    toast.success("Managed Location added!");
   };
   return (
     <Sidebar>

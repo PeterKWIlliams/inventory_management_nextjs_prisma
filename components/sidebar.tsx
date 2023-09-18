@@ -20,7 +20,7 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 2,
     name: "Locations",
-    href: "/managedlocations",
+    href: "/managed-locations",
     Icon: "Warehouse",
   },
   {
@@ -32,7 +32,7 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 4,
     name: "Inventory",
-    href: "/dashboard/items",
+    href: "/items",
     Icon: "Boxes",
   },
   {
@@ -53,11 +53,10 @@ const Sidebar = (props: PropsWithChildren) => {
         }`}
       >
         <BsArrowLeftShort
-          className={`bg-text-3xl absolute -right-1 top-9 cursor-pointer rounded-full border border-dark-purple text-dark-purple ${
+          className={`bg-text-3xl absolute -right-1 top-9 cursor-pointer rounded-full border border-dark-purple bg-amber-300 text-lg text-dark-purple ${
             open ? null : "rotate-180"
           } `}
           onClick={() => {
-            console.log(open);
             setOpen(!open);
           }}
         />
