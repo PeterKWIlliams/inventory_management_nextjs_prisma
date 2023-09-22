@@ -66,7 +66,7 @@ const index: FC<indexProps> = ({}) => {
 
       <div className="container mx-auto max-w-4xl py-10">
         <Link
-          href="/storage/add "
+          href="/managed-locations/add/select-location"
           className="flex flex-shrink-0 flex-row font-bold  hover:text-purple-500"
         >
           Add New Storage

@@ -4,8 +4,8 @@ import { z } from "zod";
 export const StoredItemFormSchema = z.object({
   name: z.string(),
   purchaseDate: z.coerce.date(),
-  purchasePrice: z.number(),
-  desiredQuantity: z.number(),
+  purchasePrice: z.coerce.number(),
+  desiredQuantity: z.coerce.number(),
   baseItemName: z.string(),
   baseType: z.string(),
   expiryDate: z.coerce.date(),

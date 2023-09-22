@@ -2,24 +2,38 @@ import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 import { Button } from "../ui/Button";
 import { ArrowUpDown } from "lucide-react";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export type ManagedLocationTableData = {
+export type SingleManagedLocationTableData = {
   storageName: string;
   itemCount: number;
   storageLocation: string;
+  storageId: string;
 };
 
-export const columns: ColumnDef<ManagedLocationTableData>[] = [
+export const columns: ColumnDef<SingleManagedLocationTableData>[] = [
+  //This is hidden as it is only used to access the storageId -look for a better solution later-.
+  {
+    accessorKey: "storageId",
+    header: () => <div className="hidden"></div>,
+    cell: () => <div className="hidden"></div>,
+  },
   {
     accessorKey: "storageName",
     header: "Storage Name",
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
 
-      return <div>{rowValue}</div>;
+      return (
+        <Link href={`/storage/${row.getValue("storageId")}`}>
+          <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
+            {rowValue}
+          </div>
+        </Link>
+      );
     },
   },
   {

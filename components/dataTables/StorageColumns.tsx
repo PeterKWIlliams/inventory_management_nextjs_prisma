@@ -25,7 +25,9 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
 
       return (
         <Link href={`/managed-locations/${row.getValue("locationId")}`}>
-          <div className="float-left hover:text-violet-600">{rowValue}</div>
+          <div className="float-left text-blue-600 hover:font-semibold hover:text-violet-600">
+            {rowValue}
+          </div>
         </Link>
       );
     },
@@ -34,31 +36,25 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
   {
     accessorKey: "locationId",
     header: () => <div className="hidden text-left"></div>,
-    cell: ({ row }) => {
-      const rowValue: string = row.getValue("managedLocation");
-
-      return <div className="hidden"></div>;
-    },
+    cell: () => <div className="hidden"></div>,
   },
   //This is hidden as it is only used to access the storageId -look for a better solution later-.
   {
     accessorKey: "storageId",
     header: () => <div className="hidden"></div>,
-    cell: ({ row }) => {
-      const rowValue: string = row.getValue("managedLocation");
-
-      return <div className="hidden"></div>;
-    },
+    cell: () => <div className="hidden"></div>,
   },
   {
     accessorKey: "storageName",
-    header: () => <div className=" text-right">Storage Name</div>,
+    header: () => <div className=" ">Storage Name</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
 
       return (
         <Link href={`/storage/${row.getValue("storageId")}`}>
-          <div className="text-right  hover:text-violet-600">{rowValue}</div>
+          <div className=" text-blue-600  hover:font-semibold hover:text-violet-600">
+            {rowValue}
+          </div>
         </Link>
       );
     },

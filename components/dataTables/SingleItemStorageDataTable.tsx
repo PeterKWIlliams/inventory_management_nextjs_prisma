@@ -27,7 +27,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function ItemsDataTable<TData, TValue>({
+export function SingleStorageDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

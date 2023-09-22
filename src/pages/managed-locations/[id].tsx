@@ -1,5 +1,5 @@
-import { columns } from "components/dataTables/ManagedLocationColumns";
-import { ManagedLocationsDataTable } from "components/dataTables/MangedLocationDataTable";
+import { columns } from "components/dataTables/SingleManagedLocationColumns";
+import { SingleManagedLocationsDataTable } from "components/dataTables/SingleMangedLocationDataTable";
 import { Icons } from "components/Icons";
 import Sidebar from "components/Sidebar";
 import SingleManagedLocationCard from "components/singleManagedLocationCard";
@@ -19,13 +19,13 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
 
   if (isLoading) return <div>loading</div>;
   if (!data) return <div>no data</div>;
-  console.log("this is the data im looking for", data);
 
   const tableData = data.itemStorage.map((storage) => {
     return {
       storageName: storage.name,
       itemCount: storage._count.storedItem,
       storageLocation: storage.location,
+      storageId: storage.id,
     };
   });
 
@@ -47,7 +47,7 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
           add new storage
           <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
         </Link>
-        <ManagedLocationsDataTable columns={columns} data={tableData} />
+        <SingleManagedLocationsDataTable columns={columns} data={tableData} />
       </div>
     </Sidebar>
   );

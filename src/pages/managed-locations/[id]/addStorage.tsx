@@ -10,11 +10,13 @@ import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
-interface tellProps {
+interface specificLocationAddStorageProps {
   id: string;
 }
 
-const tell: FC<tellProps> = ({ id }) => {
+const specificLocationAddStorage: FC<specificLocationAddStorageProps> = ({
+  id,
+}) => {
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
 
   const addItemStorage = api.itemStorage.add.useMutation({
@@ -33,7 +35,7 @@ const tell: FC<tellProps> = ({ id }) => {
       managedLocationId: data.managedLocationId,
     });
   };
-
+  if (isLoading) return <div>loading</div>;
   if (!data) return <div>no data</div>;
 
   return (
@@ -53,7 +55,7 @@ const tell: FC<tellProps> = ({ id }) => {
   );
 };
 
-export default tell;
+export default specificLocationAddStorage;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();

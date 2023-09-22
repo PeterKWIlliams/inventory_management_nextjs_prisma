@@ -1,8 +1,10 @@
 import { Icons } from "components/Icons";
+import ItemStorageCard from "components/ItemStorageCard";
 
 import Sidebar from "components/Sidebar";
-import { ItemsColumns } from "components/dataTables/ItemsColumns";
-import { ItemsDataTable } from "components/dataTables/ItemsDataTable";
+import { SingleStorageDataTable } from "components/dataTables/SingleItemStorageDataTable";
+import { SingleItemStorageColumns } from "components/dataTables/SingleItemStoragColumns";
+
 import Link from "next/link";
 
 import { GetStaticProps } from "next/types";
@@ -18,47 +20,37 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
   const { data, isLoading } = api.itemStorage.getById.useQuery(id);
   if (!data) return <div>no data</div>;
   if (isLoading) return <div>loading</div>;
-  console.log(data);
+  console.log("This is the SingleStorageView Data", data);
+  const realData = data.managedLocation;
+  const singleStorageTableData = data.storedItem.map((item) => {
+    return {
+      itemName: item.name,
+      itemId: item.id,
+      price: 50,
+    };
+  });
+
   return (
     <Sidebar>
       <div className="flex justify-center text-lg">
-        <h1>{}</h1>
+        <h1>{data.name}</h1>
       </div>
 
       <div className=" flex h-full w-full items-center justify-center ">
-        {/* <ItemStorageCard data={data} /> */}
+        <ItemStorageCard realData={realData} />
       </div>
 
       <div className="container mx-auto max-w-4xl py-10">
         <Link
-          href={`/storage/${id}/addItem`}
+          href={`/storage/${id}/add-item`}
           className="flex flex-shrink-0 flex-row  hover:text-purple-500"
         >
           add Item
           <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
         </Link>
-        <ItemsDataTable
-          columns={ItemsColumns}
-          data={[
-            {
-              Item: "test",
-              price: 20,
-              storageLocation: "test",
-              storageName: "test",
-            },
-            {
-              Item: "test",
-              price: 10,
-              storageLocation: "test",
-              storageName: "test",
-            },
-            {
-              Item: "test",
-              price: 15,
-              storageLocation: "test",
-              storageName: "test",
-            },
-          ]}
+        <SingleStorageDataTable
+          columns={SingleItemStorageColumns}
+          data={singleStorageTableData}
         />
       </div>
     </Sidebar>
@@ -86,25 +78,3 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths = () => {
   return { paths: [], fallback: "blocking" };
 };
-
-[
-  {
-    id: "cljg6jnns000zq5mquezlyl47",
-    name: "TestStorage",
-    location: "TestStorage",
-    managedLocationId: "cljfv831a0007q5mqt1eexiy5",
-    managedLocation: {
-      id: "cljfv831a0007q5mqt1eexiy5",
-      userId: "user_2Rq72ayndoAt4Icf9DzQXdbFvtC",
-      locationId: "cljfv82vd0005q5mqwgjqzmte",
-    },
-    storedItem: [
-      {
-        id: "TestItem1 ",
-        name: "TestItem1",
-        itemStorageId: "cljg6jnns000zq5mquezlyl47",
-        ItemInfo: [],
-      },
-    ],
-  },
-];

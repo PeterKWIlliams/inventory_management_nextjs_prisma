@@ -4,10 +4,13 @@ import { ItemsColumns } from "components/dataTables/ItemsColumns";
 import { ItemsDataTable } from "components/dataTables/ItemsDataTable";
 import Link from "next/link";
 import { FC } from "react";
+import { api } from "~/utils/api";
 
 interface ItemsProps {}
 
 const Items: FC<ItemsProps> = ({}) => {
+  const { data, isLoading, error } = api.storedItem.getAllForUser.useQuery();
+  console.log(data);
   return (
     <Sidebar>
       <div className="ml-10 mr-10">
@@ -19,7 +22,7 @@ const Items: FC<ItemsProps> = ({}) => {
               text-lg"
           >
             <Link
-              href="/items/add "
+              href="/items/add/select-storage "
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               add new item
@@ -28,111 +31,7 @@ const Items: FC<ItemsProps> = ({}) => {
           </div>
         </h2>
         <div className="container mx-auto max-w-4xl py-10">
-          <ItemsDataTable
-            columns={ItemsColumns}
-            data={[
-              {
-                storageName: "test",
-                itemCount: 1,
-                storageLocation: "test",
-              },
-              {
-                storageName: "test2",
-                itemCount: 2,
-                storageLocation: "test2",
-              },
-              {
-                storageName: "test3",
-                itemCount: 3,
-                storageLocation: "test3",
-              },
-              {
-                storageName: "test4",
-                itemCount: 4,
-                storageLocation: "test4",
-              },
-              {
-                storageName: "test5",
-                itemCount: 5,
-                storageLocation: "test5",
-              },
-              {
-                storageName: "test6",
-                itemCount: 6,
-                storageLocation: "test6",
-              },
-              {
-                storageName: "test7",
-                itemCount: 7,
-                storageLocation: "test7",
-              },
-              {
-                storageName: "test8",
-                itemCount: 8,
-                storageLocation: "test8",
-              },
-              {
-                storageName: "test9",
-                itemCount: 9,
-                storageLocation: "test9",
-              },
-              {
-                storageName: "test10",
-                itemCount: 10,
-                storageLocation: "test10",
-              },
-              {
-                storageName: "test11",
-                itemCount: 11,
-                storageLocation: "test11",
-              },
-              {
-                storageName: "test12",
-                itemCount: 12,
-                storageLocation: "test12",
-              },
-              {
-                storageName: "test13",
-                itemCount: 13,
-                storageLocation: "test13",
-              },
-              {
-                storageName: "test14",
-                itemCount: 14,
-                storageLocation: "test14",
-              },
-              {
-                storageName: "test15",
-                itemCount: 15,
-                storageLocation: "test15",
-              },
-              {
-                storageName: "test16",
-                itemCount: 16,
-                storageLocation: "test16",
-              },
-              {
-                storageName: "test17",
-                itemCount: 17,
-                storageLocation: "test17",
-              },
-              {
-                storageName: "test18",
-                itemCount: 18,
-                storageLocation: "test18",
-              },
-              {
-                storageName: "test19",
-                itemCount: 19,
-                storageLocation: "test19",
-              },
-              {
-                storageName: "test20",
-                itemCount: 20,
-                storageLocation: "test20",
-              },
-            ]}
-          />
+          <ItemsDataTable columns={ItemsColumns} data={[]} />
         </div>
       </div>
     </Sidebar>

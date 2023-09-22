@@ -136,6 +136,7 @@ export const managedLocationRouter = createTRPCRouter({
           },
         },
       });
+      
     return managedLocationsWithStorage;
   }),
 

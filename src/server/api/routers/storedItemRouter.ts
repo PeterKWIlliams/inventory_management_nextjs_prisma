@@ -44,43 +44,47 @@ export const storedItemRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const storedItemData: CreateItemData = {
-        name: input.name,
-        itemStorageId: input.itemStorageId,
-        ItemInfo: {
-          create: {
-            desiredQuantity: input.desiredQuantity,
-            expiryDate: input.expiryDate,
-            purchaseDate: input.purchaseDate,
-            purchasePrice: input.purchasePrice,
-          },
-        },
-      };
-      if (input.baseItemName && input.baseType) {
-        storedItemData.ItemInfo.create.BaseItem = {
-          create: {
-            name: input.baseItemName,
-            type: input.baseType,
-          },
-        };
-      }
-
-      if (input.supplierName) {
-        storedItemData.ItemInfo.create.supplier = {
-          create: {
-            name: input.supplierName,
-          },
-        };
-      }
-
       try {
-        const storedItem = await ctx.prisma.storedItem.create({
-          data: storedItemData,
+        const storeItem = await ctx.prisma.storedItem.create({
+          data: {
+            name: input.name,
+            itemStorageId: input.itemStorageId,
+            ItemInfo: {
+              create: {
+                desiredQuantity: input.desiredQuantity,
+                purchaseDate: input.purchaseDate,
+                expiryDate: input.expiryDate,
+                purchasePrice: input.purchasePrice,
+                BaseItem: {
+                  create: {
+                    name: input.baseItemName,
+                    type: input.baseType,
+                  },
+                },
+              },
+            },
+          },
         });
-      } catch (e) {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          console.log("Error message", e);
-        }
+      } catch (error) {
+        console.log(error);
       }
     }),
+  deleteAll: privateProcedure.mutation(async ({ ctx }) => {
+    const deleteUsers = ctx.prisma.storedItem.deleteMany({});
+  }),
+  getAllForUser: privateProcedure.query(async ({ ctx, input }) => {
+    const userItems = await ctx.prisma.storedItem.findMany({
+      where: {
+        itemStorage: {
+          managedLocation: {
+            userId: ctx.userId,
+          },
+        },
+      },
+      include: {
+        ItemInfo: true,
+      },
+    });
+    return userItems;
+  }),
 });

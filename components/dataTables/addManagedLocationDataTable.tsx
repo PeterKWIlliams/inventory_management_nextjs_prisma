@@ -27,7 +27,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function ManagedLocationsDataTable<TData, TValue>({
+export function AddManagedLocationDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -56,10 +56,10 @@ export function ManagedLocationsDataTable<TData, TValue>({
         <Input
           placeholder="Filter by name..."
           value={
-            (table.getColumn("storageName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("locationName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("storageName")?.setFilterValue(event.target.value)
+            table.getColumn("locationName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

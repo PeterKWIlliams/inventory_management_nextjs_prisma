@@ -31,8 +31,6 @@ const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
   const form = useForm<StoredItemFormDataType>({
     resolver: zodResolver(StoredItemFormSchema),
     defaultValues: {
-      purchaseDate: new Date(),
-      expiryDate: new Date(),
       purchasePrice: 0,
       desiredQuantity: 0,
     },
@@ -85,9 +83,6 @@ const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
                       initialFocus
                     />
                   </PopoverContent>
@@ -127,9 +122,6 @@ const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
                       initialFocus
                     />
                   </PopoverContent>
@@ -151,7 +143,13 @@ const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
               <FormItem>
                 <FormLabel>purchase price</FormLabel>
                 <FormControl>
-                  <Input placeholder="eg. 7.99" {...field} />
+                  <Input
+                    type="number"
+                    {...form.register("purchasePrice", {
+                      valueAsNumber: true,
+                    })}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>0 if N/A</FormDescription>
                 <FormMessage />
@@ -166,7 +164,13 @@ const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
               <FormItem>
                 <FormLabel>desired quantity</FormLabel>
                 <FormControl>
-                  <Input placeholder="eg. 4" {...field} />
+                  <Input
+                    type="number"
+                    {...form.register("desiredQuantity", {
+                      valueAsNumber: true,
+                    })}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>0 if N/A</FormDescription>
 

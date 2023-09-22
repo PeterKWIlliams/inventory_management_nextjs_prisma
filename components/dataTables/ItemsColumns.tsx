@@ -7,34 +7,48 @@ import { ArrowUpDown } from "lucide-react";
 // You can use a Zod schema here if you want.
 
 export type ItemsTableData = {
-  Item: string;
-  storageName: string;
+  itemName: string;
   price: number;
-  storageLocation: string;
+  storageName: string;
+  managedLocation: string;
+  storageId: string;
+  managedLocationId: string;
 };
 
 export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
   {
-    accessorKey: "Item",
+    accessorKey: "itemName",
     header: "Item",
     cell: ({ row }) => {
-      const rowValue: string = row.getValue("Item");
+      const rowValue: string = row.getValue("itemName");
 
       return <div>{rowValue}</div>;
     },
   },
+  //This is hidden as it is only used to access the storageId -look for a better solution later-.
   {
-    accessorKey: "storageLocation",
-    header: () => <div className="text-right">Storage Location</div>,
+    accessorKey: "managedLocationId",
+    header: () => <div className="hidden"></div>,
+    cell: () => <div className="hidden"></div>,
+  },
+  {
+    accessorKey: "managedLocation",
+    header: () => <div className="text-right">Managed Location</div>,
     cell: ({ row }) => {
-      const rowValue: string = row.getValue("storageLocation");
+      const rowValue: string = row.getValue("managedLocation");
 
       return <div className="text-right">{rowValue}</div>;
     },
   },
+  //This is hidden as it is only used to access the storageId -look for a better solution later-.
+  {
+    accessorKey: "storageId",
+    header: () => <div className="hidden"></div>,
+    cell: () => <div className="hidden"></div>,
+  },
   {
     accessorKey: "storageName",
-    header: () => <div className="text-right">Storage Location</div>,
+    header: () => <div className="text-right">Storage Name</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
 
