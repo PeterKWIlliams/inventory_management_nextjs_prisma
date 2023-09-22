@@ -9,10 +9,11 @@ export const itemStorageRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         location: z.string(),
-        managedLocationId: z.string(),
+        managedLocationId: z.string().cuid(),
       })
     )
     .mutation(async ({ ctx, input }) => {
+      console.log("this is the create storage data", input);
       const itemStorage = await ctx.prisma.itemStorage.create({
         data: {
           name: input.name,
@@ -89,4 +90,28 @@ export const itemStorageRouter = createTRPCRouter({
         },
       });
     }),
+  deleteAll: privateProcedure.mutation(async ({ ctx }) => {
+    console.log("i am being called");
+
+    try {
+      // Start a transaction to delete data from multiple tables
+      await ctx.prisma.$transaction([
+        ctx.prisma.itemInfo.deleteMany({}),
+        ctx.prisma.productInfo.deleteMany({}),
+        ctx.prisma.storedItem.deleteMany({}),
+        ctx.prisma.itemStorage.deleteMany({}),
+        ctx.prisma.managedLocation.deleteMany({}),
+        ctx.prisma.location.deleteMany({}),
+        ctx.prisma.user.deleteMany({}),
+        ctx.prisma.address.deleteMany({}),
+        ctx.prisma.supplier.deleteMany({}),
+        ctx.prisma.product.deleteMany({}),
+        ctx.prisma.baseItem.deleteMany({}),
+      ]);
+
+      console.log("Database cleared successfully.");
+    } catch (error) {
+      console.error("Error clearing database:", error);
+    }
+  }),
 });

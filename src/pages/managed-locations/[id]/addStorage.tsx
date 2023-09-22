@@ -32,7 +32,7 @@ const specificLocationAddStorage: FC<specificLocationAddStorageProps> = ({
     addItemStorage.mutate({
       location: data.location,
       name: data.name,
-      managedLocationId: data.managedLocationId,
+      managedLocationId: id,
     });
   };
   if (isLoading) return <div>loading</div>;

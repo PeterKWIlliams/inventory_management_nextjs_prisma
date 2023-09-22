@@ -13,6 +13,9 @@ const addItem: FC<AddItemProps> = () => {
     onError: (error: any) => {
       toast.error(error.message);
     },
+    onSuccess: () => {
+      toast.success("Item added!");
+    },
   });
   const router = useRouter();
   const storageId = router.query.id as string;
@@ -20,6 +23,7 @@ const addItem: FC<AddItemProps> = () => {
   if (!storageId) return <div>go back</div>;
 
   const onSubmit = async (data: StoredItemFormDataType) => {
+    console.log("storageId");
     addItem.mutate({
       name: data.name,
       expiryDate: data.expiryDate,

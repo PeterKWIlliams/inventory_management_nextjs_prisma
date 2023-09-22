@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 // Define the Home page component
 
 const Home: NextPage = () => {
-  const deleteItem = api.storedItem.deleteAll.useMutation();
+  const deleteItem = api.itemStorage.deleteAll.useMutation();
 
   return (
     <Sidebar>

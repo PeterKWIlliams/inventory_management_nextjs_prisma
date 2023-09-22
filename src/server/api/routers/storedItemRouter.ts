@@ -83,6 +83,15 @@ export const storedItemRouter = createTRPCRouter({
       },
       include: {
         ItemInfo: true,
+        itemStorage: {
+          include: {
+            managedLocation: {
+              include: {
+                location: true,
+              },
+            },
+          },
+        },
       },
     });
     return userItems;

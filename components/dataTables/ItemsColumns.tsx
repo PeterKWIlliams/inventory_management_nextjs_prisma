@@ -8,7 +8,7 @@ import { ArrowUpDown } from "lucide-react";
 
 export type ItemsTableData = {
   itemName: string;
-  price: number;
+  price?: number;
   storageName: string;
   managedLocation: string;
   storageId: string;
@@ -53,6 +53,15 @@ export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
       const rowValue: string = row.getValue("storageName");
 
       return <div className="text-right">{rowValue}</div>;
+    },
+  },
+  {
+    accessorKey: "storageLocation",
+    header: "storage location",
+    cell: ({ row }) => {
+      const rowValue: string = row.getValue("storageLocation");
+
+      return <div>{rowValue}</div>;
     },
   },
   {
