@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "./ui/Card";
+} from "../ui/Card";
 import Image from "next/image";
-import warehouse_pic_1 from "../public/images/warehouse_pic_1.jpeg";
+import warehouse_pic_1 from "/public/images/warehouse_pic_1.jpeg";
 import {
   ItemStorage,
   Location,

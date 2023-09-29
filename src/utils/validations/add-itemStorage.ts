@@ -15,3 +15,11 @@ export const ItemStorageFormSchema = z.object({
 });
 
 export type ItemStorageFormDataType = z.infer<typeof ItemStorageFormSchema>;
+
+export const UpdateItemStorageFormSchema = ItemStorageFormSchema.extend({
+  storageId: z.string(),
+});
+
+export type UpdateItemStorageFormDataType = z.infer<
+  typeof UpdateItemStorageFormSchema
+>;

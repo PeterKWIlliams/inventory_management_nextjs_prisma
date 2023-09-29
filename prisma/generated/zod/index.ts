@@ -10,31 +10,33 @@ import type { Prisma } from '@prisma/client';
 // ENUMS
 /////////////////////////////////////////
 
+export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
+
 export const AddressScalarFieldEnumSchema = z.enum(['id','street','city','postcode']);
 
-export const BaseItemScalarFieldEnumSchema = z.enum(['id','name','type']);
-
-export const ItemInfoScalarFieldEnumSchema = z.enum(['id','desiredQuantity','expiryDate','purchaseDate','purchasePrice','storedItemId','baseItemId','supplierId']);
-
-export const ItemStorageScalarFieldEnumSchema = z.enum(['id','name','location','managedLocationId']);
+export const UserScalarFieldEnumSchema = z.enum(['id','firstName','lastName','email','addressId']);
 
 export const LocationScalarFieldEnumSchema = z.enum(['id','name','addressId','image_url']);
 
 export const ManagedLocationScalarFieldEnumSchema = z.enum(['id','userId','locationId']);
 
-export const ProductInfoScalarFieldEnumSchema = z.enum(['id','price','brand','supplierId','productId','baseItemId']);
-
-export const ProductScalarFieldEnumSchema = z.enum(['id','name']);
-
-export const SortOrderSchema = z.enum(['asc','desc']);
+export const ItemStorageScalarFieldEnumSchema = z.enum(['id','name','location','managedLocationId']);
 
 export const StoredItemScalarFieldEnumSchema = z.enum(['id','name','itemStorageId']);
 
+export const ItemInfoScalarFieldEnumSchema = z.enum(['id','desiredQuantity','expiryDate','purchaseDate','purchasePrice','storedItemId','baseItemId','supplierId']);
+
+export const ProductScalarFieldEnumSchema = z.enum(['id','name']);
+
+export const ProductInfoScalarFieldEnumSchema = z.enum(['id','price','brand','supplierId','productId','baseItemId']);
+
 export const SupplierScalarFieldEnumSchema = z.enum(['id','name','addressId']);
 
-export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
+export const BaseItemScalarFieldEnumSchema = z.enum(['id','name','type']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','firstName','lastName','email','addressId']);
+export const SortOrderSchema = z.enum(['asc','desc']);
+
+export const NullsOrderSchema = z.enum(['first','last']);
 /////////////////////////////////////////
 // MODELS
 /////////////////////////////////////////
@@ -197,12 +199,12 @@ export const AddressIncludeSchema: z.ZodType<Prisma.AddressInclude> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => AddressCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const AddressArgsSchema: z.ZodType<Prisma.AddressArgs> = z.object({
+export const AddressArgsSchema: z.ZodType<Prisma.AddressDefaultArgs> = z.object({
   select: z.lazy(() => AddressSelectSchema).optional(),
   include: z.lazy(() => AddressIncludeSchema).optional(),
 }).strict();
 
-export const AddressCountOutputTypeArgsSchema: z.ZodType<Prisma.AddressCountOutputTypeArgs> = z.object({
+export const AddressCountOutputTypeArgsSchema: z.ZodType<Prisma.AddressCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => AddressCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -232,12 +234,12 @@ export const UserIncludeSchema: z.ZodType<Prisma.UserInclude> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => UserCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const UserArgsSchema: z.ZodType<Prisma.UserArgs> = z.object({
+export const UserArgsSchema: z.ZodType<Prisma.UserDefaultArgs> = z.object({
   select: z.lazy(() => UserSelectSchema).optional(),
   include: z.lazy(() => UserIncludeSchema).optional(),
 }).strict();
 
-export const UserCountOutputTypeArgsSchema: z.ZodType<Prisma.UserCountOutputTypeArgs> = z.object({
+export const UserCountOutputTypeArgsSchema: z.ZodType<Prisma.UserCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => UserCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -265,12 +267,12 @@ export const LocationIncludeSchema: z.ZodType<Prisma.LocationInclude> = z.object
   _count: z.union([z.boolean(),z.lazy(() => LocationCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const LocationArgsSchema: z.ZodType<Prisma.LocationArgs> = z.object({
+export const LocationArgsSchema: z.ZodType<Prisma.LocationDefaultArgs> = z.object({
   select: z.lazy(() => LocationSelectSchema).optional(),
   include: z.lazy(() => LocationIncludeSchema).optional(),
 }).strict();
 
-export const LocationCountOutputTypeArgsSchema: z.ZodType<Prisma.LocationCountOutputTypeArgs> = z.object({
+export const LocationCountOutputTypeArgsSchema: z.ZodType<Prisma.LocationCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => LocationCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -298,12 +300,12 @@ export const ManagedLocationIncludeSchema: z.ZodType<Prisma.ManagedLocationInclu
   _count: z.union([z.boolean(),z.lazy(() => ManagedLocationCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const ManagedLocationArgsSchema: z.ZodType<Prisma.ManagedLocationArgs> = z.object({
+export const ManagedLocationArgsSchema: z.ZodType<Prisma.ManagedLocationDefaultArgs> = z.object({
   select: z.lazy(() => ManagedLocationSelectSchema).optional(),
   include: z.lazy(() => ManagedLocationIncludeSchema).optional(),
 }).strict();
 
-export const ManagedLocationCountOutputTypeArgsSchema: z.ZodType<Prisma.ManagedLocationCountOutputTypeArgs> = z.object({
+export const ManagedLocationCountOutputTypeArgsSchema: z.ZodType<Prisma.ManagedLocationCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => ManagedLocationCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -330,12 +332,12 @@ export const ItemStorageIncludeSchema: z.ZodType<Prisma.ItemStorageInclude> = z.
   _count: z.union([z.boolean(),z.lazy(() => ItemStorageCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const ItemStorageArgsSchema: z.ZodType<Prisma.ItemStorageArgs> = z.object({
+export const ItemStorageArgsSchema: z.ZodType<Prisma.ItemStorageDefaultArgs> = z.object({
   select: z.lazy(() => ItemStorageSelectSchema).optional(),
   include: z.lazy(() => ItemStorageIncludeSchema).optional(),
 }).strict();
 
-export const ItemStorageCountOutputTypeArgsSchema: z.ZodType<Prisma.ItemStorageCountOutputTypeArgs> = z.object({
+export const ItemStorageCountOutputTypeArgsSchema: z.ZodType<Prisma.ItemStorageCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => ItemStorageCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -362,12 +364,12 @@ export const StoredItemIncludeSchema: z.ZodType<Prisma.StoredItemInclude> = z.ob
   _count: z.union([z.boolean(),z.lazy(() => StoredItemCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const StoredItemArgsSchema: z.ZodType<Prisma.StoredItemArgs> = z.object({
+export const StoredItemArgsSchema: z.ZodType<Prisma.StoredItemDefaultArgs> = z.object({
   select: z.lazy(() => StoredItemSelectSchema).optional(),
   include: z.lazy(() => StoredItemIncludeSchema).optional(),
 }).strict();
 
-export const StoredItemCountOutputTypeArgsSchema: z.ZodType<Prisma.StoredItemCountOutputTypeArgs> = z.object({
+export const StoredItemCountOutputTypeArgsSchema: z.ZodType<Prisma.StoredItemCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => StoredItemCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -393,7 +395,7 @@ export const ItemInfoIncludeSchema: z.ZodType<Prisma.ItemInfoInclude> = z.object
   supplier: z.union([z.boolean(),z.lazy(() => SupplierArgsSchema)]).optional(),
 }).strict()
 
-export const ItemInfoArgsSchema: z.ZodType<Prisma.ItemInfoArgs> = z.object({
+export const ItemInfoArgsSchema: z.ZodType<Prisma.ItemInfoDefaultArgs> = z.object({
   select: z.lazy(() => ItemInfoSelectSchema).optional(),
   include: z.lazy(() => ItemInfoIncludeSchema).optional(),
 }).strict();
@@ -420,12 +422,12 @@ export const ProductIncludeSchema: z.ZodType<Prisma.ProductInclude> = z.object({
   _count: z.union([z.boolean(),z.lazy(() => ProductCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const ProductArgsSchema: z.ZodType<Prisma.ProductArgs> = z.object({
+export const ProductArgsSchema: z.ZodType<Prisma.ProductDefaultArgs> = z.object({
   select: z.lazy(() => ProductSelectSchema).optional(),
   include: z.lazy(() => ProductIncludeSchema).optional(),
 }).strict();
 
-export const ProductCountOutputTypeArgsSchema: z.ZodType<Prisma.ProductCountOutputTypeArgs> = z.object({
+export const ProductCountOutputTypeArgsSchema: z.ZodType<Prisma.ProductCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => ProductCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -449,7 +451,7 @@ export const ProductInfoIncludeSchema: z.ZodType<Prisma.ProductInfoInclude> = z.
   BaseItem: z.union([z.boolean(),z.lazy(() => BaseItemArgsSchema)]).optional(),
 }).strict()
 
-export const ProductInfoArgsSchema: z.ZodType<Prisma.ProductInfoArgs> = z.object({
+export const ProductInfoArgsSchema: z.ZodType<Prisma.ProductInfoDefaultArgs> = z.object({
   select: z.lazy(() => ProductInfoSelectSchema).optional(),
   include: z.lazy(() => ProductInfoIncludeSchema).optional(),
 }).strict();
@@ -476,12 +478,12 @@ export const SupplierIncludeSchema: z.ZodType<Prisma.SupplierInclude> = z.object
   _count: z.union([z.boolean(),z.lazy(() => SupplierCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const SupplierArgsSchema: z.ZodType<Prisma.SupplierArgs> = z.object({
+export const SupplierArgsSchema: z.ZodType<Prisma.SupplierDefaultArgs> = z.object({
   select: z.lazy(() => SupplierSelectSchema).optional(),
   include: z.lazy(() => SupplierIncludeSchema).optional(),
 }).strict();
 
-export const SupplierCountOutputTypeArgsSchema: z.ZodType<Prisma.SupplierCountOutputTypeArgs> = z.object({
+export const SupplierCountOutputTypeArgsSchema: z.ZodType<Prisma.SupplierCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => SupplierCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -509,12 +511,12 @@ export const BaseItemIncludeSchema: z.ZodType<Prisma.BaseItemInclude> = z.object
   _count: z.union([z.boolean(),z.lazy(() => BaseItemCountOutputTypeArgsSchema)]).optional(),
 }).strict()
 
-export const BaseItemArgsSchema: z.ZodType<Prisma.BaseItemArgs> = z.object({
+export const BaseItemArgsSchema: z.ZodType<Prisma.BaseItemDefaultArgs> = z.object({
   select: z.lazy(() => BaseItemSelectSchema).optional(),
   include: z.lazy(() => BaseItemIncludeSchema).optional(),
 }).strict();
 
-export const BaseItemCountOutputTypeArgsSchema: z.ZodType<Prisma.BaseItemCountOutputTypeArgs> = z.object({
+export const BaseItemCountOutputTypeArgsSchema: z.ZodType<Prisma.BaseItemCountOutputTypeDefaultArgs> = z.object({
   select: z.lazy(() => BaseItemCountOutputTypeSelectSchema).nullish(),
 }).strict();
 
@@ -650,7 +652,7 @@ export const LocationOrderByWithRelationInputSchema: z.ZodType<Prisma.LocationOr
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   addressId: z.lazy(() => SortOrderSchema).optional(),
-  image_url: z.lazy(() => SortOrderSchema).optional(),
+  image_url: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   address: z.lazy(() => AddressOrderByWithRelationInputSchema).optional(),
   managedLocation: z.lazy(() => ManagedLocationOrderByRelationAggregateInputSchema).optional()
 }).strict();
@@ -663,7 +665,7 @@ export const LocationOrderByWithAggregationInputSchema: z.ZodType<Prisma.Locatio
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
   addressId: z.lazy(() => SortOrderSchema).optional(),
-  image_url: z.lazy(() => SortOrderSchema).optional(),
+  image_url: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   _count: z.lazy(() => LocationCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => LocationMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => LocationMinOrderByAggregateInputSchema).optional()
@@ -827,13 +829,13 @@ export const ItemInfoWhereInputSchema: z.ZodType<Prisma.ItemInfoWhereInput> = z.
 
 export const ItemInfoOrderByWithRelationInputSchema: z.ZodType<Prisma.ItemInfoOrderByWithRelationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  desiredQuantity: z.lazy(() => SortOrderSchema).optional(),
-  expiryDate: z.lazy(() => SortOrderSchema).optional(),
+  desiredQuantity: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  expiryDate: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   purchaseDate: z.lazy(() => SortOrderSchema).optional(),
   purchasePrice: z.lazy(() => SortOrderSchema).optional(),
   storedItemId: z.lazy(() => SortOrderSchema).optional(),
-  baseItemId: z.lazy(() => SortOrderSchema).optional(),
-  supplierId: z.lazy(() => SortOrderSchema).optional(),
+  baseItemId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  supplierId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   storedItem: z.lazy(() => StoredItemOrderByWithRelationInputSchema).optional(),
   BaseItem: z.lazy(() => BaseItemOrderByWithRelationInputSchema).optional(),
   supplier: z.lazy(() => SupplierOrderByWithRelationInputSchema).optional()
@@ -845,13 +847,13 @@ export const ItemInfoWhereUniqueInputSchema: z.ZodType<Prisma.ItemInfoWhereUniqu
 
 export const ItemInfoOrderByWithAggregationInputSchema: z.ZodType<Prisma.ItemInfoOrderByWithAggregationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
-  desiredQuantity: z.lazy(() => SortOrderSchema).optional(),
-  expiryDate: z.lazy(() => SortOrderSchema).optional(),
+  desiredQuantity: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  expiryDate: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   purchaseDate: z.lazy(() => SortOrderSchema).optional(),
   purchasePrice: z.lazy(() => SortOrderSchema).optional(),
   storedItemId: z.lazy(() => SortOrderSchema).optional(),
-  baseItemId: z.lazy(() => SortOrderSchema).optional(),
-  supplierId: z.lazy(() => SortOrderSchema).optional(),
+  baseItemId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  supplierId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   _count: z.lazy(() => ItemInfoCountOrderByAggregateInputSchema).optional(),
   _avg: z.lazy(() => ItemInfoAvgOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => ItemInfoMaxOrderByAggregateInputSchema).optional(),
@@ -980,7 +982,7 @@ export const SupplierWhereInputSchema: z.ZodType<Prisma.SupplierWhereInput> = z.
 export const SupplierOrderByWithRelationInputSchema: z.ZodType<Prisma.SupplierOrderByWithRelationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  addressId: z.lazy(() => SortOrderSchema).optional(),
+  addressId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   address: z.lazy(() => AddressOrderByWithRelationInputSchema).optional(),
   productInfo: z.lazy(() => ProductInfoOrderByRelationAggregateInputSchema).optional(),
   ItemInfo: z.lazy(() => ItemInfoOrderByRelationAggregateInputSchema).optional()
@@ -993,7 +995,7 @@ export const SupplierWhereUniqueInputSchema: z.ZodType<Prisma.SupplierWhereUniqu
 export const SupplierOrderByWithAggregationInputSchema: z.ZodType<Prisma.SupplierOrderByWithAggregationInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
-  addressId: z.lazy(() => SortOrderSchema).optional(),
+  addressId: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   _count: z.lazy(() => SupplierCountOrderByAggregateInputSchema).optional(),
   _max: z.lazy(() => SupplierMaxOrderByAggregateInputSchema).optional(),
   _min: z.lazy(() => SupplierMinOrderByAggregateInputSchema).optional()
@@ -1717,8 +1719,8 @@ export const StringWithAggregatesFilterSchema: z.ZodType<Prisma.StringWithAggreg
 }).strict();
 
 export const AddressRelationFilterSchema: z.ZodType<Prisma.AddressRelationFilter> = z.object({
-  is: z.lazy(() => AddressWhereInputSchema).optional(),
-  isNot: z.lazy(() => AddressWhereInputSchema).optional()
+  is: z.lazy(() => AddressWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => AddressWhereInputSchema).optional().nullable()
 }).strict();
 
 export const ManagedLocationListRelationFilterSchema: z.ZodType<Prisma.ManagedLocationListRelationFilter> = z.object({
@@ -1769,6 +1771,11 @@ export const StringNullableFilterSchema: z.ZodType<Prisma.StringNullableFilter> 
   not: z.union([ z.string(),z.lazy(() => NestedStringNullableFilterSchema) ]).optional().nullable(),
 }).strict();
 
+export const SortOrderInputSchema: z.ZodType<Prisma.SortOrderInput> = z.object({
+  sort: z.lazy(() => SortOrderSchema),
+  nulls: z.lazy(() => NullsOrderSchema).optional()
+}).strict();
+
 export const LocationCountOrderByAggregateInputSchema: z.ZodType<Prisma.LocationCountOrderByAggregateInput> = z.object({
   id: z.lazy(() => SortOrderSchema).optional(),
   name: z.lazy(() => SortOrderSchema).optional(),
@@ -1808,13 +1815,13 @@ export const StringNullableWithAggregatesFilterSchema: z.ZodType<Prisma.StringNu
 }).strict();
 
 export const UserRelationFilterSchema: z.ZodType<Prisma.UserRelationFilter> = z.object({
-  is: z.lazy(() => UserWhereInputSchema).optional(),
-  isNot: z.lazy(() => UserWhereInputSchema).optional()
+  is: z.lazy(() => UserWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => UserWhereInputSchema).optional().nullable()
 }).strict();
 
 export const LocationRelationFilterSchema: z.ZodType<Prisma.LocationRelationFilter> = z.object({
-  is: z.lazy(() => LocationWhereInputSchema).optional(),
-  isNot: z.lazy(() => LocationWhereInputSchema).optional()
+  is: z.lazy(() => LocationWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => LocationWhereInputSchema).optional().nullable()
 }).strict();
 
 export const ItemStorageListRelationFilterSchema: z.ZodType<Prisma.ItemStorageListRelationFilter> = z.object({
@@ -1846,8 +1853,8 @@ export const ManagedLocationMinOrderByAggregateInputSchema: z.ZodType<Prisma.Man
 }).strict();
 
 export const ManagedLocationRelationFilterSchema: z.ZodType<Prisma.ManagedLocationRelationFilter> = z.object({
-  is: z.lazy(() => ManagedLocationWhereInputSchema).optional(),
-  isNot: z.lazy(() => ManagedLocationWhereInputSchema).optional()
+  is: z.lazy(() => ManagedLocationWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => ManagedLocationWhereInputSchema).optional().nullable()
 }).strict();
 
 export const StoredItemListRelationFilterSchema: z.ZodType<Prisma.StoredItemListRelationFilter> = z.object({
@@ -1882,8 +1889,8 @@ export const ItemStorageMinOrderByAggregateInputSchema: z.ZodType<Prisma.ItemSto
 }).strict();
 
 export const ItemStorageRelationFilterSchema: z.ZodType<Prisma.ItemStorageRelationFilter> = z.object({
-  is: z.lazy(() => ItemStorageWhereInputSchema).optional(),
-  isNot: z.lazy(() => ItemStorageWhereInputSchema).optional()
+  is: z.lazy(() => ItemStorageWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => ItemStorageWhereInputSchema).optional().nullable()
 }).strict();
 
 export const ItemInfoListRelationFilterSchema: z.ZodType<Prisma.ItemInfoListRelationFilter> = z.object({
@@ -1959,8 +1966,8 @@ export const FloatFilterSchema: z.ZodType<Prisma.FloatFilter> = z.object({
 }).strict();
 
 export const StoredItemRelationFilterSchema: z.ZodType<Prisma.StoredItemRelationFilter> = z.object({
-  is: z.lazy(() => StoredItemWhereInputSchema).optional(),
-  isNot: z.lazy(() => StoredItemWhereInputSchema).optional()
+  is: z.lazy(() => StoredItemWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => StoredItemWhereInputSchema).optional().nullable()
 }).strict();
 
 export const BaseItemRelationFilterSchema: z.ZodType<Prisma.BaseItemRelationFilter> = z.object({
@@ -2102,8 +2109,8 @@ export const ProductMinOrderByAggregateInputSchema: z.ZodType<Prisma.ProductMinO
 }).strict();
 
 export const ProductRelationFilterSchema: z.ZodType<Prisma.ProductRelationFilter> = z.object({
-  is: z.lazy(() => ProductWhereInputSchema).optional(),
-  isNot: z.lazy(() => ProductWhereInputSchema).optional()
+  is: z.lazy(() => ProductWhereInputSchema).optional().nullable(),
+  isNot: z.lazy(() => ProductWhereInputSchema).optional().nullable()
 }).strict();
 
 export const ProductInfoCountOrderByAggregateInputSchema: z.ZodType<Prisma.ProductInfoCountOrderByAggregateInput> = z.object({
@@ -4624,7 +4631,7 @@ export const AddressFindFirstArgsSchema: z.ZodType<Prisma.AddressFindFirstArgs> 
   cursor: AddressWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: AddressScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ AddressScalarFieldEnumSchema,AddressScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const AddressFindFirstOrThrowArgsSchema: z.ZodType<Prisma.AddressFindFirstOrThrowArgs> = z.object({
@@ -4635,7 +4642,7 @@ export const AddressFindFirstOrThrowArgsSchema: z.ZodType<Prisma.AddressFindFirs
   cursor: AddressWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: AddressScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ AddressScalarFieldEnumSchema,AddressScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const AddressFindManyArgsSchema: z.ZodType<Prisma.AddressFindManyArgs> = z.object({
@@ -4646,7 +4653,7 @@ export const AddressFindManyArgsSchema: z.ZodType<Prisma.AddressFindManyArgs> = 
   cursor: AddressWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: AddressScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ AddressScalarFieldEnumSchema,AddressScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const AddressAggregateArgsSchema: z.ZodType<Prisma.AddressAggregateArgs> = z.object({
@@ -4686,7 +4693,7 @@ export const UserFindFirstArgsSchema: z.ZodType<Prisma.UserFindFirstArgs> = z.ob
   cursor: UserWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: UserScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ UserScalarFieldEnumSchema,UserScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const UserFindFirstOrThrowArgsSchema: z.ZodType<Prisma.UserFindFirstOrThrowArgs> = z.object({
@@ -4697,7 +4704,7 @@ export const UserFindFirstOrThrowArgsSchema: z.ZodType<Prisma.UserFindFirstOrThr
   cursor: UserWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: UserScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ UserScalarFieldEnumSchema,UserScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const UserFindManyArgsSchema: z.ZodType<Prisma.UserFindManyArgs> = z.object({
@@ -4708,7 +4715,7 @@ export const UserFindManyArgsSchema: z.ZodType<Prisma.UserFindManyArgs> = z.obje
   cursor: UserWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: UserScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ UserScalarFieldEnumSchema,UserScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const UserAggregateArgsSchema: z.ZodType<Prisma.UserAggregateArgs> = z.object({
@@ -4748,7 +4755,7 @@ export const LocationFindFirstArgsSchema: z.ZodType<Prisma.LocationFindFirstArgs
   cursor: LocationWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: LocationScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ LocationScalarFieldEnumSchema,LocationScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const LocationFindFirstOrThrowArgsSchema: z.ZodType<Prisma.LocationFindFirstOrThrowArgs> = z.object({
@@ -4759,7 +4766,7 @@ export const LocationFindFirstOrThrowArgsSchema: z.ZodType<Prisma.LocationFindFi
   cursor: LocationWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: LocationScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ LocationScalarFieldEnumSchema,LocationScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const LocationFindManyArgsSchema: z.ZodType<Prisma.LocationFindManyArgs> = z.object({
@@ -4770,7 +4777,7 @@ export const LocationFindManyArgsSchema: z.ZodType<Prisma.LocationFindManyArgs> 
   cursor: LocationWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: LocationScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ LocationScalarFieldEnumSchema,LocationScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const LocationAggregateArgsSchema: z.ZodType<Prisma.LocationAggregateArgs> = z.object({
@@ -4810,7 +4817,7 @@ export const ManagedLocationFindFirstArgsSchema: z.ZodType<Prisma.ManagedLocatio
   cursor: ManagedLocationWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ManagedLocationScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ManagedLocationScalarFieldEnumSchema,ManagedLocationScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ManagedLocationFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ManagedLocationFindFirstOrThrowArgs> = z.object({
@@ -4821,7 +4828,7 @@ export const ManagedLocationFindFirstOrThrowArgsSchema: z.ZodType<Prisma.Managed
   cursor: ManagedLocationWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ManagedLocationScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ManagedLocationScalarFieldEnumSchema,ManagedLocationScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ManagedLocationFindManyArgsSchema: z.ZodType<Prisma.ManagedLocationFindManyArgs> = z.object({
@@ -4832,7 +4839,7 @@ export const ManagedLocationFindManyArgsSchema: z.ZodType<Prisma.ManagedLocation
   cursor: ManagedLocationWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ManagedLocationScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ManagedLocationScalarFieldEnumSchema,ManagedLocationScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ManagedLocationAggregateArgsSchema: z.ZodType<Prisma.ManagedLocationAggregateArgs> = z.object({
@@ -4872,7 +4879,7 @@ export const ItemStorageFindFirstArgsSchema: z.ZodType<Prisma.ItemStorageFindFir
   cursor: ItemStorageWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ItemStorageScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ItemStorageScalarFieldEnumSchema,ItemStorageScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ItemStorageFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ItemStorageFindFirstOrThrowArgs> = z.object({
@@ -4883,7 +4890,7 @@ export const ItemStorageFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ItemStorage
   cursor: ItemStorageWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ItemStorageScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ItemStorageScalarFieldEnumSchema,ItemStorageScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ItemStorageFindManyArgsSchema: z.ZodType<Prisma.ItemStorageFindManyArgs> = z.object({
@@ -4894,7 +4901,7 @@ export const ItemStorageFindManyArgsSchema: z.ZodType<Prisma.ItemStorageFindMany
   cursor: ItemStorageWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ItemStorageScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ItemStorageScalarFieldEnumSchema,ItemStorageScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ItemStorageAggregateArgsSchema: z.ZodType<Prisma.ItemStorageAggregateArgs> = z.object({
@@ -4934,7 +4941,7 @@ export const StoredItemFindFirstArgsSchema: z.ZodType<Prisma.StoredItemFindFirst
   cursor: StoredItemWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: StoredItemScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ StoredItemScalarFieldEnumSchema,StoredItemScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const StoredItemFindFirstOrThrowArgsSchema: z.ZodType<Prisma.StoredItemFindFirstOrThrowArgs> = z.object({
@@ -4945,7 +4952,7 @@ export const StoredItemFindFirstOrThrowArgsSchema: z.ZodType<Prisma.StoredItemFi
   cursor: StoredItemWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: StoredItemScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ StoredItemScalarFieldEnumSchema,StoredItemScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const StoredItemFindManyArgsSchema: z.ZodType<Prisma.StoredItemFindManyArgs> = z.object({
@@ -4956,7 +4963,7 @@ export const StoredItemFindManyArgsSchema: z.ZodType<Prisma.StoredItemFindManyAr
   cursor: StoredItemWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: StoredItemScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ StoredItemScalarFieldEnumSchema,StoredItemScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const StoredItemAggregateArgsSchema: z.ZodType<Prisma.StoredItemAggregateArgs> = z.object({
@@ -4996,7 +5003,7 @@ export const ItemInfoFindFirstArgsSchema: z.ZodType<Prisma.ItemInfoFindFirstArgs
   cursor: ItemInfoWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ItemInfoScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ItemInfoScalarFieldEnumSchema,ItemInfoScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ItemInfoFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ItemInfoFindFirstOrThrowArgs> = z.object({
@@ -5007,7 +5014,7 @@ export const ItemInfoFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ItemInfoFindFi
   cursor: ItemInfoWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ItemInfoScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ItemInfoScalarFieldEnumSchema,ItemInfoScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ItemInfoFindManyArgsSchema: z.ZodType<Prisma.ItemInfoFindManyArgs> = z.object({
@@ -5018,7 +5025,7 @@ export const ItemInfoFindManyArgsSchema: z.ZodType<Prisma.ItemInfoFindManyArgs> 
   cursor: ItemInfoWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ItemInfoScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ItemInfoScalarFieldEnumSchema,ItemInfoScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ItemInfoAggregateArgsSchema: z.ZodType<Prisma.ItemInfoAggregateArgs> = z.object({
@@ -5058,7 +5065,7 @@ export const ProductFindFirstArgsSchema: z.ZodType<Prisma.ProductFindFirstArgs> 
   cursor: ProductWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ProductScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ProductScalarFieldEnumSchema,ProductScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ProductFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ProductFindFirstOrThrowArgs> = z.object({
@@ -5069,7 +5076,7 @@ export const ProductFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ProductFindFirs
   cursor: ProductWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ProductScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ProductScalarFieldEnumSchema,ProductScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ProductFindManyArgsSchema: z.ZodType<Prisma.ProductFindManyArgs> = z.object({
@@ -5080,7 +5087,7 @@ export const ProductFindManyArgsSchema: z.ZodType<Prisma.ProductFindManyArgs> = 
   cursor: ProductWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ProductScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ProductScalarFieldEnumSchema,ProductScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ProductAggregateArgsSchema: z.ZodType<Prisma.ProductAggregateArgs> = z.object({
@@ -5120,7 +5127,7 @@ export const ProductInfoFindFirstArgsSchema: z.ZodType<Prisma.ProductInfoFindFir
   cursor: ProductInfoWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ProductInfoScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ProductInfoScalarFieldEnumSchema,ProductInfoScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ProductInfoFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ProductInfoFindFirstOrThrowArgs> = z.object({
@@ -5131,7 +5138,7 @@ export const ProductInfoFindFirstOrThrowArgsSchema: z.ZodType<Prisma.ProductInfo
   cursor: ProductInfoWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ProductInfoScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ProductInfoScalarFieldEnumSchema,ProductInfoScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ProductInfoFindManyArgsSchema: z.ZodType<Prisma.ProductInfoFindManyArgs> = z.object({
@@ -5142,7 +5149,7 @@ export const ProductInfoFindManyArgsSchema: z.ZodType<Prisma.ProductInfoFindMany
   cursor: ProductInfoWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: ProductInfoScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ ProductInfoScalarFieldEnumSchema,ProductInfoScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const ProductInfoAggregateArgsSchema: z.ZodType<Prisma.ProductInfoAggregateArgs> = z.object({
@@ -5182,7 +5189,7 @@ export const SupplierFindFirstArgsSchema: z.ZodType<Prisma.SupplierFindFirstArgs
   cursor: SupplierWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: SupplierScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ SupplierScalarFieldEnumSchema,SupplierScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const SupplierFindFirstOrThrowArgsSchema: z.ZodType<Prisma.SupplierFindFirstOrThrowArgs> = z.object({
@@ -5193,7 +5200,7 @@ export const SupplierFindFirstOrThrowArgsSchema: z.ZodType<Prisma.SupplierFindFi
   cursor: SupplierWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: SupplierScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ SupplierScalarFieldEnumSchema,SupplierScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const SupplierFindManyArgsSchema: z.ZodType<Prisma.SupplierFindManyArgs> = z.object({
@@ -5204,7 +5211,7 @@ export const SupplierFindManyArgsSchema: z.ZodType<Prisma.SupplierFindManyArgs> 
   cursor: SupplierWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: SupplierScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ SupplierScalarFieldEnumSchema,SupplierScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const SupplierAggregateArgsSchema: z.ZodType<Prisma.SupplierAggregateArgs> = z.object({
@@ -5244,7 +5251,7 @@ export const BaseItemFindFirstArgsSchema: z.ZodType<Prisma.BaseItemFindFirstArgs
   cursor: BaseItemWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: BaseItemScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ BaseItemScalarFieldEnumSchema,BaseItemScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const BaseItemFindFirstOrThrowArgsSchema: z.ZodType<Prisma.BaseItemFindFirstOrThrowArgs> = z.object({
@@ -5255,7 +5262,7 @@ export const BaseItemFindFirstOrThrowArgsSchema: z.ZodType<Prisma.BaseItemFindFi
   cursor: BaseItemWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: BaseItemScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ BaseItemScalarFieldEnumSchema,BaseItemScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const BaseItemFindManyArgsSchema: z.ZodType<Prisma.BaseItemFindManyArgs> = z.object({
@@ -5266,7 +5273,7 @@ export const BaseItemFindManyArgsSchema: z.ZodType<Prisma.BaseItemFindManyArgs> 
   cursor: BaseItemWhereUniqueInputSchema.optional(),
   take: z.number().optional(),
   skip: z.number().optional(),
-  distinct: BaseItemScalarFieldEnumSchema.array().optional(),
+  distinct: z.union([ BaseItemScalarFieldEnumSchema,BaseItemScalarFieldEnumSchema.array() ]).optional(),
 }).strict()
 
 export const BaseItemAggregateArgsSchema: z.ZodType<Prisma.BaseItemAggregateArgs> = z.object({

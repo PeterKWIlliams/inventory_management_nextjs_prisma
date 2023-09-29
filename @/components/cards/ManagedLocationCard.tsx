@@ -6,9 +6,9 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "./ui/Card";
+} from "../ui/Card";
 import Image from "next/image";
-import warehouse_pic_1 from "../public/images/warehouse_pic_1.jpeg";
+import warehouse_pic_1 from "public/images/warehouse_pic_1.jpeg";
 import { Location } from "@prisma/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -25,7 +25,7 @@ const ManagedLocationCard: FC<ManagedLocationCardProps> = ({ data }) => {
 
   return (
     <Link href={`/managed-locations/${data.id}`}>
-      <Card className="mt-7 flex overflow-hidden rounded-tl-3xl bg-white shadow-lg hover:cursor-pointer hover:bg-purple-100 hover:font-extrabold">
+      <Card className=" mt-7 flex h-60  overflow-hidden rounded-tl-3xl  bg-blue-200 shadow-lg hover:cursor-pointer hover:bg-purple-200 hover:font-extrabold">
         <Image
           alt="Location"
           src={warehouse_pic_1}
@@ -34,7 +34,7 @@ const ManagedLocationCard: FC<ManagedLocationCardProps> = ({ data }) => {
           className="rounded-tl-2xl object-cover"
           key={data.id}
         />
-        <div className="flex flex-col justify-between p-6">
+        <div className="flex  flex-col justify-between p-6">
           <div>
             <CardHeader>
               <CardTitle className="text-2xl font-semibold text-gray-700">
@@ -49,7 +49,7 @@ const ManagedLocationCard: FC<ManagedLocationCardProps> = ({ data }) => {
               <p className="mt-4 text-gray-700">Card Content</p>
             </CardContent>
           </div>
-          <CardFooter className="mt-4 text-sm text-gray-500">
+          <CardFooter className=" text-sm text-gray-500">
             <p>Card Footer</p>
           </CardFooter>
         </div>

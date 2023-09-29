@@ -27,7 +27,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function AddItemmDataTable<TData, TValue>({
+export function ItemsDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -54,22 +54,12 @@ export function AddItemmDataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter by name..."
+          placeholder="Filter by item name..."
           value={
-            (table.getColumn("locationName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("itemName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("locationName")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Input
-          placeholder="Filter by name..."
-          value={
-            (table.getColumn("storageName")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("storageName")?.setFilterValue(event.target.value)
+            table.getColumn("itemName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

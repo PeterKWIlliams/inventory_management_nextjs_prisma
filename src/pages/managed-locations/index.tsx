@@ -3,17 +3,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@radix-ui/react-popover";
-import { Icons } from "components/Icons";
-import ManagedLocationCard from "components/ManagedLocationCard";
-import Sidebar from "components/Sidebar";
-import { Button } from "components/ui/Button";
+import { Icons } from "@/components/Icons";
+import ManagedLocationCard from "@/components/cards/ManagedLocationCard";
+import Sidebar from "@/components/Sidebar";
+import { Button } from "@/components/ui/Button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "components/ui/Command";
+} from "@/components/ui/Command";
 import { ChevronsUpDown, Check } from "lucide-react";
 import Link from "next/link";
 import React, { use, useEffect } from "react";
@@ -43,7 +43,7 @@ const ManagedLocations: FC<managedLocationsProps> = () => {
   return (
     <Sidebar>
       <div className="ml-10 mr-10">
-        <h1 className="flex justify-center border-b-4 text-4xl"> </h1>
+        <h1 className="flex justify-center border-b-4 text-6xl">Locations </h1>
         <h2>
           {" "}
           <div
@@ -54,7 +54,7 @@ const ManagedLocations: FC<managedLocationsProps> = () => {
               href="/managed-locations/add "
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
-              add new location{" "}
+              add new location
               <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
             </Link>
           </div>
@@ -105,7 +105,7 @@ const ManagedLocations: FC<managedLocationsProps> = () => {
           </PopoverContent>
         </Popover> */}
 
-        <div className="mt-2 grid grid-cols-1 flex-wrap gap-10 lg:grid-cols-2">
+        <div className="mt-2  grid grid-cols-1 gap-10 lg:grid-cols-3">
           {data.map((data, index) => (
             <ManagedLocationCard key={index} data={data} />
           ))}

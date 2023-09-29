@@ -1,29 +1,22 @@
-import Sidebar from "@/components/Sidebar";
 import StoredItemForm from "@/components/forms/StoredItemForm";
-import { useRouter } from "next/router";
+
 import { FC } from "react";
-import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { StoredItemFormDataType } from "~/utils/validations/item-form";
-interface AddItemProps {}
+import Sidebar from "@/components/Sidebar";
+import toast from "react-hot-toast";
 
-const addItem: FC<AddItemProps> = () => {
+interface AddItemFormProps {}
+
+const AddItemForm: FC<AddItemFormProps> = ({}) => {
   const addItem = api.storedItem.add.useMutation({
     onError: (error: any) => {
       toast.error(error.message);
     },
-    onSuccess: () => {
-      toast.success("Item added!");
-    },
   });
-  const router = useRouter();
-  const storageId = router.query.id as string;
-  console.log("this is the storage id", storageId);
-  if (!storageId) return <div>go back</div>;
 
   const onSubmit = async (data: StoredItemFormDataType) => {
-    console.log("storageId");
     addItem.mutate({
       name: data.name,
       expiryDate: data.expiryDate,
@@ -33,10 +26,9 @@ const addItem: FC<AddItemProps> = () => {
       purchasePrice: data.purchasePrice,
       purchaseDate: data.purchaseDate,
       supplierName: data.supplierName,
-      itemStorageId: storageId,
+      itemStorageId: "jdajfj",
     });
   };
-
   return (
     <Sidebar>
       <div className="flex flex-col items-center justify-around">
@@ -48,4 +40,4 @@ const addItem: FC<AddItemProps> = () => {
   );
 };
 
-export default addItem;
+export default AddItemForm;

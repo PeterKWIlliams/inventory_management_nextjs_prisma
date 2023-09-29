@@ -1,8 +1,8 @@
-import { columns } from "components/dataTables/SingleManagedLocationColumns";
-import { SingleManagedLocationsDataTable } from "components/dataTables/SingleMangedLocationDataTable";
-import { Icons } from "components/Icons";
-import Sidebar from "components/Sidebar";
-import SingleManagedLocationCard from "components/singleManagedLocationCard";
+import { columns } from "@/components/dataTables/SingleManagedLocationColumns";
+import { SingleManagedLocationsDataTable } from "@/components/dataTables/SingleMangedLocationDataTable";
+import { Icons } from "@/components/Icons";
+import Sidebar from "@/components/Sidebar";
+import SingleManagedLocationCard from "@/components/cards/singleManagedLocationCard";
 
 import { GetStaticProps } from "next";
 import Link from "next/link";
@@ -34,21 +34,33 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
       <div className="flex justify-center text-lg">
         <h1>{data.location.name}</h1>
       </div>
-
       <div className=" flex h-full w-full items-center justify-center ">
         <SingleManagedLocationCard data={data} />
       </div>
-
       <div className="container mx-auto max-w-4xl py-10">
-        <Link
-          href={`/managed-locations/${id}/addStorage`}
-          className="flex flex-shrink-0 flex-row  hover:text-purple-500"
-        >
-          add new storage
-          <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
-        </Link>
+        {" "}
         <SingleManagedLocationsDataTable columns={columns} data={tableData} />
-      </div>
+        <div className="mt-5 flex justify-between">
+          <div>
+            <Link
+              href={`/managed-locations/${id}/addStorage`}
+              className="flex flex-shrink-0 flex-row  hover:text-purple-500"
+            >
+              <Icons.PlusCircle className=" opacity-50" />
+              ADD STORAGE
+            </Link>
+          </div>
+          <div>
+            <Link
+              href={`/managed-locations/${id}/update`}
+              className="flex flex-shrink-0 flex-row  hover:text-purple-500"
+            >
+              <Icons.PlusCircle className=" opacity-50" />
+              UPDATE LOCATION
+            </Link>
+          </div>
+        </div>
+      </div>{" "}
     </Sidebar>
   );
 };

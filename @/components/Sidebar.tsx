@@ -38,15 +38,15 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 5,
     name: "Profile",
-    href: "/profile/add",
+    href: "/profile",
     Icon: "User",
   },
 ];
 const Sidebar = (props: PropsWithChildren) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex ">
+    <div className="flex">
       <div
         className={`relative h-screen overflow-hidden  border-r border-solid border-sky-900 bg-gray-50 p-5 pt-8 duration-300 ${
           open ? "w-60" : "w-20"
@@ -118,7 +118,7 @@ const Sidebar = (props: PropsWithChildren) => {
         </div>
       </div>
 
-      <aside className=" h-screen w-full overflow-auto py-16 md:py-12">
+      <aside className=" h-screen w-full  overflow-auto py-16 md:py-12">
         <div>{props.children}</div>
       </aside>
     </div>

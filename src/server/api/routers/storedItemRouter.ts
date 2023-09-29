@@ -72,7 +72,7 @@ export const storedItemRouter = createTRPCRouter({
   deleteAll: privateProcedure.mutation(async ({ ctx }) => {
     const deleteUsers = ctx.prisma.storedItem.deleteMany({});
   }),
-  getAllForUser: privateProcedure.query(async ({ ctx, input }) => {
+  getAllForUser: privateProcedure.query(async ({ ctx }) => {
     const userItems = await ctx.prisma.storedItem.findMany({
       where: {
         itemStorage: {
@@ -95,5 +95,31 @@ export const storedItemRouter = createTRPCRouter({
       },
     });
     return userItems;
+  }),
+  getById: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    try {
+      const item = await ctx.prisma.storedItem.findFirstOrThrow({
+        where: {
+          id: input,
+        },
+        include: {
+          ItemInfo: true,
+          itemStorage: {
+            include: {
+              managedLocation: {
+                include: {
+                  location: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      return item;
+    } catch (error) {
+      throw new Error(
+        "The item you are trying to get dosent exist does not exist"
+      );
+    }
   }),
 });

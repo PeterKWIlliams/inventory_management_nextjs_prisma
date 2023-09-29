@@ -27,7 +27,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function ItemsDataTable<TData, TValue>({
+export function AddItemmDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -52,20 +52,30 @@ export function ItemsDataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Filter by name..."
           value={
-            (table.getColumn("itemName")?.getFilterValue() as string) ?? ""
+            (table.getColumn("locationName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table.getColumn("itemName")?.setFilterValue(event.target.value)
+            table.getColumn("locationName")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+        <Input
+          placeholder="Filter by name..."
+          value={
+            (table.getColumn("storageName")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("storageName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

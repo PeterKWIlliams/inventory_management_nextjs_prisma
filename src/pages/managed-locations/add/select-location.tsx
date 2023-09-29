@@ -1,10 +1,10 @@
-import { Icons } from "components/Icons";
-import Sidebar from "components/Sidebar";
-import { AddManagedLocationDataTable } from "components/dataTables/addManagedLocationDataTable";
+import { Icons } from "@/components/Icons";
+import Sidebar from "@/components/Sidebar";
+import { AddManagedLocationDataTable } from "@/components/dataTables/addManagedLocationDataTable";
 import {
   AddManagedLocationTableData,
   addManagedLocationsColumns,
-} from "components/dataTables/addManagedLocationColumns";
+} from "@/components/dataTables/addManagedLocationColumns";
 import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";

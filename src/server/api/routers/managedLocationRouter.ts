@@ -1,3 +1,4 @@
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { createTRPCRouter, privateProcedure } from "../trpc";
 
 import z from "zod";
@@ -136,9 +137,52 @@ export const managedLocationRouter = createTRPCRouter({
           },
         },
       });
-      
+
     return managedLocationsWithStorage;
   }),
+  update: privateProcedure
+    .input(
+      z.object({
+        managedLocationId: z.string(),
+        name: z.string(),
+        city: z.string(),
+        street: z.string(),
+        postcode: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      console.log("it is hitting now ");
+      try {
+        const managedLocation =
+          await ctx.prisma.managedLocation.findFirstOrThrow({
+            where: {
+              id: input.managedLocationId,
+            },
+          });
+
+        const updateManagedLocation = await ctx.prisma.managedLocation.update({
+          where: {
+            id: input.managedLocationId,
+          },
+          data: {
+            location: {
+              update: {
+                name: input.name,
+                address: {
+                  update: {
+                    city: input.city,
+                    street: input.street,
+                    postcode: input.postcode,
+                  },
+                },
+              },
+            },
+          },
+        });
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    }),
 
   // update: publicProcedure
   //   .input(

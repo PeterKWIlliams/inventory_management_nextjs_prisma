@@ -1,6 +1,6 @@
 import { useUser } from "@clerk/nextjs";
-import ProfileForm from "components/forms/ProfileForm";
-import Sidebar from "components/Sidebar";
+import ProfileForm from "@/components/forms/ProfileForm";
+import Sidebar from "@/components/Sidebar";
 import { NextPage } from "next";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -42,7 +42,7 @@ const ProfileSetup: NextPage = ({}) => {
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Profile Setup</h1>
-        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
+        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
         <ProfileForm buttonAction={"Done!"} onSubmit={onSubmit} />
       </div>
     </Sidebar>

@@ -7,36 +7,51 @@ import Link from "next/link";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
-export type StorageTableData = {
-  managedLocation: string;
+export type ItemsTableData = {
+  itemName: string;
+  price?: number;
   storageName: string;
-  itemCount: number;
-  storageLocation: string;
-  locationId: string;
+  managedLocation: string;
   storageId: string;
+  managedLocationId: string;
+  itemId: string;
 };
 
-export const StorageColumns: ColumnDef<StorageTableData>[] = [
+export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
   {
-    accessorKey: "managedLocation",
-    header: () => <div className="text-left">managed location</div>,
+    accessorKey: "itemName",
+    header: "Item",
     cell: ({ row }) => {
-      const rowValue: string = row.getValue("managedLocation");
+      const rowValue: string = row.getValue("itemName");
 
       return (
-        <Link href={`/managed-locations/${row.getValue("locationId")}`}>
-          <div className="float-left text-blue-600 hover:font-semibold hover:text-violet-600">
+        <Link href={`/items/${row.getValue("itemId")}`}>
+          <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
             {rowValue}
           </div>
         </Link>
       );
     },
   },
-  //This is hidden as it is used only to access the locationId -look for a better solution later-.
   {
-    accessorKey: "locationId",
-    header: () => <div className="hidden text-left"></div>,
+    accessorKey: "itemId",
+    header: () => <div className="hidden"></div>,
     cell: () => <div className="hidden"></div>,
+  },
+  //This is hidden as it is only used to access the storageId -look for a better solution later-.
+  {
+    accessorKey: "managedLocationId",
+    header: () => <div className="hidden"></div>,
+    cell: () => <div className="hidden"></div>,
+  },
+  {
+    accessorKey: "managedLocation",
+    header: () => <div className="text-right">Managed Location</div>,
+    cell: ({ row }) => {
+      const rowValue: string = row.getValue("managedLocation");
+
+      return <div className="text-right">{rowValue}</div>;
+    },
   },
   //This is hidden as it is only used to access the storageId -look for a better solution later-.
   {
@@ -46,31 +61,24 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
   },
   {
     accessorKey: "storageName",
-    header: () => <div className=" ">Storage Name</div>,
+    header: () => <div className="text-right">Storage Name</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
-
-      return (
-        <Link href={`/storage/${row.getValue("storageId")}`}>
-          <div className=" text-blue-600  hover:font-semibold hover:text-violet-600">
-            {rowValue}
-          </div>
-        </Link>
-      );
-    },
-  },
-  {
-    accessorKey: "storageLocation",
-    header: () => <div className="text-right">Storage Location</div>,
-    cell: ({ row }) => {
-      const rowValue: string = row.getValue("storageLocation");
 
       return <div className="text-right">{rowValue}</div>;
     },
   },
-
   {
-    accessorKey: "itemCount",
+    accessorKey: "storageLocation",
+    header: "storage location",
+    cell: ({ row }) => {
+      const rowValue: string = row.getValue("storageLocation");
+
+      return <div>{rowValue}</div>;
+    },
+  },
+  {
+    accessorKey: "price",
     header: ({ column }) => {
       return (
         <Button
@@ -78,13 +86,13 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="float-right"
         >
-          Item Count
+          Price
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const rowValue: string = row.getValue("itemCount");
+      const rowValue: string = row.getValue("price");
 
       return <div className="text-right">{rowValue}</div>;
     },

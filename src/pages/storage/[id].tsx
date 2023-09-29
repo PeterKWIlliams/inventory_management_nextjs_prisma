@@ -1,9 +1,9 @@
-import { Icons } from "components/Icons";
-import ItemStorageCard from "components/ItemStorageCard";
+import { Icons } from "@/components/Icons";
+import ItemStorageCard from "@/components/cards/ItemStorageCard";
 
-import Sidebar from "components/Sidebar";
-import { SingleStorageDataTable } from "components/dataTables/SingleItemStorageDataTable";
-import { SingleItemStorageColumns } from "components/dataTables/SingleItemStoragColumns";
+import Sidebar from "@/components/Sidebar";
+import { SingleStorageDataTable } from "@/components/dataTables/SingleItemStorageDataTable";
+import { SingleItemStorageColumns } from "@/components/dataTables/SingleItemStoragColumns";
 
 import Link from "next/link";
 
@@ -41,17 +41,30 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
       </div>
 
       <div className="container mx-auto max-w-4xl py-10">
-        <Link
-          href={`/storage/${id}/add-item`}
-          className="flex flex-shrink-0 flex-row  hover:text-purple-500"
-        >
-          add Item
-          <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
-        </Link>
         <SingleStorageDataTable
           columns={SingleItemStorageColumns}
           data={singleStorageTableData}
         />
+        <div className="mt-5 flex justify-between">
+          <div>
+            <Link
+              href={`/storage/${id}/add-item`}
+              className="flex flex-shrink-0 flex-row  hover:text-purple-500"
+            >
+              <Icons.PlusCircle className=" opacity-50" />
+              ADD ITEM
+            </Link>
+          </div>
+          <div>
+            <Link
+              href={`/storage/${id}/update`}
+              className="flex flex-shrink-0 flex-row  hover:text-purple-500"
+            >
+              <Icons.PlusCircle className=" opacity-50" />
+              UPDATE STORAGE
+            </Link>
+          </div>
+        </div>
       </div>
     </Sidebar>
   );

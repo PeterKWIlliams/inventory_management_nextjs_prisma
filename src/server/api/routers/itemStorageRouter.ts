@@ -90,6 +90,27 @@ export const itemStorageRouter = createTRPCRouter({
         },
       });
     }),
+  update: privateProcedure
+    .input(
+      z.object({
+        storageId: z.string(),
+        location: z.string(),
+        managedLocationId: z.string().cuid(),
+        name: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updateItemStorage = await ctx.prisma.itemStorage.update({
+        where: {
+          id: input.storageId,
+        },
+        data: {
+          name: input.name,
+          location: input.location,
+          managedLocationId: input.managedLocationId,
+        },
+      });
+    }),
   deleteAll: privateProcedure.mutation(async ({ ctx }) => {
     console.log("i am being called");
 

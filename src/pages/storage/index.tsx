@@ -1,11 +1,11 @@
 import { useUser } from "@clerk/nextjs";
-import { Icons } from "components/Icons";
-import Sidebar from "components/Sidebar";
+import { Icons } from "@/components/Icons";
+import Sidebar from "@/components/Sidebar";
 import {
   StorageColumns,
   StorageTableData,
-} from "components/dataTables/StorageColumns";
-import { StorageDataTable } from "components/dataTables/StorageDataTable";
+} from "@/components/dataTables/StorageColumns";
+import { StorageDataTable } from "@/components/dataTables/StorageDataTable";
 import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";
@@ -67,7 +67,7 @@ const index: FC<indexProps> = ({}) => {
       <div className="container mx-auto max-w-4xl py-10">
         <Link
           href="/managed-locations/add/select-location"
-          className="flex flex-shrink-0 flex-row font-bold  hover:text-purple-500"
+          className="flex  flex-row font-bold  hover:text-purple-500"
         >
           Add New Storage
           <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />

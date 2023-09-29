@@ -1,6 +1,6 @@
-import Sidebar from "components/Sidebar";
-import ItemStorageForm from "components/forms/ItemStorageForm";
-import ManagedLocationForm from "components/forms/ManagedLocationForm";
+import Sidebar from "@/components/Sidebar";
+import ItemStorageForm from "@/components/forms/ItemStorageForm";
+import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -42,7 +42,7 @@ const specificLocationAddStorage: FC<specificLocationAddStorageProps> = ({
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add storage</h1>
-        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
+        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
         <ItemStorageForm
           buttonAction={"Done!"}
           onSubmit={onSubmit}

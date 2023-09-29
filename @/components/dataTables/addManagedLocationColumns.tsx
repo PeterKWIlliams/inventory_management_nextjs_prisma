@@ -1,7 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
-import { Button } from "../ui/Button";
-import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 
 // This type is used to define the shape of our data.
