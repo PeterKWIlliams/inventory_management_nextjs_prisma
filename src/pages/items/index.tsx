@@ -7,7 +7,6 @@ import {
 import { ItemsDataTable } from "@/components/dataTables/ItemsDataTable";
 
 import Link from "next/link";
-import { FC } from "react";
 import { api } from "~/utils/api";
 import type { ItemsTableData } from "@/components/dataTables/ItemsColumns";
 import { NextPage } from "next";
