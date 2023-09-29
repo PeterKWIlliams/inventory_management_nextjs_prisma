@@ -5,12 +5,10 @@ import {
   RedirectToSignIn,
   SignedIn,
   SignedOut,
-  UserButton,
 } from "@clerk/nextjs";
 import "~/styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import Head from "next/head";
-import Link from "next/link";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

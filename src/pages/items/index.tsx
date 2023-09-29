@@ -2,18 +2,20 @@ import { Icons } from "@/components/Icons";
 import Sidebar from "@/components/Sidebar";
 import {
   ItemsColumns,
-  ItemsTableData,
+
 } from "@/components/dataTables/ItemsColumns";
 import { ItemsDataTable } from "@/components/dataTables/ItemsDataTable";
-import { AddItemTableData } from "@/components/dataTables/addItemColumns";
+
 import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";
+import type { ItemsTableData } from "@/components/dataTables/ItemsColumns";
+import { NextPage } from "next";
 
-interface ItemsProps {}
 
-const Items: FC<ItemsProps> = ({}) => {
-  const { data, isLoading, error } = api.storedItem.getAllForUser.useQuery();
+
+const Items: NextPage = () => {
+  const { data, isLoading } = api.storedItem.getAllForUser.useQuery();
   if (isLoading) return <div>loading</div>;
   if (!data) return <div>no data</div>;
 
@@ -29,7 +31,7 @@ const Items: FC<ItemsProps> = ({}) => {
       itemId: item.id,
     };
   });
-  console.log("this is the transformed data", transformedData);
+
 
   return (
     <Sidebar>
