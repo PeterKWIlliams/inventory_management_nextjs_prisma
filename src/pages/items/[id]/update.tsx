@@ -1,8 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 
-interface updateProps {}
-
-const update: FC<updateProps> = ({}) => {
+const update: FC = () => {
   return <div>update</div>;
 };
 

@@ -7,17 +7,8 @@ import {
   CardContent,
   CardFooter,
 } from "../ui/Card";
-import Image from "next/image";
-import warehouse_pic_1 from "/public/images/warehouse_pic_1.jpeg";
-import {
-  Address,
-  ItemInfo,
-  ItemStorage,
-  Location,
-  StoredItem,
-} from "@prisma/client";
-import { ItemInfoSchema } from "prisma/generated/zod";
-import { z } from "zod";
+
+import type { ItemInfo } from "@prisma/client";
 
 interface SingleItemCardProps {
   itemName: string;

@@ -1,21 +1,17 @@
 import { Icons } from "@/components/Icons";
 import Sidebar from "@/components/Sidebar";
 import DashboardPage from "@/components/dashboard/dashboard";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import { api } from "~/utils/api";
 
 // Define the Home page component
 
 const Home: NextPage = () => {
-  const deleteItem = api.itemStorage.deleteAll.useMutation();
-
   const Icon = Icons["Logo"];
 
   return (
     <Sidebar>
       <DashboardPage />
-
-     
     </Sidebar>
   );
 };

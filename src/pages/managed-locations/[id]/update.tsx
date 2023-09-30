@@ -14,26 +14,23 @@ interface updateManagedLocationProps {
   id: string;
 }
 
-const updateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
+const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
   const router = useRouter();
 
   const updateManagedLocation = api.managedLocation.update.useMutation({
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
       return;
     },
     onSuccess: () => {
       toast.success("Location updated");
-      router.push(`/managed-locations/${id}`);
+      // router.push(`/managed-locations/${id}`);
     },
   });
 
-  const onSubmit = async (data: ManagedLocationFormDataType) => {
+  const onSubmit = (data: ManagedLocationFormDataType) => {
     updateManagedLocation.mutate({
-      name: data.name,
-      city: data.city,
-      postcode: data.postcode,
-      street: data.street,
+      ...data,
       managedLocationId: id,
     });
   };
@@ -41,19 +38,18 @@ const updateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add Location</h1>
-        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
+        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ManagedLocationForm buttonAction={"Update"} onSubmit={onSubmit} />
       </div>
     </Sidebar>
   );
 };
 
-export default updateManagedLocation;
+export default UpdateManagedLocation;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const ssg = generateSSGHelper();
-
   const id = context.params?.id as string;
+  const ssg = generateSSGHelper();
 
   await ssg.managedLocation.getById.prefetch(id);
 

@@ -8,9 +8,7 @@ import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLoca
 import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { useRouter } from "next/router";
 
-interface addManagedLocationProps {}
-
-const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
+const ManagedLocationSetup: FC = () => {
   const user = useUser();
   const userId = user.user?.id;
   const router = useRouter();
@@ -20,30 +18,27 @@ const ManagedLocationSetup: FC<addManagedLocationProps> = () => {
   }
 
   const addManagedLocation = api.managedLocation.add.useMutation({
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
       return;
     },
     onSuccess: (data) => {
       toast.success("Managed Location added!");
-      router.push(`/managed-locations/${data.id}`);
+      // router.push(`/managed-locations/${data.id}`);
     },
   });
 
-  const onSubmit = async (data: ManagedLocationFormDataType) => {
+  const onSubmit = (data: ManagedLocationFormDataType) => {
     addManagedLocation.mutate({
+      ...data,
       userId: userId,
-      name: data.name,
-      city: data.city,
-      postcode: data.postcode,
-      street: data.street,
     });
   };
   return (
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add Location</h1>
-        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
+        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ManagedLocationForm buttonAction={"Done!"} onSubmit={onSubmit} />
       </div>
     </Sidebar>

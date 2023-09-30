@@ -6,11 +6,10 @@ import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { StoredItemFormDataType } from "~/utils/validations/item-form";
-interface AddItemProps {}
 
-const addItem: FC<AddItemProps> = () => {
+const AddItem: FC = () => {
   const addItem = api.storedItem.add.useMutation({
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: () => {
@@ -22,17 +21,9 @@ const addItem: FC<AddItemProps> = () => {
   console.log("this is the storage id", storageId);
   if (!storageId) return <div>go back</div>;
 
-  const onSubmit = async (data: StoredItemFormDataType) => {
-    console.log("storageId");
+  const onSubmit = (data: StoredItemFormDataType) => {
     addItem.mutate({
-      name: data.name,
-      expiryDate: data.expiryDate,
-      baseItemName: data.baseItemName,
-      baseType: data.baseType,
-      desiredQuantity: data.desiredQuantity,
-      purchasePrice: data.purchasePrice,
-      purchaseDate: data.purchaseDate,
-      supplierName: data.supplierName,
+      ...data,
       itemStorageId: storageId,
     });
   };
@@ -41,11 +32,11 @@ const addItem: FC<AddItemProps> = () => {
     <Sidebar>
       <div className="flex flex-col items-center justify-around">
         <h1 className="mb-1 text-5xl font-bold">add items</h1>
-        <AiFillEnvironment className="text-dark-purple mb-4 rounded bg-amber-300 text-8xl" />
+        <AiFillEnvironment className="mb-4 rounded bg-amber-300 text-8xl text-dark-purple" />
         <StoredItemForm onSubmit={onSubmit} />
       </div>
     </Sidebar>
   );
 };
 
-export default addItem;
+export default AddItem;

@@ -1,5 +1,5 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { itemRouter } from "~/server/api/temp/itemRouter";
+
 import { addressRouter } from "~/server/api/routers/addressRouter";
 import { userRouter } from "./routers/userRouter";
 import { managedLocationRouter } from "./routers/managedLocationRouter";
@@ -12,7 +12,6 @@ import { storedItemRouter } from "./routers/storedItemRouter";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  item: itemRouter,
   address: addressRouter,
   user: userRouter,
   managedLocation: managedLocationRouter,

@@ -9,9 +9,7 @@ import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";
 
-interface selectLocationProps {}
-
-const selectLocation: FC<selectLocationProps> = ({}) => {
+const selectLocation: FC = ({}) => {
   const { data, isLoading, error } =
     api.managedLocation.getAllForUser.useQuery();
 

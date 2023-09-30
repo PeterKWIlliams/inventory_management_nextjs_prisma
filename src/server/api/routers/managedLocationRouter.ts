@@ -179,8 +179,8 @@ export const managedLocationRouter = createTRPCRouter({
             },
           },
         });
-      } catch (error: any) {
-        throw new Error(error);
+      } catch (error) {
+        console.log(error);
       }
     }),
 

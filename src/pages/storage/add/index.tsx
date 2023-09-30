@@ -9,16 +9,14 @@ import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 
-interface ItemStorageSetupProps {}
-
-const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
+const ItemStorageSetup: FC = () => {
   const managedLocations = api.managedLocation.getAllForUser
     .useQuery()
     .data?.map((location) => {
       return { label: location.location.name, value: location.id };
     });
   const addItemStorage = api.itemStorage.add.useMutation({
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: () => {
@@ -27,18 +25,14 @@ const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
   });
   if (!managedLocations) return <div>no managedlocations to add </div>;
 
-  const onSubmit = async (data: ItemStorageFormDataType) => {
-    addItemStorage.mutate({
-      location: data.location,
-      name: data.name,
-      managedLocationId: data.managedLocationId,
-    });
+  const onSubmit = (data: ItemStorageFormDataType) => {
+    addItemStorage.mutate(data);
   };
   return (
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add storage</h1>
-        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
+        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ItemStorageForm
           managedLocations={managedLocations}
           buttonAction={"Done!"}

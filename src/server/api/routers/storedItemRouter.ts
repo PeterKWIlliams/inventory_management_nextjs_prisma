@@ -1,9 +1,6 @@
-import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, privateProcedure } from "../trpc";
 
 import z from "zod";
-import { BaseItem, Prisma, Supplier } from "@prisma/client";
-import { ItemInfoSchema } from "prisma/generated/zod";
 
 interface CreateItemData {
   name: string;
@@ -69,7 +66,7 @@ export const storedItemRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-  deleteAll: privateProcedure.mutation(async ({ ctx }) => {
+  deleteAll: privateProcedure.mutation(({ ctx }) => {
     const deleteUsers = ctx.prisma.storedItem.deleteMany({});
   }),
   getAllForUser: privateProcedure.query(async ({ ctx }) => {

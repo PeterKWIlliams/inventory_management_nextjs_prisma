@@ -1,7 +1,6 @@
-import { useUser } from "@clerk/nextjs";
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
 import Sidebar from "@/components/Sidebar";
-import { add } from "date-fns";
+
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
@@ -16,9 +15,7 @@ import {
   UpdateItemStorageFormDataType,
 } from "~/utils/validations/add-itemStorage";
 
-interface ItemStorageSetupProps {}
-
-const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
+const ItemStorageSetup: FC = () => {
   const router = useRouter();
   const storageId = router.query.id as string;
 
@@ -36,11 +33,9 @@ const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
       toast.error("Something went wrong");
     },
   });
-  const onSubmit = async (data: ItemStorageFormDataType) => {
+  const onSubmit = (data: ItemStorageFormDataType) => {
     updateStorage.mutate({
-      name: data.name,
-      location: data.location,
-      managedLocationId: data.managedLocationId,
+      ...data,
       storageId: storageId,
     });
   };
@@ -51,7 +46,7 @@ const ItemStorageSetup: FC<ItemStorageSetupProps> = ({}) => {
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-6xl font-bold">UPDATE STORAGE LOCATION</h1>
-        <AiFillEnvironment className="text-dark-purple mb-20 rounded bg-amber-300 text-8xl" />
+        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ItemStorageForm
           managedLocations={managedLocations}
           buttonAction={"Done!"}

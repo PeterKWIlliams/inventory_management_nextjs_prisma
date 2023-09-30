@@ -1,8 +1,8 @@
 import Sidebar from "@/components/Sidebar";
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
-
+import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { GetStaticProps } from "next";
-
+import { useRouter } from "next/router";
 import { FC } from "react";
 import toast from "react-hot-toast";
 
@@ -20,7 +20,7 @@ const specificLocationAddStorage: FC<specificLocationAddStorageProps> = ({
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
 
   const addItemStorage = api.itemStorage.add.useMutation({
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: () => {
@@ -28,7 +28,7 @@ const specificLocationAddStorage: FC<specificLocationAddStorageProps> = ({
     },
   });
 
-  const onSubmit = async (data: ItemStorageFormDataType) => {
+  const onSubmit = (data: ItemStorageFormDataType) => {
     addItemStorage.mutate({
       location: data.location,
       name: data.name,

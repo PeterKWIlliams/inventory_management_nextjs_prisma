@@ -21,9 +21,9 @@ import { FC } from "react";
 import { cn } from "~/lib/utils";
 import { api } from "~/utils/api";
 
-interface managedLocationsProps {}
 
-const ManagedLocations: FC<managedLocationsProps> = () => {
+
+const ManagedLocations: FC = () => {
   const { data, isLoading } = api.managedLocation.getAllForUser.useQuery();
   // const [open, setOpen] = React.useState(false);
   // const [value, setValue] = React.useState("");
@@ -105,7 +105,7 @@ const ManagedLocations: FC<managedLocationsProps> = () => {
           </PopoverContent>
         </Popover> */}
 
-        <div className="mt-2  grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div className="mt-2 flex grid grid-cols-1 gap-10 lg:grid-cols-3">
           {data.map((data, index) => (
             <ManagedLocationCard key={index} data={data} />
           ))}

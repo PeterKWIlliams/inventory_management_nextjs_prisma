@@ -11,9 +11,8 @@ import { FC } from "react";
 import { api } from "~/utils/api";
 import storage from "../items/[id]";
 
-interface indexProps {}
 
-const index: FC<indexProps> = ({}) => {
+const Index: FC = () => {
   const user = useUser();
   const { data, isLoading, error } =
     api.managedLocation.getAllForUserWithStorage.useQuery();
@@ -78,4 +77,4 @@ const index: FC<indexProps> = ({}) => {
   );
 };
 
-export default index;
+export default Index;

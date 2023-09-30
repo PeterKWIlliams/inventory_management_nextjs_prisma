@@ -20,7 +20,7 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
   const { data, isLoading } = api.itemStorage.getById.useQuery(id);
   if (!data) return <div>no data</div>;
   if (isLoading) return <div>loading</div>;
-  console.log("This is the SingleStorageView Data", data);
+
   const realData = data.managedLocation;
   const singleStorageTableData = data.storedItem.map((item) => {
     return {
@@ -78,11 +78,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const id = context.params?.id as string;
 
   await ssg.managedLocation.getById.prefetch(id);
-  console.log("this is the id", id);
 
   return {
     props: {
-      trpcState: ssg.dehydrate(),
       id: context.params?.id,
     },
   };
