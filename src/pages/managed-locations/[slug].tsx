@@ -43,7 +43,7 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
         <div className="mt-5 flex justify-between">
           <div>
             <Link
-              href={`/managed-locations/${id}/addStorage`}
+              href={`/managed-locations/managed-location/${id}/addStorage`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               <Icons.PlusCircle className=" opacity-50" />
@@ -52,7 +52,7 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
           </div>
           <div>
             <Link
-              href={`/managed-locations/${id}/update`}
+              href={`/managed-locations/managed-location/${id}/update`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               <Icons.PlusCircle className=" opacity-50" />
