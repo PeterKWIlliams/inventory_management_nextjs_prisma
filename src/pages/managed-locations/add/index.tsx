@@ -22,9 +22,13 @@ const ManagedLocationSetup: FC = () => {
       toast.error(error.message);
       return;
     },
-    onSuccess: (data) => {
-      toast.success("Managed Location added!");
-      // router.push(`/managed-locations/${data.id}`);
+    onSuccess: async (data) => {
+      try {
+        toast.success("Managed Location added!");
+        await router.push(`/managed-locations/${data.id}`);
+      } catch (error) {
+        toast.error("An error occurred while navigating.");
+      }
     },
   });
 

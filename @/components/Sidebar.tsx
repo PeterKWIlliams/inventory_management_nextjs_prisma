@@ -7,9 +7,6 @@ import { SidebarOption } from "~/types/typings";
 import { Icons } from "./Icons";
 import { UserButton } from "@clerk/nextjs";
 
-const test = process.env.DATABSE_URL;
-console.log("this is the teat variable", test);
-
 const sidebarOptions: SidebarOption[] = [
   {
     id: 1,
