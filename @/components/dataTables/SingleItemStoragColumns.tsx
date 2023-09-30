@@ -27,7 +27,7 @@ export const SingleItemStorageColumns: ColumnDef<SingleItemStorageTableData>[] =
         const rowValue: string = row.getValue("itemName");
 
         return (
-          <Link href={`/items/${row.getValue("itemId")}`}>
+          <Link href={`/items/item/${row.getValue("itemId")}`}>
             <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
               {rowValue}
             </div>

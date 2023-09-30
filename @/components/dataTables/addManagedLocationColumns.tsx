@@ -22,7 +22,7 @@ export const addManagedLocationsColumns: ColumnDef<AddManagedLocationTableData>[
 
         return (
           <Link
-            href={`/managed-locations/${row.getValue(
+            href={`/managed-locations/maanged-location/${row.getValue(
               "managedLocationId"
             )}/addStorage`}
           >

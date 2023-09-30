@@ -24,7 +24,7 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
       const rowValue: string = row.getValue("storageName");
 
       return (
-        <Link href={`/storage/${row.getValue("storageId")}`}>
+        <Link href={`/storages/storage/${row.getValue("storageId")}`}>
           <div className=" text-blue-600  hover:font-semibold hover:text-violet-600">
             {rowValue}
           </div>
@@ -39,7 +39,11 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
       const rowValue: string = row.getValue("managedLocation");
 
       return (
-        <Link href={`/managed-locations/${row.getValue("locationId")}`}>
+        <Link
+          href={`/managed-locations/managed-location/${row.getValue(
+            "locationId"
+          )}`}
+        >
           <div className="float-left text-blue-600 hover:font-semibold hover:text-violet-600">
             {rowValue}
           </div>
