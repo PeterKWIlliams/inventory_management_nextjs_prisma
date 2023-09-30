@@ -9,8 +9,7 @@ import { StorageDataTable } from "@/components/dataTables/StorageDataTable";
 import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";
-import storage from "../items/[id]";
-
+import storage from "../items/[slug]";
 
 const Index: FC = () => {
   const user = useUser();

@@ -70,10 +70,9 @@ export default singleManagedLocation;
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();
 
-  const id = context.params?.id as string;
+  const id = context.params?.slug as string;
 
   await ssg.managedLocation.getById.prefetch(id);
-  console.log("this is the id", id);
 
   return {
     props: {
