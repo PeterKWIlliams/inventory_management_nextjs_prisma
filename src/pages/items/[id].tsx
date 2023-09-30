@@ -17,8 +17,6 @@ const singleItemView: FC<singleItemViewProps> = ({ id }) => {
   if (isLoading) return <div>loading...</div>;
   if (!itemInfo) return <div>no item info</div>;
 
-  console.log("this is the data", id, data);
-
   return (
     <Sidebar>
       <div className="flex flex-col items-center ">
