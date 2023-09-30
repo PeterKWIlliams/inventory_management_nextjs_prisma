@@ -28,7 +28,7 @@ export const columns: ColumnDef<SingleManagedLocationTableData>[] = [
       const rowValue: string = row.getValue("storageName");
 
       return (
-        <Link href={`/storage/${row.getValue("storageId")}`}>
+        <Link href={`/storages/storage/${row.getValue("storageId")}`}>
           <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
             {rowValue}
           </div>

@@ -26,7 +26,7 @@ const sidebarOptions: SidebarOption[] = [
   {
     id: 3,
     name: "Storage",
-    href: "/storage",
+    href: "/storages",
     Icon: "Home",
   },
   {

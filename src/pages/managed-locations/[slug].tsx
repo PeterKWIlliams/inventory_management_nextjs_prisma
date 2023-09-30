@@ -70,14 +70,14 @@ export default singleManagedLocation;
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();
 
-  const id = context.params?.slug as string;
+  const slug = context.params?.slug as string;
 
-  await ssg.managedLocation.getById.prefetch(id);
+  await ssg.managedLocation.getById.prefetch(slug);
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
-      id: context.params?.id,
+      id: context.params?.slug,
     },
   };
 };
