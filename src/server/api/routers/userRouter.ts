@@ -54,21 +54,32 @@ export const userRouter = createTRPCRouter({
         });
       }
     }),
-  // getAll: publicProcedure.query(async ({ ctx }) => {
-  //   try {
-  //     return await ctx.prisma.user.findMany({
-  //       select: {
-  //         id: true,
-  //         firstName: true,
-  //         lastName: true,
-  //         email: true,
-  //         userAddress: true,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   }
-  // }),
+  getAllData: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const userId = ctx.userId;
+      if (!userId) throw new Error("not logged in ");
+      const data = await ctx.prisma.managedLocation.findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          itemStorage: {
+            include: {
+              storedItem: {
+                include: {
+                  ItemInfo: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (!data) throw new Error("");
+      return data;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }),
   getById: privateProcedure.query(async ({ ctx }) => {
     const profileData = await ctx.prisma.user.findFirst({
       where: {

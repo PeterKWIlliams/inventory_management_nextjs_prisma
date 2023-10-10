@@ -16,7 +16,7 @@ const AddItemStorageForm: FC<AddItemStorageFormProps> = ({
 }) => {
   return (
     <ItemStorageForm
-      buttonAction="update"
+      buttonAction="add item"
       onSubmit={onSubmit}
       managedLocations={managedLocations}
     />

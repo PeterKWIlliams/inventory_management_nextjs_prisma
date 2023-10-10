@@ -24,10 +24,9 @@ const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
     },
     onSuccess: async (data) => {
       try {
-        toast.success("Managed Location added!");
         await router.push(`/managed-locations/${id}`);
+        toast.success("Managed Location added!");
       } catch (error) {
-        // Handle any errors that occur during navigation
         toast.error("An error occurred while navigating.");
       }
     },

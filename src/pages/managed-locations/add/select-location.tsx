@@ -5,7 +5,6 @@ import {
   AddManagedLocationTableData,
   addManagedLocationsColumns,
 } from "@/components/dataTables/addManagedLocationColumns";
-import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";
 
@@ -28,8 +27,6 @@ const selectLocation: FC = ({}) => {
       };
     }
   );
-
-  console.log(transformedData);
 
   return (
     <Sidebar>

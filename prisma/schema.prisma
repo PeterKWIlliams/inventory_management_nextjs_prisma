@@ -12,13 +12,15 @@ datasource db {
 }
 
 model Address {
-  id       String     @id @default(cuid())
-  street   String
-  city     String
-  postcode String
-  location Location[]
-  user     User[]
-  supplier Supplier[]
+  id        String     @id @default(cuid())
+  street    String
+  city      String
+  postcode  String
+  location  Location[]
+  user      User[]
+  supplier  Supplier[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model User {
@@ -29,6 +31,8 @@ model User {
   userAddress     Address           @relation(fields: [addressId], references: [id])
   addressId       String
   managedLocation ManagedLocation[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 
   @@index([id])
   @@index([addressId])
@@ -41,6 +45,8 @@ model Location {
   addressId       String
   managedLocation ManagedLocation[]
   image_url       String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 
   @@index([addressId])
 }
@@ -52,6 +58,8 @@ model ManagedLocation {
   userId      String
   locationId  String
   itemStorage ItemStorage[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@index([locationId])
   @@index([userId])
@@ -64,6 +72,8 @@ model ItemStorage {
   managedLocation   ManagedLocation @relation(fields: [managedLocationId], references: [id])
   managedLocationId String
   storedItem        StoredItem[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 
   @@index([managedLocationId])
 }
@@ -75,6 +85,8 @@ model StoredItem {
   itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id])
   itemStorageId String
   ItemInfo      ItemInfo[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
   @@index([itemStorageId])
 }
@@ -92,6 +104,8 @@ model ItemInfo {
   baseItemId      String?
   supplier        Supplier?  @relation(fields: [supplierId], references: [id])
   supplierId      String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 
   @@index([storedItemId])
   @@index([baseItemId])
@@ -102,6 +116,8 @@ model Product {
   id          String        @id @default(cuid())
   name        String
   productInfo ProductInfo[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
 
 model ProductInfo {
@@ -114,6 +130,8 @@ model ProductInfo {
   productId  String
   BaseItem   BaseItem? @relation(fields: [baseItemId], references: [id])
   baseItemId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   @@index([supplierId])
   @@index([productId])
@@ -128,6 +146,8 @@ model Supplier {
   addressId   String?
   productInfo ProductInfo[]
   ItemInfo    ItemInfo[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   @@index([addressId])
 }
@@ -138,4 +158,6 @@ model BaseItem {
   type        String
   itemInfo    ItemInfo[]
   productInfo ProductInfo[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }

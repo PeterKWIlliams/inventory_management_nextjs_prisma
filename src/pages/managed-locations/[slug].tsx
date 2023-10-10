@@ -11,10 +11,11 @@ import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 
 interface singleManagedLocationProps {
+  
   id: string;
 }
 
-const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
+const singleManagedLocation: FC<singleManagedLocationProps> = ({ id, }) => {
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
 
   if (isLoading) return <div>loading</div>;

@@ -48,7 +48,7 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
         <div className="mt-5 flex justify-between">
           <div>
             <Link
-              href={`/storage/${id}/add-item`}
+              href={`/storages/storage/${id}/add-item`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               <Icons.PlusCircle className=" opacity-50" />

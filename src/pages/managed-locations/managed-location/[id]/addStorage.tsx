@@ -18,13 +18,17 @@ const specificLocationAddStorage: FC<specificLocationAddStorageProps> = ({
   id,
 }) => {
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
+  const router = useRouter();
 
   const addItemStorage = api.itemStorage.add.useMutation({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: () => {
-      toast.success("Item Storage added!");
+    onSuccess: async (data) => {
+      try {
+        await router.push(`/managed-locations/${id}`);
+        toast.success("Item Storage added!");
+      } catch (error) {}
     },
   });
 

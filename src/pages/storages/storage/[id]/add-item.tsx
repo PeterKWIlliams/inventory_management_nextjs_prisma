@@ -8,16 +8,20 @@ import { api } from "~/utils/api";
 import { StoredItemFormDataType } from "~/utils/validations/item-form";
 
 const AddItem: FC = () => {
+  const router = useRouter();
+  const storageId = router.query.id as string;
   const addItem = api.storedItem.add.useMutation({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: () => {
-      toast.success("Item added!");
+    onSuccess: async () => {
+      try {
+        router.push(`/storages/${storageId}`);
+        toast.success("Item added!");
+      } catch (error) {}
     },
   });
-  const router = useRouter();
-  const storageId = router.query.id as string;
+
   console.log("this is the storage id", storageId);
   if (!storageId) return <div>go back</div>;
 

@@ -135,4 +135,17 @@ export const itemStorageRouter = createTRPCRouter({
       console.error("Error clearing database:", error);
     }
   }),
+  //this is used just to get the type the naming needs to be changed to getbyid but its already taken the naming of the othe function getById needs a more descriptive name to show exactly what the data is being fetched for
+  GetType: privateProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const itemStorage = await ctx.prisma.itemStorage.findFirst({
+      where: {
+        id: input,
+      },
+      include: {
+        storedItem: true,
+      },
+    });
+    if (!itemStorage) throw new Error("Error getting storage");
+    return itemStorage;
+  }),
 });
