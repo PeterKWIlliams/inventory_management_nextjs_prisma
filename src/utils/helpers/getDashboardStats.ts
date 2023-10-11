@@ -94,8 +94,7 @@ export function transformDashboardData(data: userData): Stats {
         const monthYearKey =
           storedItemCreatedAt.toLocaleString("default", { month: "long" }) +
           " " +
-          storedItemCreatedAt.getFullYear();
-        console.log("this is the month year key", monthYearKey);
+          storedItemCreatedAt.getFullYear().toString(); // Convert the year to a string
 
         // Update the monthlyTotals property
         stats.monthlyTotals[monthYearKey] =

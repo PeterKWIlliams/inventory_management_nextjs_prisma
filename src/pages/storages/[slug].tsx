@@ -77,7 +77,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const slug = context.params?.slug as string;
 
-  await ssg.managedLocation.getById.prefetch(slug);
+  await ssg.itemStorage.getById.prefetch(slug);
 
   return {
     props: {
