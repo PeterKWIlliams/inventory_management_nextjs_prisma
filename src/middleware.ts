@@ -1,6 +1,4 @@
 import { authMiddleware } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
-import { api } from "./utils/api";
 
 // const publicRoutes = [
 //   "/",

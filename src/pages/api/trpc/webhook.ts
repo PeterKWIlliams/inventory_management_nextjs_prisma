@@ -32,6 +32,7 @@ export default async function handler(
   const eventType = evt.type;
   if (eventType === "user.created" && id !== undefined) {
     console.log(`User ${id} was ${eventType}`);
+    api.user.testApi.useMutation().mutate("Test Worked");
     res.status(201).json({});
   }
 }

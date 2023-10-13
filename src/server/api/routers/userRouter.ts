@@ -1,5 +1,6 @@
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 import { ProfileFormSchema } from "~/utils/validations/profile-form";
 
 export const userRouter = createTRPCRouter({
@@ -120,5 +121,18 @@ export const userRouter = createTRPCRouter({
           },
         });
       } catch (error) {}
+    }),
+  testApi: privateProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      const updatedUser = await ctx.prisma.user.update({
+        where: {
+          id: ctx.userId,
+        },
+        data: {
+          firstName: input,
+          lastName: input,
+        },
+      });
     }),
 });
