@@ -20,7 +20,9 @@ import { api } from "./utils/api";
 // });
 
 export default authMiddleware({
-  publicRoutes: ["/api/webhook.ts"],
+  publicRoutes: [
+    "/inventory-management-nextjs-prisma.vercel.app/api/webhook.ts",
+  ],
 });
 
 export const config = {
