@@ -1,9 +1,5 @@
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
-import z, { any } from "zod";
 import { TRPCError } from "@trpc/server";
-import { error } from "console";
-import { api } from "~/utils/api";
-import { getQueryKey } from "@trpc/react-query";
 import { ProfileFormSchema } from "~/utils/validations/profile-form";
 
 export const userRouter = createTRPCRouter({
@@ -80,7 +76,7 @@ export const userRouter = createTRPCRouter({
       console.log("error", error);
     }
   }),
-  getById: privateProcedure.query(async ({ ctx }) => {
+  getById: privateProcedure.query(async ({ ctx, input }) => {
     const profileData = await ctx.prisma.user.findFirst({
       where: {
         id: ctx.userId,

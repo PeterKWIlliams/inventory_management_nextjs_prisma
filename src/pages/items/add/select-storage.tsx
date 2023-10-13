@@ -25,8 +25,6 @@ const selectStorage: NextPage = () => {
     };
   });
 
-  // console.log(transformedData);
-
   return (
     <Sidebar>
       <div className="ml-10 mr-10">

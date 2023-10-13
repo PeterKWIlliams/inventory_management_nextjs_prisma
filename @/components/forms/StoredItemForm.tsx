@@ -28,11 +28,18 @@ interface StoredItemFormProps {
 }
 
 const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
+  const defaultDate: Date = new Date(Date.now());
   const form = useForm<StoredItemFormDataType>({
     resolver: zodResolver(StoredItemFormSchema),
     defaultValues: {
       purchasePrice: 0,
       desiredQuantity: 0,
+      baseItemName: "",
+      baseType: "",
+      name: "",
+      supplierName: "",
+      expiryDate: defaultDate,
+      purchaseDate: defaultDate,
     },
   });
   return (

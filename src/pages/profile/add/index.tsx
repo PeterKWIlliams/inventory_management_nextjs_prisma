@@ -11,7 +11,6 @@ import { ProfileFormDataType } from "~/utils/validations/profile-form";
 
 const ProfileSetup: NextPage = () => {
   const user = useUser();
-  console.log(user);
 
   if (!user) return <div>you are not signed in</div>;
 

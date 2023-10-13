@@ -1,4 +1,6 @@
 import { authMiddleware } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
+import { api } from "./utils/api";
 
 // const publicRoutes = [
 //   "/",
@@ -9,7 +11,17 @@ import { authMiddleware } from "@clerk/nextjs";
 //   "/proxy(.*)",
 // ];
 
-export default authMiddleware();
+// export default authMiddleware({
+//   afterAuth(auth, req) {
+
+//     const profileAdd = new URL("/profile/add", req.url);
+//     return NextResponse.redirect(profileAdd);
+//   },
+// });
+
+export default authMiddleware({
+  ignoredRoutes: ["/api/{webhook}"],
+});
 
 export const config = {
   matcher: [
