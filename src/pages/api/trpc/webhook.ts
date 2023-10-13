@@ -6,6 +6,7 @@ import { Webhook } from "svix";
 import { env } from "~/env.mjs";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { ProfileFormDataType } from "~/utils/validations/profile-form";
 const webhookSecret: string = env.DATABASE_URL;
 toast;
 
@@ -32,11 +33,20 @@ export default async function handler(
   const eventType = evt.type;
   if (eventType === "user.created" && id !== undefined) {
     console.log(`User ${id} was ${eventType}`);
-    api.user.testApi.useMutation().mutate("Test Worked");
+    api.user.add.useMutation().mutate(dummyData);
     res.status(201).json({});
   }
 }
 
 type NextApiRequestWithSvixRequiredHeaders = NextApiRequest & {
   headers: IncomingHttpHeaders & WebhookRequiredHeaders;
+};
+
+let dummyData: ProfileFormDataType = {
+  city: "test",
+  email: "testworked@yahoo.com",
+  firstName: "test",
+  lastName: "test worked",
+  postcode: "testworked",
+  street: "testworked",
 };
