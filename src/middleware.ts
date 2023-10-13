@@ -20,7 +20,7 @@ import { api } from "./utils/api";
 // });
 
 export default authMiddleware({
-  ignoredRoutes: ["/api/{webhook}"],
+  publicRoutes: ["/api/webhook"],
 });
 
 export const config = {
