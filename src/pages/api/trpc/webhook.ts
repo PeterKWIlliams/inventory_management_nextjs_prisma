@@ -19,7 +19,7 @@ export default async function handler(
   const wh = new Webhook(webhookSecret);
 
   let evt: WebhookEvent;
-  toast.success("The webhook is being hit");
+
   try {
     // Verify the webhook payload and headers
     evt = (await wh.verify(payload, headers)) as WebhookEvent;
