@@ -37,7 +37,7 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
   data,
 }) => {
   return (
-    <Card className="sm:w-70 br h-65 mt-7 w-60 flex-col items-center justify-center overflow-hidden rounded-tl-3xl border-2 border-solid  border-amber-300  bg-slate-50 shadow-lg ">
+    <Card className="br h-65 w-50 mt-7 flex-col items-center justify-center overflow-hidden rounded-tl-3xl border-2 border-solid  border-amber-300  bg-slate-50 shadow-lg ">
       {" "}
       <Image
         alt="Location"
@@ -49,7 +49,7 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
       <div className="flex flex-col items-center  justify-center bg-lime-400 ">
         <div>
           <CardHeader>
-            <CardTitle className="text-2xl font-semibold text-gray-700">
+            <CardTitle className="text-xl font-semibold text-gray-700">
               {data.location.name}
             </CardTitle>
 

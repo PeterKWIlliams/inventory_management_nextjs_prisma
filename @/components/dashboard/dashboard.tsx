@@ -37,13 +37,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ data }) => {
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <CalendarDateRangePicker />
-            <Button>Download</Button>
-          </div>
+            <Button>change date</Button>
+          </div> */}
         </div>
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
+          {/* <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="reports" disabled>
@@ -52,24 +52,24 @@ const DashboardPage: FC<DashboardPageProps> = ({ data }) => {
             <TabsTrigger value="notifications" disabled>
               Notifications
             </TabsTrigger>
-          </TabsList>
+          </TabsList> */}
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <DashboardCard
                 cardTitle="Total locations"
-                stat={5}
-                extraInfo="You added 10 locations so far"
+                stat={transformedData.managedLocation.oneYear}
+                extraInfo={`You have added ${transformedData.storedItem.oneMonth} storage locations in the last month `}
               />
               <DashboardCard
                 cardTitle="Total storages"
                 stat={10}
-                extraInfo="You made 265 sales this month"
+                extraInfo={`You have added ${transformedData.storedItem.oneDay} items today `}
               />
 
               <DashboardCard
                 cardTitle="Total Items"
                 stat={transformedData.storedItem.oneYear}
-                extraInfo="amoount of items added last month"
+                extraInfo={`You have added ${transformedData.storedItem.oneMonth} in the last month`}
               />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -83,9 +83,9 @@ const DashboardPage: FC<DashboardPageProps> = ({ data }) => {
               </Card>
               <Card className="col-span-3">
                 <CardHeader>
-                  <CardTitle>Recent Additions</CardTitle>
+                  <CardTitle>Recent Item Additions</CardTitle>
                   <CardDescription>
-                    You made 265 sales this month.
+                    {`You have added ${transformedData.storedItem.oneDay} items today `}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

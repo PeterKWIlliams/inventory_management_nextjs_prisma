@@ -99,40 +99,69 @@ export const userRouter = createTRPCRouter({
   update: privateProcedure
     .input(ProfileFormSchema)
     .mutation(async ({ ctx, input }) => {
-      const updatedUser = await ctx.prisma.user.update({
-        where: {
-          id: ctx.userId,
-        },
-        data: {
-          firstName: input.firstName,
-          lastName: input.lastName,
-          email: input.email,
-        },
-      });
+      const { userId, prisma } = ctx;
+
       try {
-        await ctx.prisma.address.update({
-          where: {
-            id: updatedUser.addressId,
-          },
-          data: {
-            city: input.city,
-            postcode: input.postcode,
-            street: input.street,
-          },
+        const existingUser = await prisma.user.findUnique({
+          where: { id: userId },
+          include: { userAddress: true },
         });
-      } catch (error) {}
+
+        if (existingUser) {
+          if (existingUser.userAddress) {
+            await prisma.user.update({
+              where: { id: userId },
+              data: {
+                firstName: input.firstName,
+                lastName: input.lastName,
+                email: input.email,
+                userAddress: {
+                  update: {
+                    city: input.city,
+                    postcode: input.postcode,
+                    street: input.street,
+                  },
+                },
+              },
+            });
+          } else {
+            await prisma.user.update({
+              where: { id: userId },
+              data: {
+                firstName: input.firstName,
+                lastName: input.lastName,
+                email: input.email,
+                userAddress: {
+                  create: {
+                    city: input.city,
+                    postcode: input.postcode,
+                    street: input.street,
+                  },
+                },
+              },
+            });
+          }
+        } else {
+          throw new Error("User not found."); // Or handle this case as needed.
+        }
+      } catch (error) {
+        throw new Error(`Profile update failed: ${(error as Error).message}}`);
+      }
     }),
+
   testApi: privateProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
-      const updatedUser = await ctx.prisma.user.update({
-        where: {
-          id: ctx.userId,
-        },
+      const createUser = await ctx.prisma.user.create({
         data: {
-          firstName: input,
-          lastName: input,
+          firstName: "test worked",
+          lastName: "testWorked",
+          email: "testworked@gmail.com",
         },
       });
+
+      if (!createUser) {
+        throw new Error("no usercreated");
+      }
     }),
 });
