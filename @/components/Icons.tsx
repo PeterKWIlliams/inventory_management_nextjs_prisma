@@ -5,6 +5,8 @@ import {
   Home,
   Boxes,
   PlusCircle,
+  BadgeMinus,
+  BadgeX,
 } from "lucide-react";
 
 export const Icons = {
@@ -21,6 +23,8 @@ export const Icons = {
   Boxes,
   User,
   PlusCircle,
+  BadgeMinus,
+  BadgeX,
 };
 
 export type Icon = keyof typeof Icons;

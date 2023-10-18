@@ -14,7 +14,7 @@ import {
   ProfileFormDataType,
   ProfileFormSchema,
 } from "~/utils/validations/profile-form";
-import { Dispatch, FC, SetStateAction, useEffect } from "react";
+import { FC, useEffect } from "react";
 
 interface ProfileFormProps {
   buttonAction: string;
@@ -42,7 +42,7 @@ const ProfileForm: FC<ProfileFormProps> = ({
     if (defaultValues) {
       form.reset(defaultValues);
     }
-  }, [defaultValues]);
+  }, [defaultValues, buttonAction]);
 
   return (
     <>

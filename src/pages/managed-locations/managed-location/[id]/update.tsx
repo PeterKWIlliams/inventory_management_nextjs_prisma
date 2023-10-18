@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "@/components/Sidebar";
@@ -9,6 +9,7 @@ import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { useRouter } from "next/router";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import { GetStaticProps } from "next";
+import { ProfileFormDataType } from "~/utils/validations/profile-form";
 
 interface updateManagedLocationProps {
   id: string;
@@ -16,6 +17,20 @@ interface updateManagedLocationProps {
 
 const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
   const router = useRouter();
+  const { data: managedLocation, isLoading } =
+    api.managedLocation.getById.useQuery(id);
+  const [defaultValues, setDefaultValues] = useState(
+    {} as ManagedLocationFormDataType
+  );
+
+  useEffect(() => {
+    setDefaultValues({
+      city: managedLocation?.location.address.city || "",
+      name: managedLocation?.location.name || "",
+      postcode: managedLocation?.location.address.postcode || "",
+      street: managedLocation?.location.address.street || "",
+    });
+  }, [isLoading]);
 
   const updateManagedLocation = api.managedLocation.update.useMutation({
     onError: (error) => {
@@ -43,7 +58,11 @@ const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add Location</h1>
         <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
-        <ManagedLocationForm buttonAction={"Update"} onSubmit={onSubmit} />
+        <ManagedLocationForm
+          defaultValues={defaultValues}
+          buttonAction={"Update"}
+          onSubmit={onSubmit}
+        />
       </div>
     </Sidebar>
   );

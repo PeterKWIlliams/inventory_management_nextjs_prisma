@@ -15,29 +15,15 @@ import {
 const MyProfile: NextPage = ({}) => {
   const user = useUser();
 
-  const {
-    data: profileData,
-    isLoading: profileDataLoading,
-    isFetched,
-  } = api.user.getById.useQuery();
-
+  const { data: profileData, isLoading: profileDataLoading } =
+    api.user.getById.useQuery();
+  const ctx = api.useContext();
   const [buttonAction, setButtonAction] = useState("UPDATE");
-
   const [disabled, setDisabled] = useState(true);
-
   const [defaultValues, setDefaultValues] = useState({} as ProfileFormDataType);
 
   if (!user) return <div>you are not signed in</div>;
 
-  const { mutate: updateUser, isLoading: isUpdating } =
-    api.user.update.useMutation({
-      onError: (error) => {
-        toast.error(error.message);
-      },
-      onSuccess: () => {
-        toast.success("user updated");
-      },
-    });
   useEffect(() => {
     setDefaultValues({
       city: profileData?.userAddress?.street || "",
@@ -47,12 +33,24 @@ const MyProfile: NextPage = ({}) => {
       postcode: profileData?.userAddress?.postcode || "",
       street: profileData?.userAddress?.street || "",
     });
-  }, [profileDataLoading]);
+  }, [profileData]);
+
+  const { mutate: updateUser, isLoading: isUpdating } =
+    api.user.update.useMutation({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: () => {
+        toast.success("user updated");
+        ctx.user.getById.invalidate();
+      },
+    });
 
   const onSubmit = (data: ProfileFormDataType) => {
     setButtonAction("UPDATE");
     setDisabled(true);
     updateUser(data);
+    setDefaultValues(data);
   };
 
   const onPress = () => {

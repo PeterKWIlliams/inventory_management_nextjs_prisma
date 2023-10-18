@@ -11,11 +11,10 @@ import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 
 interface singleManagedLocationProps {
-  
   id: string;
 }
 
-const singleManagedLocation: FC<singleManagedLocationProps> = ({ id, }) => {
+const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
 
   if (isLoading) return <div>loading</div>;
@@ -30,19 +29,21 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id, }) => {
     };
   });
 
+  // const onClickDelete=()=>{
+  //   api.managedLocation.
+  // }
+
   return (
     <Sidebar>
-      <div className="flex justify-center text-lg">
-        <h1>{data.location.name}</h1>
-      </div>
+      <div className="flex justify-center text-lg"></div>
       <div className=" flex h-full w-full items-center justify-center ">
-        <SingleManagedLocationCard data={data} />
+        <SingleManagedLocationCard data={data} onClickDelete={() => {}} />
       </div>
       <div className="container mx-auto max-w-4xl py-10">
         {" "}
         <SingleManagedLocationsDataTable columns={columns} data={tableData} />
-        <div className="mt-5 flex justify-between">
-          <div>
+        <div className="mt-5  flex justify-between text-blue-600">
+          <div className=" ">
             <Link
               href={`/managed-locations/managed-location/${id}/addStorage`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"

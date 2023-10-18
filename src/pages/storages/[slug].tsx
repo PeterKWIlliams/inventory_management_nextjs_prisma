@@ -57,7 +57,7 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
           </div>
           <div>
             <Link
-              href={`/storage/${id}/update`}
+              href={`/storages/storage/${id}/update`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               <Icons.PlusCircle className=" opacity-50" />

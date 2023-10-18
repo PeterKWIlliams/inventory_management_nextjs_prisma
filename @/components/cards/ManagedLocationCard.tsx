@@ -12,6 +12,7 @@ import warehouse_pic_1 from "public/images/warehouse_pic_1.jpeg";
 import { Location } from "@prisma/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Icons } from "../Icons";
 
 interface ManagedLocationCardProps {
   data: {

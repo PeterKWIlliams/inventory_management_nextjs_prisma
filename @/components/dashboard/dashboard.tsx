@@ -18,7 +18,7 @@ import { RouterOutputs } from "~/utils/api";
 import { transformDashboardData } from "~/utils/helpers/getDashboardStats";
 
 export const metadata: Metadata = {
-  title: "Inventory Management",
+  title: "Inventory Manager",
   description: "Manage all your storage needs",
 };
 export type userData = RouterOutputs["user"]["getAllData"];

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Button } from "../ui/Button";
 import {
   ManagedLocationFormDataType,
@@ -19,15 +19,25 @@ import { Input } from "../ui/Input";
 interface ManagedLocationProps {
   onSubmit: (data: ManagedLocationFormDataType) => void;
   buttonAction: string;
+  defaultValues: ManagedLocationFormDataType;
 }
 
 const ManagedLocationForm: FC<ManagedLocationProps> = ({
   buttonAction,
   onSubmit,
+  defaultValues,
 }) => {
   const form = useForm<ManagedLocationFormDataType>({
     resolver: zodResolver(ManagedLocationFormSchema),
+    defaultValues: defaultValues,
   });
+
+  useEffect(() => {
+    if (defaultValues) {
+      form.reset(defaultValues);
+    }
+  }, [defaultValues]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col ">
