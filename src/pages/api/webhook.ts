@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 import { ProfileFormDataType } from "~/utils/validations/profile-form";
 import { prisma } from "~/server/db";
 
-const webhookSecret: string = process.env.WEBHOOK_SECRET2 || "";
+const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
 
 export default async function handler(
   req: NextApiRequestWithSvixRequiredHeaders,
