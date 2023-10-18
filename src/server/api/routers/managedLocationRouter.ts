@@ -183,7 +183,26 @@ export const managedLocationRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-
+  deleteById: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const managedLocation = await ctx.prisma.managedLocation.delete({
+          where: {
+            id: input.id,
+          },
+          include: {
+            location: {
+              include: {
+                address: true,
+              },
+            },
+          },
+        });
+      } catch (error) {
+        throw new Error("something went wrong");
+      }
+    }),
   // update: publicProcedure
   //   .input(
   //     z.object({

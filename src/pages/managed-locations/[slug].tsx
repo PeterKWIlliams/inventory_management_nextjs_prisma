@@ -9,13 +9,31 @@ import Link from "next/link";
 import { FC } from "react";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
-interface singleManagedLocationProps {
+interface SingleManagedLocationProps {
   id: string;
 }
 
-const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
+const SingleManagedLocation: FC<SingleManagedLocationProps> = ({ id }) => {
+  const router = useRouter();
+  // const ctx = api.useContext()
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
+  const { mutate: deleteManagedLocation, isLoading: isDeleting } =
+    api.managedLocation.deleteById.useMutation({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: async () => {
+        try {
+          toast.success("Location Deleted");
+          await router.push("/managed-locations");
+        } catch (error) {
+          toast.error("there was an issue in routing");
+        }
+      },
+    });
 
   if (isLoading) return <div>loading</div>;
   if (!data) return <div>no data</div>;
@@ -29,15 +47,15 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
     };
   });
 
-  // const onClickDelete=()=>{
-  //   api.managedLocation.
-  // }
+  const onClickDelete = () => {
+    deleteManagedLocation({ id });
+  };
 
   return (
     <Sidebar>
       <div className="flex justify-center text-lg"></div>
       <div className=" flex h-full w-full items-center justify-center ">
-        <SingleManagedLocationCard data={data} onClickDelete={() => {}} />
+        <SingleManagedLocationCard data={data} onClickDelete={onClickDelete} />
       </div>
       <div className="container mx-auto max-w-4xl py-10">
         {" "}
@@ -67,7 +85,7 @@ const singleManagedLocation: FC<singleManagedLocationProps> = ({ id }) => {
   );
 };
 
-export default singleManagedLocation;
+export default SingleManagedLocation;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();

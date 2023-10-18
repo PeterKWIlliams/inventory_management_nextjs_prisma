@@ -11,15 +11,36 @@ import { GetStaticProps } from "next/types";
 import { FC } from "react";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 interface SingleStorageProps {
   id: string;
 }
 
-const singleStorage: FC<SingleStorageProps> = ({ id }) => {
+const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
+  const router = useRouter();
   const { data, isLoading } = api.itemStorage.getById.useQuery(id);
+  const { mutate: deleteItemStorage } = api.itemStorage.deleteById.useMutation({
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: async () => {
+      try {
+        toast.success("Location Deleted");
+        await router.push("/storages");
+      } catch (error) {
+        toast.error("there was an issue in routing");
+      }
+    },
+  });
+
   if (!data) return <div>no data</div>;
   if (isLoading) return <div>loading</div>;
+
+  const onClickDelete = () => {
+    deleteItemStorage({ id });
+  };
 
   const realData = data.managedLocation;
   const singleStorageTableData = data.storedItem.map((item) => {
@@ -37,7 +58,7 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
       </div>
 
       <div className=" flex h-full w-full items-center justify-center ">
-        <ItemStorageCard realData={realData} />
+        <ItemStorageCard realData={realData} onClickDelete={onClickDelete} />
       </div>
 
       <div className="container mx-auto max-w-4xl py-10">
@@ -70,7 +91,7 @@ const singleStorage: FC<SingleStorageProps> = ({ id }) => {
   );
 };
 
-export default singleStorage;
+export default SingleStorage;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();

@@ -119,4 +119,17 @@ export const storedItemRouter = createTRPCRouter({
       );
     }
   }),
+  deleteById: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const storedItem = await ctx.prisma.storedItem.delete({
+          where: {
+            id: input.id,
+          },
+        });
+      } catch (error) {
+        throw new Error("something went wrong when trying to delete item");
+      }
+    }),
 });

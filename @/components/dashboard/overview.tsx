@@ -1,5 +1,12 @@
 import { FC } from "react";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 interface OverviewProps {
   data: Record<string, number>;
@@ -53,6 +60,7 @@ const Overview: FC<OverviewProps> = ({ data }) => {
             axisLine={false}
             allowDecimals={false}
           />
+          <CartesianGrid strokeDasharray="3 3" />
           <YAxis
             stroke="#888888"
             label={{
@@ -74,54 +82,3 @@ const Overview: FC<OverviewProps> = ({ data }) => {
   );
 };
 export default Overview;
-
-[
-  {
-    name: "Nov 2022",
-    total: 1,
-  },
-  {
-    name: "Dec 2022",
-    total: 0,
-  },
-  {
-    name: "Jan 2023",
-    total: 0,
-  },
-  {
-    name: "Feb 2023",
-    total: 0,
-  },
-  {
-    name: "Mar 2023",
-    total: 0,
-  },
-  {
-    name: "Apr 2023",
-    total: 0,
-  },
-  {
-    name: "May 2023",
-    total: 0,
-  },
-  {
-    name: "Jun 2023",
-    total: 0,
-  },
-  {
-    name: "Jul 2023",
-    total: 0,
-  },
-  {
-    name: "Aug 2023",
-    total: 0,
-  },
-  {
-    name: "Sep 2023",
-    total: 0,
-  },
-  {
-    name: "Oct 2023",
-    total: 1,
-  },
-];

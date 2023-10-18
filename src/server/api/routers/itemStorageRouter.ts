@@ -148,4 +148,19 @@ export const itemStorageRouter = createTRPCRouter({
     if (!itemStorage) throw new Error("Error getting storage");
     return itemStorage;
   }),
+  deleteById: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const itemStorage = await ctx.prisma.itemStorage.delete({
+          where: {
+            id: input.id,
+          },
+        });
+      } catch (error) {
+        throw new Error(
+          "something went wrong when trying to delete the item storage"
+        );
+      }
+    }),
 });

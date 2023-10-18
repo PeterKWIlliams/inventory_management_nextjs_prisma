@@ -6,8 +6,6 @@ import { env } from "~/env.mjs";
 
 import { RouterOutputs, api } from "~/utils/api";
 
-const addUser = () => {};
-
 const Home: NextPage = () => {
   const { data, isLoading } = api.user.getAllData.useQuery();
   const clearDatabase = api.itemStorage.deleteAll.useMutation();

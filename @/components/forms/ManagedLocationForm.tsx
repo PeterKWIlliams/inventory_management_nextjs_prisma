@@ -19,7 +19,7 @@ import { Input } from "../ui/Input";
 interface ManagedLocationProps {
   onSubmit: (data: ManagedLocationFormDataType) => void;
   buttonAction: string;
-  defaultValues: ManagedLocationFormDataType;
+  defaultValues?: ManagedLocationFormDataType;
 }
 
 const ManagedLocationForm: FC<ManagedLocationProps> = ({

@@ -39,11 +39,7 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
       const rowValue: string = row.getValue("managedLocation");
 
       return (
-        <Link
-          href={`/managed-locations/managed-location/${row.getValue(
-            "locationId"
-          )}`}
-        >
+        <Link href={`/managed-locations/${row.getValue("locationId")}`}>
           <div className="float-left text-blue-600 hover:font-semibold hover:text-violet-600">
             {rowValue}
           </div>

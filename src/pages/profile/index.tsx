@@ -21,9 +21,6 @@ const MyProfile: NextPage = ({}) => {
   const [buttonAction, setButtonAction] = useState("UPDATE");
   const [disabled, setDisabled] = useState(true);
   const [defaultValues, setDefaultValues] = useState({} as ProfileFormDataType);
-
-  if (!user) return <div>you are not signed in</div>;
-
   useEffect(() => {
     setDefaultValues({
       city: profileData?.userAddress?.street || "",
@@ -35,6 +32,8 @@ const MyProfile: NextPage = ({}) => {
     });
   }, [profileData]);
 
+  if (!user) return <div>you are not signed in</div>;
+
   const { mutate: updateUser, isLoading: isUpdating } =
     api.user.update.useMutation({
       onError: (error) => {
@@ -42,7 +41,7 @@ const MyProfile: NextPage = ({}) => {
       },
       onSuccess: () => {
         toast.success("user updated");
-        ctx.user.getById.invalidate();
+        void ctx.user.getById.invalidate();
       },
     });
 

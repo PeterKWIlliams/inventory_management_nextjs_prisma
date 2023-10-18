@@ -79,7 +79,7 @@ model ItemStorage {
   id                String          @id @default(cuid())
   name              String
   location          String
-  managedLocation   ManagedLocation @relation(fields: [managedLocationId], references: [id])
+  managedLocation   ManagedLocation @relation(fields: [managedLocationId], references: [id], onDelete: Cascade)
   managedLocationId String
   storedItem        StoredItem[]
   createdAt         DateTime        @default(now())
@@ -92,7 +92,7 @@ model StoredItem {
   id   String @id @default(cuid())
   name String
 
-  itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id])
+  itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id], onDelete: Cascade)
   itemStorageId String
   ItemInfo      ItemInfo[]
   createdAt     DateTime    @default(now())
@@ -108,7 +108,7 @@ model ItemInfo {
   expiryDate      DateTime?
   purchaseDate    DateTime
   purchasePrice   Float
-  storedItem      StoredItem @relation(fields: [storedItemId], references: [id])
+  storedItem      StoredItem @relation(fields: [storedItemId], references: [id], onDelete: Cascade)
   storedItemId    String
   BaseItem        BaseItem?  @relation(fields: [baseItemId], references: [id])
   baseItemId      String?
@@ -136,7 +136,7 @@ model ProductInfo {
   brand      String
   supplier   Supplier? @relation(fields: [supplierId], references: [id])
   supplierId String
-  product    Product   @relation(fields: [productId], references: [id])
+  product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId  String
   BaseItem   BaseItem? @relation(fields: [baseItemId], references: [id])
   baseItemId String

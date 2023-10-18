@@ -86,7 +86,10 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
                   </DialogDescription>
                 </DialogHeader>
                 <DialogTrigger>
-                  <Button className="bg-red-500 font-extrabold hover:bg-purple-600">
+                  <Button
+                    className="bg-red-500 font-extrabold hover:bg-purple-600"
+                    onClick={onClickDelete}
+                  >
                     OK
                   </Button>
                 </DialogTrigger>
@@ -100,5 +103,3 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
 };
 
 export default SingleManagedLocationCard;
-
-var containsDuplicate = function (nums: number[]) {};

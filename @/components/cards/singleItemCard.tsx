@@ -9,18 +9,31 @@ import {
 } from "../ui/Card";
 
 import type { ItemInfo } from "@prisma/client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/Dialog";
+import { Button } from "../ui/Button";
+import { Icons } from "../Icons";
 
 interface SingleItemCardProps {
   itemName: string;
   itemInfo: ItemInfo;
+  onClickDelete: () => void;
 }
 
-const SingleItemCard: FC<SingleItemCardProps> = ({ itemInfo, itemName }) => {
+const SingleItemCard: FC<SingleItemCardProps> = ({
+  itemInfo,
+  itemName,
+  onClickDelete,
+}) => {
   return (
     <>
-      <Card className="sm:w-70 br mt-7 w-96 flex-col overflow-hidden rounded-tl-3xl border-2 border-solid border-amber-300  bg-slate-50  shadow-lg  ">
-        <CardContent></CardContent>
-
+      <Card className="sm:w-70 br relative mt-7 w-96 flex-col overflow-hidden rounded-tl-3xl border-2 border-solid border-amber-300  bg-slate-50  shadow-lg  ">
         <div className="flex flex-col justify-between p-6">
           <div>
             <CardHeader>
@@ -43,9 +56,30 @@ const SingleItemCard: FC<SingleItemCardProps> = ({ itemInfo, itemName }) => {
               <p className=" text-gray-700">{}</p>
             </CardContent>
           </div>
-          <CardFooter className="mt-4 text-sm text-gray-500">
-            <p>Card Footer</p>
-          </CardFooter>
+          <div className="absolute bottom-2 right-2" style={{ color: "red" }}>
+            <Dialog>
+              <DialogTrigger>
+                <Icons.BadgeX className="hover:text-purple-600" />
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    this location and all of its contents.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogTrigger>
+                  <Button
+                    className="bg-red-500 font-extrabold hover:bg-purple-600"
+                    onClick={onClickDelete}
+                  >
+                    OK
+                  </Button>
+                </DialogTrigger>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </Card>
     </>
