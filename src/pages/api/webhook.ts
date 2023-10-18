@@ -19,7 +19,7 @@ export default async function handler(
   const wh = new Webhook(webhookSecret);
 
   let evt: WebhookEvent;
-  let user;
+
   try {
     // Verify the webhook payload and headers
 
