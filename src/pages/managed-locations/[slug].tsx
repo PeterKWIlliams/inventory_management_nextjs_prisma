@@ -25,13 +25,9 @@ const SingleManagedLocation: FC<SingleManagedLocationProps> = ({ id }) => {
       onError: (error) => {
         toast.error(error.message);
       },
-      onSuccess: async () => {
-        try {
-          toast.success("Location Deleted");
-          await router.push("/managed-locations");
-        } catch (error) {
-          toast.error("there was an issue in routing");
-        }
+      onSuccess: () => {
+        toast.success("Location Deleted");
+        void router.push("/managed-locations");
       },
     });
 

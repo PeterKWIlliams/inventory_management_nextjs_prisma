@@ -1,6 +1,4 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { createTRPCRouter, privateProcedure } from "../trpc";
-
 import z from "zod";
 
 export const managedLocationRouter = createTRPCRouter({

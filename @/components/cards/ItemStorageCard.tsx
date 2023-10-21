@@ -9,12 +9,7 @@ import {
 } from "../ui/Card";
 import Image from "next/image";
 import warehouse_pic_1 from "/public/images/warehouse_pic_1.jpeg";
-import {
-  ItemStorage,
-  Location,
-  ManagedLocation,
-  StoredItem,
-} from "@prisma/client";
+import { ManagedLocation } from "@prisma/client";
 import {
   Dialog,
   DialogContent,

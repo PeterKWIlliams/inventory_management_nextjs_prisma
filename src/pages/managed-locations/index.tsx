@@ -1,24 +1,9 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@radix-ui/react-popover";
 import { Icons } from "@/components/Icons";
 import ManagedLocationCard from "@/components/cards/ManagedLocationCard";
 import Sidebar from "@/components/Sidebar";
-import { Button } from "@/components/ui/Button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/Command";
-import { ChevronsUpDown, Check } from "lucide-react";
 import Link from "next/link";
 import React, { use, useEffect } from "react";
 import { FC } from "react";
-import { cn } from "~/lib/utils";
 import { api } from "~/utils/api";
 
 const ManagedLocations: FC = () => {

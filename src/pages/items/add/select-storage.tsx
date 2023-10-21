@@ -1,7 +1,7 @@
 import Sidebar from "@/components/Sidebar";
 import { AddItemColumns } from "@/components/dataTables/addItemColumns";
 import { AddItemmDataTable } from "@/components/dataTables/addItemDataTable";
-import { FC } from "react";
+
 import { api } from "~/utils/api";
 import type { AddItemTableData } from "@/components/dataTables/addItemColumns";
 import type { NextPage } from "next";

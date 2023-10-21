@@ -20,15 +20,10 @@ const ManagedLocationSetup: FC = () => {
   const addManagedLocation = api.managedLocation.add.useMutation({
     onError: (error) => {
       toast.error(error.message);
-      return;
     },
-    onSuccess: async (data) => {
-      try {
-        toast.success("Managed Location added!");
-        await router.push(`/managed-locations/${data.id}`);
-      } catch (error) {
-        toast.error("An error occurred while navigating.");
-      }
+    onSuccess: (data) => {
+      void router.push(`/managed-locations/${data.id}`);
+      toast.success("Successfully created new location.");
     },
   });
 

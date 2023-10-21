@@ -54,9 +54,9 @@ model Location {
   address         Address           @relation(fields: [addressId], references: [id])
   addressId       String
   managedLocation ManagedLocation[]
-  image_url       String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([addressId])
 }
@@ -65,6 +65,7 @@ model ManagedLocation {
   id          String        @id @default(cuid())
   user        User          @relation(fields: [userId], references: [id])
   location    Location      @relation(fields: [locationId], references: [id])
+  image_url   String?
   userId      String
   locationId  String
   itemStorage ItemStorage[]
@@ -79,6 +80,7 @@ model ItemStorage {
   id                String          @id @default(cuid())
   name              String
   location          String
+  image_url         String?
   managedLocation   ManagedLocation @relation(fields: [managedLocationId], references: [id], onDelete: Cascade)
   managedLocationId String
   storedItem        StoredItem[]
@@ -108,6 +110,7 @@ model ItemInfo {
   expiryDate      DateTime?
   purchaseDate    DateTime
   purchasePrice   Float
+  image_url       String?
   storedItem      StoredItem @relation(fields: [storedItemId], references: [id], onDelete: Cascade)
   storedItemId    String
   BaseItem        BaseItem?  @relation(fields: [baseItemId], references: [id])

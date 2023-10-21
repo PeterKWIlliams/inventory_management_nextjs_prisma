@@ -13,7 +13,6 @@ export const itemStorageRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("this is the create storage data", input);
       const itemStorage = await ctx.prisma.itemStorage.create({
         data: {
           name: input.name,

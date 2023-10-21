@@ -1,19 +1,11 @@
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
 import Sidebar from "@/components/Sidebar";
-
-import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
-
 import { FC } from "react";
 import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
-import { u } from "uploadthing/types-542f56b3";
 import { api } from "~/utils/api";
-import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
-import {
-  ItemStorageFormDataType,
-  UpdateItemStorageFormDataType,
-} from "~/utils/validations/add-itemStorage";
+import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 
 const ItemStorageSetup: FC = () => {
   const router = useRouter();

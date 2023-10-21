@@ -3,13 +3,11 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "@/components/Sidebar";
 import { AiFillEnvironment } from "react-icons/ai";
-import { useUser } from "@clerk/nextjs";
 import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
 import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { useRouter } from "next/router";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import { GetStaticProps } from "next";
-import { ProfileFormDataType } from "~/utils/validations/profile-form";
 
 interface updateManagedLocationProps {
   id: string;
@@ -37,13 +35,11 @@ const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
       toast.error(error.message);
       return;
     },
-    onSuccess: async (data) => {
-      try {
-        await router.push(`/managed-locations/${id}`);
-        toast.success("Managed Location added!");
-      } catch (error) {
-        toast.error("An error occurred while navigating.");
-      }
+    onSuccess: () => {
+      void router.push(`/managed-locations/${id}`);
+      toast.success("Managed Location added!");
+
+      toast.error("An error occurred while navigating.");
     },
   });
 

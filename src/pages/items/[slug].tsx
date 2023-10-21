@@ -17,13 +17,9 @@ const SingleItemView: FC<SingleItemViewProps> = ({ id }) => {
   const router = useRouter();
 
   const { mutate: deleteItem } = api.storedItem.deleteById.useMutation({
-    onSuccess: async () => {
-      try {
-        toast.success("Items successfully deleted");
-        await router.push("/items");
-      } catch (error) {
-        console.log("there was an issue in routing");
-      }
+    onSuccess: () => {
+      toast.success("Items successfully deleted");
+      void router.push("/items");
     },
     onError: (error) => {
       console.log(error.message);

@@ -1,6 +1,6 @@
 import Sidebar from "@/components/Sidebar";
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
-import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
+
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { FC } from "react";
@@ -25,11 +25,9 @@ const SpecificLocationAddStorage: FC<SpecificLocationAddStorageProps> = ({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: async (data) => {
-      try {
-        await router.push(`/managed-locations/${id}`);
-        toast.success("Item Storage added!");
-      } catch (error) {}
+    onSuccess: () => {
+      void router.push(`/managed-locations/${id}`);
+      toast.success("Item Storage added!");
     },
   });
 

@@ -14,13 +14,13 @@ const AddItem: FC = () => {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: async () => {
-      try {
-        await router.push(`/storages/${storageId}`);
+    onSuccess:  () => {
+ 
+        void router.push(`/storages/${storageId}`);
         toast.success("Item added!");
-      } catch (error) {
+ 
         toast.error("something went wrong please try again")
-      }
+   
     },
   });
 

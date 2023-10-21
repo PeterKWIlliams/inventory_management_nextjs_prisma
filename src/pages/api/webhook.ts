@@ -47,7 +47,7 @@ export default async function handler(
         throw new Error("not working");
       }
     } catch (error) {
-      res.status(400);
+      res.status(401);
     }
 
     res.status(201).json({});

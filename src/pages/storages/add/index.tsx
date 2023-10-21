@@ -1,8 +1,5 @@
-import { useUser } from "@clerk/nextjs";
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
 import Sidebar from "@/components/Sidebar";
-import { add } from "date-fns";
-
 import { FC } from "react";
 import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
@@ -28,6 +25,7 @@ const ItemStorageSetup: FC = () => {
   const onSubmit = (data: ItemStorageFormDataType) => {
     addItemStorage.mutate(data);
   };
+
   return (
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">

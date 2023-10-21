@@ -25,13 +25,13 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: async () => {
-      try {
+    onSuccess: () => {
+
         toast.success("Location Deleted");
-        await router.push("/storages");
-      } catch (error) {
-        toast.error("there was an issue in routing");
-      }
+        void router.push("/storages");
+   
+      
+
     },
   });
 
