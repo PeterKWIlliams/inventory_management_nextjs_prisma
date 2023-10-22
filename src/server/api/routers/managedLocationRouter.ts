@@ -149,7 +149,6 @@ export const managedLocationRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("it is hitting now ");
       try {
         const managedLocation =
           await ctx.prisma.managedLocation.findFirstOrThrow({
@@ -198,7 +197,7 @@ export const managedLocationRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        throw new Error("something went wrong");
+        throw new Error("something went wrong when deleting managed location");
       }
     }),
   // update: publicProcedure

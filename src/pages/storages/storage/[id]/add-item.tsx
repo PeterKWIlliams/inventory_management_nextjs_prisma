@@ -14,17 +14,12 @@ const AddItem: FC = () => {
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess:  () => {
- 
-        void router.push(`/storages/${storageId}`);
-        toast.success("Item added!");
- 
-        toast.error("something went wrong please try again")
-   
+    onSuccess: () => {
+      void router.push(`/storages/${storageId}`);
+      toast.success("Item added!");
     },
   });
 
-  console.log("this is the storage id", storageId);
   if (!storageId) return <div>go back</div>;
 
   const onSubmit = (data: StoredItemFormDataType) => {

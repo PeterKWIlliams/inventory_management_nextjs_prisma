@@ -8,6 +8,8 @@ const server = z.object({
   DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   WEBHOOK_SECRET: z.string(),
+  // VERCEL_URL: z.string().url(),
+  UPLOADTHING_SECRET: z.string(),
 });
 
 /**
@@ -31,6 +33,8 @@ const processEnv = {
   WEBHOOK_SECRET: process.env.WEBHOOK_SECRET,
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+  UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
+  // VERCEL_URL: process.env.VERCEL_URL,
 
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };

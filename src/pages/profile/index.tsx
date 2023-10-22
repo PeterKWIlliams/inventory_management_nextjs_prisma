@@ -17,6 +17,7 @@ const MyProfile: NextPage = ({}) => {
   const [buttonAction, setButtonAction] = useState("UPDATE");
   const [disabled, setDisabled] = useState(true);
   const [defaultValues, setDefaultValues] = useState({} as ProfileFormDataType);
+
   useEffect(() => {
     setDefaultValues({
       city: profileData?.userAddress?.street || "",
