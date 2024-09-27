@@ -49,11 +49,17 @@ const Overview: FC<OverviewProps> = ({ data }) => {
 
   return (
     <>
-      <ResponsiveContainer width="100%" height={350}>
+      <ResponsiveContainer width="100%" height={400}>
         <BarChart data={chartData}>
           <XAxis
             dataKey="name"
-            label={{ value: "Month", position: "insideBottom", dy: 10 }}
+            domain={["January", "December"]}
+            tick={{ dy: 20 }}
+            label={{
+              value: "Month",
+              position: "insideBottom",
+              dy: 20,
+            }}
             stroke="#888888"
             fontSize={12}
             tickLine={false}

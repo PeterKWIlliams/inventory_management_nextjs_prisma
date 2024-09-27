@@ -17,7 +17,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 import { cn } from "~/lib/utils";
 import { Input } from "../ui/Input";
 import {
-  StoredItemFormDataType,
+  type StoredItemFormDataType,
   StoredItemFormSchema,
 } from "~/utils/validations/item-form";
 import { format } from "date-fns";
@@ -44,7 +44,7 @@ const StoredItemForm: FC<StoredItemFormProps> = ({ onSubmit }) => {
   });
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}>
         <FormField
           control={form.control}
           name="name"

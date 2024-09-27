@@ -25,9 +25,9 @@ export const SingleItemStorageColumns: ColumnDef<SingleItemStorageTableData>[] =
       header: "Item",
       cell: ({ row }) => {
         const rowValue: string = row.getValue("itemName");
-
+        const itemId: string = row.getValue("itemId");
         return (
-          <Link href={`/items/${row.getValue("itemId")}`}>
+          <Link href={`/items/${itemId}`}>
             <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
               {rowValue}
             </div>
@@ -53,7 +53,7 @@ export const SingleItemStorageColumns: ColumnDef<SingleItemStorageTableData>[] =
       cell: ({ row }) => {
         const rowValue: string = row.getValue("price");
 
-        return <div className="text-right">{rowValue}</div>;
+        return <div className="float-right"> {rowValue}</div>;
       },
     },
   ];

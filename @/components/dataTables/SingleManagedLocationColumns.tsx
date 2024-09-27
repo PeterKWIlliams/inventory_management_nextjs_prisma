@@ -1,5 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/Button";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
@@ -26,9 +25,9 @@ export const columns: ColumnDef<SingleManagedLocationTableData>[] = [
     header: "Storage Name",
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
-
+      const storageId: string = row.getValue("storageId");
       return (
-        <Link href={`/storages/${row.getValue("storageId")}`}>
+        <Link href={`/storages/${storageId}`}>
           <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
             {rowValue}
           </div>

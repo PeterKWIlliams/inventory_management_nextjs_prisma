@@ -1,6 +1,5 @@
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 import { ProfileFormSchema } from "~/utils/validations/profile-form";
 
 export const userRouter = createTRPCRouter({
@@ -16,11 +15,11 @@ export const userRouter = createTRPCRouter({
           firstName: true,
         },
       });
-      if (user)
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "User already setup",
-        });
+      if (user) {
+        console.log("user already exists");
+        return;
+      }
+      console.log("user does not exist");
       const address = await ctx.prisma.address.create({
         data: {
           city: input.city,
@@ -77,7 +76,7 @@ export const userRouter = createTRPCRouter({
       console.log("error", error);
     }
   }),
-  getById: privateProcedure.query(async ({ ctx, input }) => {
+  getById: privateProcedure.query(async ({ ctx }) => {
     const profileData = await ctx.prisma.user.findFirst({
       where: {
         id: ctx.userId,
@@ -146,22 +145,6 @@ export const userRouter = createTRPCRouter({
         }
       } catch (error) {
         throw new Error(`Profile update failed: ${(error as Error).message}}`);
-      }
-    }),
-
-  testApi: privateProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      const createUser = await ctx.prisma.user.create({
-        data: {
-          firstName: "test worked",
-          lastName: "testWorked",
-          email: "testworked@gmail.com",
-        },
-      });
-
-      if (!createUser) {
-        throw new Error("no usercreated");
       }
     }),
 });

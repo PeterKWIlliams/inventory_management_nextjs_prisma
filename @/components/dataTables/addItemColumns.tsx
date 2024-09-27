@@ -23,9 +23,9 @@ export const AddItemColumns: ColumnDef<AddItemTableData>[] = [
     header: () => <div className="text-left">Storage</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
-
+      const storageId: string = row.getValue("storageId");
       return (
-        <Link href={`/storages/storage/${row.getValue("storageId")}/add-item`}>
+        <Link href={`/storages/storage/${storageId}/add-item`}>
           <div className="float-left text-left text-blue-600 hover:font-semibold hover:text-purple-600 ">
             {rowValue}
           </div>

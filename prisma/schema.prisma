@@ -12,7 +12,7 @@
 // }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -65,7 +65,8 @@ model ManagedLocation {
   id          String        @id @default(cuid())
   user        User          @relation(fields: [userId], references: [id])
   location    Location      @relation(fields: [locationId], references: [id])
-  image_url   String?
+  image_url   String
+  image_key   String?
   userId      String
   locationId  String
   itemStorage ItemStorage[]
@@ -80,7 +81,8 @@ model ItemStorage {
   id                String          @id @default(cuid())
   name              String
   location          String
-  image_url         String?
+  image_url         String
+  image_key         String?
   managedLocation   ManagedLocation @relation(fields: [managedLocationId], references: [id], onDelete: Cascade)
   managedLocationId String
   storedItem        StoredItem[]
@@ -91,9 +93,8 @@ model ItemStorage {
 }
 
 model StoredItem {
-  id   String @id @default(cuid())
-  name String
-
+  id            String      @id @default(cuid())
+  name          String
   itemStorage   ItemStorage @relation(fields: [itemStorageId], references: [id], onDelete: Cascade)
   itemStorageId String
   ItemInfo      ItemInfo[]
@@ -104,13 +105,13 @@ model StoredItem {
 }
 
 model ItemInfo {
-  id String @id @default(cuid())
-
+  id              String     @id @default(cuid())
   desiredQuantity Int?
   expiryDate      DateTime?
   purchaseDate    DateTime
   purchasePrice   Float
   image_url       String?
+  image_key       String?
   storedItem      StoredItem @relation(fields: [storedItemId], references: [id], onDelete: Cascade)
   storedItemId    String
   BaseItem        BaseItem?  @relation(fields: [baseItemId], references: [id])
@@ -152,9 +153,8 @@ model ProductInfo {
 }
 
 model Supplier {
-  id   String @id @default(cuid())
-  name String
-
+  id          String        @id @default(cuid())
+  name        String
   address     Address?      @relation(fields: [addressId], references: [id])
   addressId   String?
   productInfo ProductInfo[]

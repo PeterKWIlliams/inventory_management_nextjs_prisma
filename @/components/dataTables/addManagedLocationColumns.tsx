@@ -1,4 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
 // This type is used to define the shape of our data.
@@ -19,13 +19,9 @@ export const addManagedLocationsColumns: ColumnDef<AddManagedLocationTableData>[
       header: () => <div className="text-left">Managed Location</div>,
       cell: ({ row }) => {
         const rowValue: string = row.getValue("locationName");
-
+        const managedLocationId: string = row.getValue("managedLocationId");
         return (
-          <Link
-            href={`/managed-locations/managed-location/${row.getValue(
-              "managedLocationId"
-            )}/addStorage`}
-          >
+          <Link href={`/managed-locations/${managedLocationId}/add-storage`}>
             <div className="float-left text-left text-blue-600 hover:font-semibold hover:text-purple-600 ">
               {rowValue}
             </div>

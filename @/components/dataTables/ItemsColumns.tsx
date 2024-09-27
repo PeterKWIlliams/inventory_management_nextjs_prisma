@@ -1,5 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
+import { type ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/Button";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
@@ -23,9 +22,9 @@ export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
     header: "Item",
     cell: ({ row }) => {
       const rowValue: string = row.getValue("itemName");
-
+      const itemId: string = row.getValue("itemId");
       return (
-        <Link href={`/items/${row.getValue("itemId")}`}>
+        <Link href={`/items/${itemId}`}>
           <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
             {rowValue}
           </div>

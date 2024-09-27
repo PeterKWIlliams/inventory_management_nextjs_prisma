@@ -1,7 +1,9 @@
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+} from "@tanstack/react-table";
+import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -27,7 +29,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-export function AddItemmDataTable<TData, TValue>({
+export function AddItemDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -52,29 +54,29 @@ export function AddItemmDataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex justify-between items-center py-4">
+      <div className="flex items-center justify-between py-4">
         <Input
-          placeholder="Filter by name..."
+          placeholder="Filter by storage ..."
           value={
             (table.getColumn("locationName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
             table.getColumn("locationName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm border border-black"
         />
         <Input
-          placeholder="Filter by name..."
+          placeholder="Filter by location..."
           value={
             (table.getColumn("storageName")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
             table.getColumn("storageName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm border border-black"
         />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border border-black">
         <Table className="">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

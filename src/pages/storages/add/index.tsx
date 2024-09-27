@@ -1,10 +1,10 @@
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
 import Sidebar from "@/components/Sidebar";
-import { FC } from "react";
+import { type FC } from "react";
 import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
-import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
+import { type ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 
 const ItemStorageSetup: FC = () => {
   const managedLocations = api.managedLocation.getAllForUser

@@ -11,6 +11,14 @@ const config = {
   reactStrictMode: true,
   images: {
     domains: ["images.clerk.dev", "img.freepik.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        port: "",
+        pathname: "**",
+      },
+    ],
   },
 
   /**

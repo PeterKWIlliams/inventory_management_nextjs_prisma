@@ -1,19 +1,16 @@
-import { useUser } from "@clerk/nextjs";
 import { Icons } from "@/components/Icons";
 import Sidebar from "@/components/Sidebar";
 import {
   StorageColumns,
-  StorageTableData,
+  type StorageTableData,
 } from "@/components/dataTables/StorageColumns";
 import { StorageDataTable } from "@/components/dataTables/StorageDataTable";
 import Link from "next/link";
-import { FC } from "react";
+import { type FC } from "react";
 import { api } from "~/utils/api";
-import storage from "../items/[slug]";
 
 const Index: FC = () => {
-  const user = useUser();
-  const { data, isLoading, error } =
+  const { data, isLoading } =
     api.managedLocation.getAllForUserWithStorage.useQuery();
 
   if (isLoading) return <div>loading...</div>;
@@ -22,7 +19,6 @@ const Index: FC = () => {
 
   const transformedData: StorageTableData[] = data.flatMap((item) => {
     const managedLocation = item.location.name;
-
     const entries: StorageTableData[] = [];
 
     if (item.itemStorage && item.itemStorage.length > 0) {
@@ -31,7 +27,6 @@ const Index: FC = () => {
         const itemCount = storage._count?.storedItem || 0;
         const storageLocation = storage.location;
         const locationId = storage.managedLocationId;
-
         entries.push({
           managedLocation,
           storageName,
@@ -51,7 +46,7 @@ const Index: FC = () => {
       <div className="ml-10 mr-10">
         <h1 className="flex justify-center border-b-4 text-4xl">
           {" "}
-          Your storage
+          Your storages
         </h1>
         <h2>
           {" "}
@@ -64,10 +59,10 @@ const Index: FC = () => {
 
       <div className="container mx-auto max-w-4xl py-10">
         <Link
-          href="/managed-locations/add/select-location"
+          href="/storages/add/select-location"
           className="flex  flex-row font-bold  hover:text-purple-500"
         >
-          Add New Storage
+          ADD NEW STORAGE
           <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
         </Link>
         <StorageDataTable columns={StorageColumns} data={transformedData} />

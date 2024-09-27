@@ -19,13 +19,13 @@ export type StorageTableData = {
 export const StorageColumns: ColumnDef<StorageTableData>[] = [
   {
     accessorKey: "storageName",
-    header: () => <div className=" ">Storage Name</div>,
+    header: () => <div>Storage Name</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
-
+      const storageId: string = row.getValue("storageId");
       return (
-        <Link href={`/storages/${row.getValue("storageId")}`}>
-          <div className=" text-blue-600  hover:font-semibold hover:text-violet-600">
+        <Link href={`/storages/${storageId}`}>
+          <div className=" text-blue-600 hover:font-semibold hover:text-violet-600">
             {rowValue}
           </div>
         </Link>
@@ -37,9 +37,9 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
     header: () => <div className="text-left">managed location</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("managedLocation");
-
+      const locationId: string = row.getValue("locationId");
       return (
-        <Link href={`/managed-locations/${row.getValue("locationId")}`}>
+        <Link href={`/managed-locations/${locationId}`}>
           <div className="float-left text-blue-600 hover:font-semibold hover:text-violet-600">
             {rowValue}
           </div>

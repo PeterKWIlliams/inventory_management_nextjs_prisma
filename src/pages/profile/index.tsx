@@ -1,12 +1,12 @@
 import Sidebar from "@/components/Sidebar";
 import ProfileForm from "@/components/forms/ProfileForm";
 import { useUser } from "@clerk/nextjs";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
-import { ProfileFormDataType } from "~/utils/validations/profile-form";
+import { type ProfileFormDataType } from "~/utils/validations/profile-form";
 
 const MyProfile: NextPage = ({}) => {
   const user = useUser();
@@ -19,13 +19,16 @@ const MyProfile: NextPage = ({}) => {
   const [defaultValues, setDefaultValues] = useState({} as ProfileFormDataType);
 
   useEffect(() => {
+    const { userAddress, email, firstName, lastName } = profileData || {};
+    const { street, postcode } = userAddress || {};
+
     setDefaultValues({
-      city: profileData?.userAddress?.street || "",
-      email: profileData?.email || "",
-      firstName: profileData?.firstName || "",
-      lastName: profileData?.lastName || "",
-      postcode: profileData?.userAddress?.postcode || "",
-      street: profileData?.userAddress?.street || "",
+      city: street || "",
+      email: email || "",
+      firstName: firstName || "",
+      lastName: lastName || "",
+      postcode: postcode || "",
+      street: street || "",
     });
   }, [profileData]);
 

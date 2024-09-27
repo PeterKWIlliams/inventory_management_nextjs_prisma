@@ -1,15 +1,14 @@
-import { FC } from "react";
+import { type FC } from "react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from "../ui/Card";
 import Image from "next/image";
-import warehouse_pic_1 from "/public/images/warehouse_pic_1.jpeg";
-import { ManagedLocation } from "@prisma/client";
+
+import { type ManagedLocation } from "@prisma/client";
 import {
   Dialog,
   DialogContent,
@@ -22,36 +21,37 @@ import { Button } from "../ui/Button";
 import { Icons } from "../Icons";
 
 interface ItemStorageCardProps {
-  realData: ManagedLocation;
+  imgUrl: string;
+  storageData: ManagedLocation;
   onClickDelete: () => void;
 }
 
 const ItemStorageCard: FC<ItemStorageCardProps> = ({
-  realData,
+  imgUrl,
+  storageData,
   onClickDelete,
 }) => {
   return (
-    <Card className="br h-65 w-50 relative mt-7 flex-col items-center justify-center overflow-hidden rounded-3xl border-2  border-solid  border-amber-300  shadow-lg">
-      <Image
-        alt="Location"
-        src={warehouse_pic_1}
-        width={250}
-        height={200}
-        className="rounded-tl-2xl"
-      />
-      <div className="flex flex-col items-center  justify-center bg-lime-400 ">
+    <Card className="relative grid grid-cols-1 rounded-md border border-black bg-zinc-50 shadow-md">
+      <div className="h-56 w-80 ">
+        <Image
+          className="h-full w-full rounded-tl-md rounded-tr-md"
+          alt="Location"
+          src={imgUrl}
+          width={0}
+          height={0}
+          sizes="100vw"
+        />
+      </div>
+      <div className="flex flex-col items-center  justify-center ">
         <div>
           <CardHeader>
-            <CardTitle className="text-xl font-semibold text-gray-700">
-              {}
-            </CardTitle>
+            <CardTitle className="text-xl font-semibold text-gray-700"></CardTitle>
 
             <CardDescription className="text-gray-500"></CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col">
-            <p className="text-gray-700">{}</p>
-            <p className="text-gray-700">{}</p>
-            <p className="text-gray-700">{}</p>
+            <p className="text-gray-700">{storageData.id}</p>
           </CardContent>
           <div className="absolute bottom-2 right-2" style={{ color: "red" }}>
             <Dialog>
@@ -63,7 +63,7 @@ const ItemStorageCard: FC<ItemStorageCardProps> = ({
                   <DialogTitle>Are you sure absolutely sure?</DialogTitle>
                   <DialogDescription>
                     This action cannot be undone. This will permanently delete
-                    this item storage and all its contents
+                    this storage and all of its contents.
                   </DialogDescription>
                 </DialogHeader>
                 <DialogTrigger>

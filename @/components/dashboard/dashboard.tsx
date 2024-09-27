@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Button } from "../ui/Button";
 import {
   Card,
@@ -10,11 +10,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RecentSales } from "./recent-sales";
 import { CalendarDateRangePicker } from "./date-range-picker";
-import { FC } from "react";
+import type { FC } from "react";
 import DashboardCard from "./cards/dashboardCard";
 import Overview from "./overview";
 
-import { RouterOutputs } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 import { transformDashboardData } from "~/utils/helpers/getDashboardStats";
 
 export const metadata: Metadata = {
@@ -56,24 +56,24 @@ const DashboardPage: FC<DashboardPageProps> = ({ data }) => {
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <DashboardCard
-                cardTitle="Total locations"
+                cardTitle="Locations added past year"
                 stat={transformedData.managedLocation.oneYear}
-                extraInfo={`You have added ${transformedData.storedItem.oneMonth} storage locations in the last month `}
+                extraInfo={`You have added ${transformedData.managedLocation.oneYear} storage locations in the last month `}
               />
               <DashboardCard
-                cardTitle="Total storages"
-                stat={10}
+                cardTitle="Storages added past year"
+                stat={transformedData.itemStorage.oneYear}
                 extraInfo={`You have added ${transformedData.storedItem.oneDay} items today `}
               />
 
               <DashboardCard
-                cardTitle="Total Items"
+                cardTitle="Items added past year"
                 stat={transformedData.storedItem.oneYear}
                 extraInfo={`You have added ${transformedData.storedItem.oneMonth} in the last month`}
               />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
+              <Card className="col-span-4 border border-black">
                 <CardHeader>
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
@@ -81,7 +81,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ data }) => {
                   <Overview data={transformedData.monthlyTotals} />
                 </CardContent>
               </Card>
-              <Card className="col-span-3">
+              <Card className="col-span-3 border border-black">
                 <CardHeader>
                   <CardTitle>Recent Item Additions</CardTitle>
                   <CardDescription>

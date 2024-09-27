@@ -1,10 +1,9 @@
 import Sidebar from "@/components/Sidebar";
 import SingleItemCard from "@/components/cards/singleItemCard";
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 import toast from "react-hot-toast";
-import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 
@@ -29,18 +28,20 @@ const SingleItemView: FC<SingleItemViewProps> = ({ id }) => {
   const onClickDelete = () => {
     deleteItem({ id });
   };
-
   if (!data) return <div>no data</div>;
   const itemInfo = data.ItemInfo[0];
+
   if (isLoading) return <div>loading...</div>;
   if (!itemInfo) return <div>no item info</div>;
 
   return (
     <Sidebar>
       <div className="flex flex-col items-center ">
-        <h1 className="mb-7 text-5xl font-bold">{data.name}</h1>
-        <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
-        <div className=" inline-grid grid-cols-2 ">
+        <h1 className="mb-20  flex  justify-center text-5xl">
+          <span className="border-b border-t border-black ">{data.name}</span>
+        </h1>
+        <div className="flex flex-col">
+          Add Picture
           <SingleItemCard
             itemName={data.name}
             itemInfo={itemInfo}
@@ -57,14 +58,14 @@ export default SingleItemView;
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();
 
-  const slug = context.params?.slug as string;
+  const id = context.params?.id as string;
 
-  await ssg.storedItem.getById.prefetch(slug);
+  await ssg.storedItem.getById.prefetch(id);
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
-      id: context.params?.slug,
+      id: context.params?.id,
     },
   };
 };

@@ -1,7 +1,10 @@
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
+} from "@tanstack/react-table";
+
+import {
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -61,10 +64,10 @@ export function ItemsDataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("itemName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm border border-black"
         />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border border-black">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -116,6 +119,7 @@ export function ItemsDataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button
+          className="border border-black"
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
@@ -124,6 +128,7 @@ export function ItemsDataTable<TData, TValue>({
           Previous
         </Button>
         <Button
+          className="border border-black"
           variant="outline"
           size="sm"
           onClick={() => table.nextPage()}

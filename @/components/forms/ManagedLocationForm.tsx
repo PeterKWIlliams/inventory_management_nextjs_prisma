@@ -1,7 +1,7 @@
-import { FC, useEffect } from "react";
+import { type FC } from "react";
 import { Button } from "../ui/Button";
 import {
-  ManagedLocationFormDataType,
+  type ManagedLocationFormDataType,
   ManagedLocationFormSchema,
 } from "~/utils/validations/add-managedLocation";
 import {
@@ -32,15 +32,12 @@ const ManagedLocationForm: FC<ManagedLocationProps> = ({
     defaultValues: defaultValues,
   });
 
-  useEffect(() => {
-    if (defaultValues) {
-      form.reset(defaultValues);
-    }
-  }, [defaultValues]);
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col ">
+      <form
+        onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
+        className="flex-col"
+      >
         <div className="mt-4 gap-4">
           <FormField
             control={form.control}

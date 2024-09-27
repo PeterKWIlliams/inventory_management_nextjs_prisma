@@ -1,9 +1,9 @@
 import StoredItemForm from "@/components/forms/StoredItemForm";
 
-import { FC } from "react";
+import type { FC } from "react";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
-import { StoredItemFormDataType } from "~/utils/validations/item-form";
+import type { StoredItemFormDataType } from "~/utils/validations/item-form";
 import Sidebar from "@/components/Sidebar";
 import toast from "react-hot-toast";
 

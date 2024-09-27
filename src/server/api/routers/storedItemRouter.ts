@@ -1,30 +1,6 @@
 import { createTRPCRouter, privateProcedure } from "../trpc";
-
 import z from "zod";
-
-interface CreateItemData {
-  name: string;
-  itemStorageId: string;
-  ItemInfo: {
-    create: {
-      desiredQuantity: number;
-      expiryDate?: Date | null;
-      purchaseDate: Date;
-      purchasePrice: number;
-      BaseItem?: {
-        create: {
-          name: string;
-          type: string;
-        };
-      };
-      supplier?: {
-        create: {
-          name: string;
-        };
-      };
-    };
-  };
-}
+import { TRPCError } from "@trpc/server";
 export const storedItemRouter = createTRPCRouter({
   add: privateProcedure
     .input(
@@ -42,7 +18,7 @@ export const storedItemRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const storeItem = await ctx.prisma.storedItem.create({
+        await ctx.prisma.storedItem.create({
           data: {
             name: input.name,
             itemStorageId: input.itemStorageId,
@@ -66,8 +42,15 @@ export const storedItemRouter = createTRPCRouter({
         console.log(error);
       }
     }),
-  deleteAll: privateProcedure.mutation(({ ctx }) => {
-    const deleteUsers = ctx.prisma.storedItem.deleteMany({});
+  deleteAll: privateProcedure.mutation(async ({ ctx }) => {
+    try {
+      await ctx.prisma.storedItem.deleteMany({});
+    } catch (error) {
+      throw new TRPCError({
+        code: "UNPROCESSABLE_CONTENT",
+        message: "All items could not be deleted",
+      });
+    }
   }),
   getAllForUser: privateProcedure.query(async ({ ctx }) => {
     const userItems = await ctx.prisma.storedItem.findMany({
@@ -123,9 +106,46 @@ export const storedItemRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       try {
-        const storedItem = await ctx.prisma.storedItem.delete({
+        await ctx.prisma.storedItem.delete({
           where: {
             id: input.id,
+          },
+        });
+      } catch (error) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Item could not be deleted",
+        });
+      }
+    }),
+  update: privateProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        purchaseDate: z.coerce.date(),
+        purchasePrice: z.number(),
+        desiredQuantity: z.number(),
+        baseItemName: z.string(),
+        baseType: z.string(),
+        itemStorageId: z.string(),
+        expiryDate: z.coerce.date(),
+        supplierName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.itemInfo.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            id: input.id,
+
+            purchaseDate: input.purchaseDate,
+            purchasePrice: input.purchasePrice,
+            desiredQuantity: input.desiredQuantity,
+            expiryDate: input.expiryDate,
           },
         });
       } catch (error) {

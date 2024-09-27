@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { type FC } from "react";
 import { Button } from "../ui/Button";
 import {
   Form,
@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "../ui/Form";
 import {
-  ItemStorageFormDataType,
+  type ItemStorageFormDataType,
   ItemStorageFormSchema,
 } from "~/utils/validations/add-itemStorage";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,6 @@ import {
 } from "../ui/Command";
 import { cn } from "~/lib/utils";
 import { Input } from "../ui/Input";
-
 
 interface ItemStorageFormProps {
   buttonAction: string;
@@ -48,7 +47,10 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col">
+      <form
+        onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
+        className="flex-col"
+      >
         <div className="inline-flex justify-between">
           <FormField
             control={form.control}
@@ -118,7 +120,7 @@ const ItemStorageForm: FC<ItemStorageFormProps> = ({
                         <CommandItem
                           value={managedLocation.label}
                           key={managedLocation.value}
-                          onSelect={(value) => {
+                          onSelect={() => {
                             form.setValue(
                               "managedLocationId",
                               managedLocation.value

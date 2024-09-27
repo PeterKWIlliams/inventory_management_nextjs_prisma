@@ -1,21 +1,12 @@
-import { FC } from "react";
+import { type FC } from "react";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from "../ui/Card";
 import Image from "next/image";
-import warehouse_pic_1 from "/public/images/warehouse_pic_1.jpeg";
-import {
-  Address,
-  ItemInfo,
-  ItemStorage,
-  Location,
-  StoredItem,
-} from "@prisma/client";
 import { Icons } from "../Icons";
 import {
   Dialog,
@@ -26,22 +17,11 @@ import {
   DialogTrigger,
 } from "../ui/Dialog";
 import { Button } from "../ui/Button";
-import { record } from "zod";
+
+import { type managedLocationGetById } from "~/types/routerOutputTypes";
 
 interface SingleManagedLocationCardProps {
-  data: {
-    location: Location & {
-      address: Address;
-    };
-    itemStorage: (ItemStorage & {
-      storedItem: (StoredItem & {
-        ItemInfo: ItemInfo[];
-      })[];
-      _count: {
-        storedItem: number;
-      };
-    })[];
-  };
+  data: managedLocationGetById;
   onClickDelete: () => void;
 }
 
@@ -49,28 +29,25 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
   data,
   onClickDelete,
 }) => {
+  if (!data) return null;
   return (
-    <Card className="br h-65 w-50 relative mt-7 flex-col items-center justify-center overflow-hidden rounded-3xl border-2  border-solid  border-amber-300  shadow-lg">
-      <Image
-        alt="Location"
-        src={warehouse_pic_1}
-        width={250}
-        height={200}
-        className="rounded-tl-2xl"
-      />
-      <div className="flex flex-col items-center  justify-center bg-lime-400 ">
+    <Card className="relative grid grid-cols-1 rounded-md border border-black bg-zinc-50 shadow-md">
+      <div className="h-56 w-80 ">
+        <Image
+          className="h-full w-full rounded-tl-md rounded-tr-md"
+          alt="Location"
+          src={data.image_url}
+          width={0}
+          height={0}
+          sizes="100vw"
+        />
+      </div>
+      <div className="flex flex-col items-center  justify-center ">
         <div>
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-gray-700">
-              {data.location.name}
-            </CardTitle>
-
-            <CardDescription className="text-gray-500"></CardDescription>
-          </CardHeader>
           <CardContent className="flex flex-col">
-            <p className="text-gray-700">{data.location.address.street}</p>
-            <p className="text-gray-700">{data.location.address.city}</p>
-            <p className="text-gray-700">{data.location.address.postcode}</p>
+            <p className="text-gray-700">{data?.location.address.street}</p>
+            <p className="text-gray-700">{data?.location.address.city}</p>
+            <p className="text-gray-700">{data?.location.address.postcode}</p>
           </CardContent>
           <div className="absolute bottom-2 right-2" style={{ color: "red" }}>
             <Dialog>

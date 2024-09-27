@@ -61,10 +61,10 @@ export function SingleManagedLocationsDataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("storageName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm border border-black"
         />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border border-black ">
         <Table className="bg-white">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -116,6 +116,7 @@ export function SingleManagedLocationsDataTable<TData, TValue>({
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button
+          className="rounded-md border border-black "
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
@@ -124,6 +125,7 @@ export function SingleManagedLocationsDataTable<TData, TValue>({
           Previous
         </Button>
         <Button
+          className="rounded-md border border-black "
           variant="outline"
           size="sm"
           onClick={() => table.nextPage()}

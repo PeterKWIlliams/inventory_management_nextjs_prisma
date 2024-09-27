@@ -1,15 +1,15 @@
 import Sidebar from "@/components/Sidebar";
 import ItemStorageForm from "@/components/forms/ItemStorageForm";
 
-import { GetStaticProps } from "next";
+import { type GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { type FC } from "react";
 import toast from "react-hot-toast";
 
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
-import { ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
+import { type ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 interface SpecificLocationAddStorageProps {
   id: string;
 }
@@ -25,12 +25,11 @@ const SpecificLocationAddStorage: FC<SpecificLocationAddStorageProps> = ({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: () => {
-      void router.push(`/managed-locations/${id}`);
+    onSuccess: (data) => {
+      void router.push(`/storages/${data.id}`);
       toast.success("Item Storage added!");
     },
   });
-
   const onSubmit = (data: ItemStorageFormDataType) => {
     addItemStorage.mutate({
       location: data.location,

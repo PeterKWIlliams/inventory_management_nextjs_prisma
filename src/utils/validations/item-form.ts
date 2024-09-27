@@ -1,4 +1,3 @@
-import { check } from "prettier";
 import { z } from "zod";
 
 export const StoredItemFormSchema = z.object({

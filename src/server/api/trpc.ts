@@ -18,8 +18,6 @@ import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { prisma } from "~/server/db";
 
-type CreateContextOptions = Record<string, never>;
-
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
  * it from here.
@@ -29,12 +27,8 @@ type CreateContextOptions = Record<string, never>;
  * - tRPC's `createSSGHelpers`, where we don't have req/res
  *
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
+ *
  */
-// const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-//   return {
-//     prisma,
-//   };
-// };
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -44,29 +38,50 @@ type CreateContextOptions = Record<string, never>;
  */
 // export const createTRPCContext = (_opts: CreateNextContextOptions) => {
 //   return createInnerTRPCContext({});
+
 // };
-export const createTRPCContext = (opts: CreateNextContextOptions) => {
-  const { req } = opts;
-  const sesh = getAuth(req);
-  const userId = sesh.userId;
+
+import { TRPCError, initTRPC } from "@trpc/server";
+import type { inferAsyncReturnType } from "@trpc/server";
+import superjson from "superjson";
+import { ZodError } from "zod";
+import { getAuth } from "@clerk/nextjs/server";
+import type {
+  SignedInAuthObject,
+  SignedOutAuthObject,
+} from "@clerk/nextjs/server";
+
+interface AuthContext {
+  auth: SignedInAuthObject | SignedOutAuthObject;
+}
+// eslint-disable-next-line @typescript-eslint/require-await
+export const createContextInner = async ({ auth }: AuthContext) => {
+  const userId = auth.userId;
   return {
+    userId: userId,
     prisma,
-    userId,
   };
 };
+
+export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+  const { req } = opts;
+  const contextInner = await createContextInner({ auth: getAuth(req) });
+
+  return {
+    ...contextInner,
+  };
+};
+export type Context = inferAsyncReturnType<typeof createTRPCContext>;
 
 /**
  * 2. INITIALIZATION
  *
  * This is where the tRPC API is initialized, connecting the context and transformer.
  */
-import { TRPCError, initTRPC } from "@trpc/server";
-import superjson from "superjson";
-import { ZodError } from "zod";
-import { getAuth } from "@clerk/nextjs/server";
-import { error } from "console";
-const t = initTRPC.context<typeof createTRPCContext>().create({
+
+const t = initTRPC.context<Context>().create({
   transformer: superjson,
+
   errorFormatter({ shape, error }) {
     return {
       ...shape,
@@ -104,7 +119,7 @@ export const createTRPCRouter = t.router;
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.userId) {
     throw new TRPCError({
-      code: "UNAUTHORIZED",
+      code: "BAD_REQUEST",
     });
   }
 

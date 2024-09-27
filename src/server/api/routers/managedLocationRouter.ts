@@ -1,5 +1,7 @@
+import { managedLocationBaseImgUrl } from "~/utils/constants";
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import z from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const managedLocationRouter = createTRPCRouter({
   add: privateProcedure
@@ -9,41 +11,52 @@ export const managedLocationRouter = createTRPCRouter({
         city: z.string(),
         street: z.string(),
         postcode: z.string(),
-        userId: z.string(),
+        userId: z.string(), // Ensure userId is a valid UUID
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findFirst({
-        where: {
-          id: input.userId,
-        },
-      });
-      if (!user) throw new Error("Need to set up account first");
-      const address = await ctx.prisma.address.create({
-        data: {
-          city: input.city,
-          street: input.street,
-          postcode: input.postcode,
-        },
-      });
-      if (!address) throw new Error("Error creating address");
-      const location = await ctx.prisma.location.create({
-        data: {
-          name: input.name,
-          addressId: address.id,
-        },
-      });
-      if (!location) throw new Error("Error creating location");
-      const managedLocation = await ctx.prisma.managedLocation.create({
-        data: {
-          locationId: location.id,
-          userId: user.id,
-        },
-      });
-      if (!managedLocation) throw new Error("Error creating managed location");
-      return managedLocation;
-    }),
+      try {
+        const user = await ctx.prisma.user.findFirstOrThrow({
+          where: {
+            id: input.userId,
+          },
+        });
 
+        const managedLocation = await ctx.prisma.$transaction(async (tx) => {
+          const location = await tx.location.create({
+            data: {
+              name: input.name,
+              address: {
+                create: {
+                  city: input.city,
+                  street: input.street,
+                  postcode: input.postcode,
+                },
+              },
+            },
+          });
+          const managedLocation = await tx.managedLocation.create({
+            data: {
+              location: {
+                connect: { id: location.id },
+              },
+              user: {
+                connect: { id: user.id },
+              },
+              image_url: managedLocationBaseImgUrl,
+            },
+          });
+          return managedLocation;
+        });
+        return managedLocation;
+      } catch (error) {
+        console.error(error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong with managedLocation add route",
+        });
+      }
+    }),
   getAllForUser: privateProcedure.query(async ({ ctx }) => {
     const managedLocations = await ctx.prisma.managedLocation.findMany({
       where: {
@@ -52,6 +65,7 @@ export const managedLocationRouter = createTRPCRouter({
       include: {
         location: {
           include: {
+            managedLocation: true,
             address: true,
           },
         },
@@ -68,6 +82,7 @@ export const managedLocationRouter = createTRPCRouter({
         },
 
         select: {
+          image_url: true,
           location: {
             include: {
               address: true,
@@ -87,7 +102,7 @@ export const managedLocationRouter = createTRPCRouter({
           },
         },
       });
-      if (managedLocationData) return managedLocationData;
+      return managedLocationData;
     } catch (error) {
       console.log(error);
     }
@@ -110,6 +125,8 @@ export const managedLocationRouter = createTRPCRouter({
     return managedLocationsWithItems;
   }),
   getAllForUserWithStorage: privateProcedure.query(async ({ ctx }) => {
+    try {
+    } catch (error) {}
     const managedLocationsWithStorage =
       await ctx.prisma.managedLocation.findMany({
         where: {
@@ -150,14 +167,13 @@ export const managedLocationRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const managedLocation =
-          await ctx.prisma.managedLocation.findFirstOrThrow({
-            where: {
-              id: input.managedLocationId,
-            },
-          });
+        await ctx.prisma.managedLocation.findFirstOrThrow({
+          where: {
+            id: input.managedLocationId,
+          },
+        });
 
-        const updateManagedLocation = await ctx.prisma.managedLocation.update({
+        await ctx.prisma.managedLocation.update({
           where: {
             id: input.managedLocationId,
           },
@@ -177,14 +193,18 @@ export const managedLocationRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        console.log(error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Something went wrong with managedLocation update route while trying to update managed location",
+        });
       }
     }),
   deleteById: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       try {
-        const managedLocation = await ctx.prisma.managedLocation.delete({
+        await ctx.prisma.managedLocation.delete({
           where: {
             id: input.id,
           },
@@ -197,41 +217,11 @@ export const managedLocationRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        throw new Error("something went wrong when deleting managed location");
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message:
+            "Something went wrong with managedLocation delete route while deleting a managed location",
+        });
       }
     }),
-  // update: publicProcedure
-  //   .input(
-  //     z.object({
-  //       id: z.number(),
-  //       name: z.string(),
-  //       addressId: z.number(),
-  //     })
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     try {
-  //       await ctx.prisma.household.update({
-  //         where: {
-  //           id: input.id,
-  //         },
-  //         data: {
-  //           name: input.name,
-  //           addressId: input.addressId,
-  //         },
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }),
-  // delete: publicProcedure.input(z.number()).mutation(async ({ ctx, input }) => {
-  //   try {
-  //     await ctx.prisma.household.delete({
-  //       where: {
-  //         id: input,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }),
 });

@@ -11,10 +11,10 @@ import {
 } from "../ui/Form";
 import { Input } from "../ui/Input";
 import {
-  ProfileFormDataType,
+  type ProfileFormDataType,
   ProfileFormSchema,
 } from "~/utils/validations/profile-form";
-import { FC, useEffect } from "react";
+import { type FC, useEffect } from "react";
 
 interface ProfileFormProps {
   buttonAction: string;
@@ -42,12 +42,15 @@ const ProfileForm: FC<ProfileFormProps> = ({
     if (defaultValues) {
       form.reset(defaultValues);
     }
-  }, [defaultValues, buttonAction]);
+  }, [defaultValues, form]);
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex-col">
+        <form
+          onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
+          className="flex-col"
+        >
           <div className="mt-4 gap-4 md:inline-flex">
             <FormField
               control={form.control}

@@ -2,48 +2,61 @@ import { Icons } from "@/components/Icons";
 import ManagedLocationCard from "@/components/cards/ManagedLocationCard";
 import Sidebar from "@/components/Sidebar";
 import Link from "next/link";
-import React, { use, useEffect } from "react";
-import { FC } from "react";
+import React from "react";
+import { type FC } from "react";
 import { api } from "~/utils/api";
 
 const ManagedLocations: FC = () => {
   const { data, isLoading } = api.managedLocation.getAllForUser.useQuery();
-  // const [open, setOpen] = React.useState(false);
-  // const [value, setValue] = React.useState("");
-  // const [currentData, setCurrentData] = React.useState(data);
-  // useEffect(() => {
-  //   setCurrentData(data);
-  // }, [data]);
 
   if (isLoading) return <div>loading...</div>;
   if (!data) return <div>No locations </div>;
-  // if (!currentData) return <div>no current data </div>;
 
-  const managedLocations = data.map((location) => {
-    return { label: location.location.name, value: location.id };
-  });
+  // if (!currentData) return <div>no current data </div>;
 
   return (
     <Sidebar>
-      <div className="ml-10 mr-10">
-        <h1 className="flex justify-center border-b-4 text-6xl">Locations </h1>
+      <div className="flex flex-col">
+        <h1 className="mb-20 flex justify-center text-2xl md:text-5xl">
+          <span className="border-b border-t border-black">LOCATIONS</span>
+        </h1>
         <h2>
-          {" "}
-          <div
-            className="mt-5 flex flex-shrink-0 
-            text-lg"
-          >
+          <div className="mt-8 flex flex-shrink-0 text-lg">
             <Link
               href="/managed-locations/add "
-              className="flex flex-shrink-0 flex-row  hover:text-purple-500"
+              className="flex space-x-3 hover:text-purple-500"
             >
-              add new location
-              <Icons.PlusCircle className="ml-2 mt-1 opacity-50" />
+              <Icons.PlusCircle className="opacity-50" />
+              <p className="">ADD NEW LOCATION</p>
             </Link>
           </div>
         </h2>
-        {/* Come Back to this when you want to implement a search functionality */}
-        {/* <Popover open={open} onOpenChange={setOpen}>
+        <div className="flex items-center justify-center justify-items-center">
+          <div className="mt-20 grid w-4/5 grid-cols-1 gap-10 lg:grid-cols-2 2xl:grid-cols-3">
+            {data.map((data, index) => (
+              <ManagedLocationCard
+                key={index}
+                data={{
+                  imgUrl: data.image_url,
+                  id: data.id,
+                  location: data.location,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </Sidebar>
+  );
+};
+
+export default ManagedLocations;
+
+{
+  /* Come Back to this when you want to implement a search functionality */
+}
+{
+  /* <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
@@ -86,16 +99,5 @@ const ManagedLocations: FC = () => {
               </CommandGroup>
             </Command>
           </PopoverContent>
-        </Popover> */}
-
-        <div className="mt-2  grid grid-cols-1 gap-10 lg:grid-cols-3">
-          {data.map((data, index) => (
-            <ManagedLocationCard key={index} data={data} />
-          ))}
-        </div>
-      </div>
-    </Sidebar>
-  );
-};
-
-export default ManagedLocations;
+        </Popover> */
+}

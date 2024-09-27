@@ -1,4 +1,4 @@
-import { userData } from "@/components/dashboard/dashboard";
+import { type userData } from "@/components/dashboard/dashboard";
 
 interface Stats {
   managedLocation: {
@@ -16,7 +16,7 @@ interface Stats {
     oneMonth: number;
     oneYear: number;
   };
-  monthlyTotals: Record<string, number>; // Add this property
+  monthlyTotals: Record<string, number>;
 }
 
 export function transformDashboardData(data: userData): Stats {
@@ -42,7 +42,7 @@ export function transformDashboardData(data: userData): Stats {
       oneMonth: 0,
       oneYear: 0,
     },
-    monthlyTotals: {}, // Initialize the monthlyTotals property
+    monthlyTotals: {},
   };
 
   data.forEach((managedLocation) => {
@@ -55,7 +55,6 @@ export function transformDashboardData(data: userData): Stats {
     if (createdAt >= oneMonthAgo) {
       stats.managedLocation.oneMonth += 1;
     }
-
     if (createdAt >= oneYearAgo) {
       stats.managedLocation.oneYear += 1;
     }
@@ -90,13 +89,11 @@ export function transformDashboardData(data: userData): Stats {
           stats.storedItem.oneYear += 1;
         }
 
-        // Calculate the month and year for the storedItem
         const monthYearKey =
           storedItemCreatedAt.toLocaleString("default", { month: "long" }) +
           " " +
-          storedItemCreatedAt.getFullYear().toString(); // Convert the year to a string
+          storedItemCreatedAt.getFullYear().toString();
 
-        // Update the monthlyTotals property
         stats.monthlyTotals[monthYearKey] =
           (stats.monthlyTotals[monthYearKey] || 0) + 1;
       });

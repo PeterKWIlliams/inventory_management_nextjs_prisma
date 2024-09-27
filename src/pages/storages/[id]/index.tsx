@@ -7,8 +7,8 @@ import { SingleItemStorageColumns } from "@/components/dataTables/SingleItemStor
 
 import Link from "next/link";
 
-import { GetStaticProps } from "next/types";
-import { FC } from "react";
+import { type GetStaticProps } from "next/types";
+import { type FC } from "react";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import toast from "react-hot-toast";
@@ -26,12 +26,8 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
       toast.error(error.message);
     },
     onSuccess: () => {
-
-        toast.success("Location Deleted");
-        void router.push("/storages");
-   
-      
-
+      toast.success("Location Deleted");
+      void router.push("/storages");
     },
   });
 
@@ -42,7 +38,6 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
     deleteItemStorage({ id });
   };
 
-  const realData = data.managedLocation;
   const singleStorageTableData = data.storedItem.map((item) => {
     return {
       itemName: item.name,
@@ -58,7 +53,11 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
       </div>
 
       <div className=" flex h-full w-full items-center justify-center ">
-        <ItemStorageCard realData={realData} onClickDelete={onClickDelete} />
+        <ItemStorageCard
+          imgUrl={data.image_url}
+          storageData={data.managedLocation}
+          onClickDelete={onClickDelete}
+        />
       </div>
 
       <div className="container mx-auto max-w-4xl py-10">
@@ -69,7 +68,7 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
         <div className="mt-5 flex justify-between">
           <div>
             <Link
-              href={`/storages/storage/${id}/add-item`}
+              href={`/storages/${id}/add-item`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               <Icons.PlusCircle className=" opacity-50" />
@@ -78,7 +77,7 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
           </div>
           <div>
             <Link
-              href={`/storages/storage/${id}/update`}
+              href={`/storages/${id}/update`}
               className="flex flex-shrink-0 flex-row  hover:text-purple-500"
             >
               <Icons.PlusCircle className=" opacity-50" />
@@ -96,14 +95,14 @@ export default SingleStorage;
 export const getStaticProps: GetStaticProps = async (context) => {
   const ssg = generateSSGHelper();
 
-  const slug = context.params?.slug as string;
+  const id = context.params?.id as string;
 
-  await ssg.itemStorage.getById.prefetch(slug);
+  await ssg.itemStorage.getById.prefetch(id);
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
-      id: context.params?.slug,
+      id: context.params?.id,
     },
   };
 };

@@ -1,5 +1,4 @@
 import { authMiddleware } from "@clerk/nextjs";
-
 // const publicRoutes = [
 //   "/",
 //   "/sign-in",
@@ -16,27 +15,21 @@ import { authMiddleware } from "@clerk/nextjs";
 //     return NextResponse.redirect(profileAdd);
 //   },
 // });
+//
 
 export default authMiddleware({
-  publicRoutes: ["/api/webhook.ts", "/api/webhook"],
-  ignoredRoutes: ["/api/webhook"],
+  publicRoutes: ["/api/webhook", "/api/uploadthing", "/"],
 });
 
 export const config = {
   matcher: [
-    "/((?!.*\\..*|_next).*)",
+    "/((?!.+\\.[\\w]+$|_next).*)",
     "/",
     "/(api|trpc)(.*)",
     "/((?!static|.*\\..*|_next|favicon.ico).*)",
+    "/((?!_next/image|_next/static|favicon.ico).*)",
+    "/((?!.*\\..*|_next).*)",
     "/",
+    "/(api|trpc)(.*)",
   ],
 };
-
-// import { getAuth } from "@clerk/nextjs/server";
-// import type { NextApiRequest, NextApiResponse } from 'next'
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   const { userId } = getAuth(req);
-//     // Load any data your application needs for the API route
-//   return res.status(200).json({data})
-// };

@@ -3,8 +3,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { WebhookRequiredHeaders } from "svix";
 import type { WebhookEvent } from "@clerk/nextjs/server";
 import { Webhook } from "svix";
-import { api } from "~/utils/api";
-import { ProfileFormDataType } from "~/utils/validations/profile-form";
 import { prisma } from "~/server/db";
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET || "";
@@ -44,7 +42,7 @@ export default async function handler(
         },
       });
       if (!user) {
-        throw new Error("not working");
+        throw new Error("there was an error setting up the account");
       }
     } catch (error) {
       res.status(401);
@@ -53,8 +51,11 @@ export default async function handler(
     res.status(201).json({});
   }
   if (eventType === "user.deleted" && id !== undefined) {
-    console.log(evt);
-    console.log(`User ${id} was ${eventType}`);
+    await prisma.user.delete({
+      where: {
+        id: evt.data.id,
+      },
+    });
 
     res.status(201).json({});
   }

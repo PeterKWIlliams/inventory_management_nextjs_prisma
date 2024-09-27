@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { type FC } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "@/components/Sidebar";
 import { AiFillEnvironment } from "react-icons/ai";
 import { useUser } from "@clerk/nextjs";
-import { ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
+import { type ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
 import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { useRouter } from "next/router";
 
