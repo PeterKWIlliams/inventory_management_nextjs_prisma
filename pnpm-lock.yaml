@@ -89,6 +89,9 @@ dependencies:
   npm:
     specifier: ^10.1.0
     version: 10.8.3
+  react:
+    specifier: ^18.2.0
+    version: 18.3.1
   react-day-picker:
     specifier: ^8.7.1
     version: 8.10.1(date-fns@2.30.0)(react@18.3.1)
