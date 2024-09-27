@@ -7,10 +7,11 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import type { ItemsTableData } from "@/components/dataTables/ItemsColumns";
 import { type NextPage } from "next";
+import Loading from "@/components/loading";
 
 const Items: NextPage = () => {
   const { data, isLoading } = api.storedItem.getAllForUser.useQuery();
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
 
   const transformedData: ItemsTableData[] = data.map((item) => {

@@ -8,12 +8,13 @@ import { StorageDataTable } from "@/components/dataTables/StorageDataTable";
 import Link from "next/link";
 import { type FC } from "react";
 import { api } from "~/utils/api";
+import Loading from "@/components/loading";
 
 const Index: FC = () => {
   const { data, isLoading } =
     api.managedLocation.getAllForUserWithStorage.useQuery();
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
   console.log(data);
 

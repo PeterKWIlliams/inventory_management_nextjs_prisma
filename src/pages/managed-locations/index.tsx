@@ -5,11 +5,12 @@ import Link from "next/link";
 import React from "react";
 import { type FC } from "react";
 import { api } from "~/utils/api";
+import Loading from "@/components/loading";
 
 const ManagedLocations: FC = () => {
   const { data, isLoading } = api.managedLocation.getAllForUser.useQuery();
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>No locations </div>;
 
   // if (!currentData) return <div>no current data </div>;

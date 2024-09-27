@@ -3,11 +3,12 @@ import DashboardPage from "@/components/dashboard/dashboard";
 
 import type { NextPage } from "next";
 import { api } from "~/utils/api";
+import Loading from "@/components/loading";
 
 const Home: NextPage = () => {
   const { data, isLoading } = api.user.getAllData.useQuery();
 
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
 
   // console.log(data);

@@ -10,6 +10,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
+import Loading from "@/components/loading";
 
 interface SingleManagedLocationProps {
   id: string;
@@ -29,7 +30,7 @@ const SingleManagedLocation: FC<SingleManagedLocationProps> = ({ id }) => {
       },
     });
 
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
 
   const tableData = data.itemStorage.map((storage) => {

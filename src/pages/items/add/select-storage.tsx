@@ -7,12 +7,13 @@ import type { AddItemTableData } from "@/components/dataTables/addItemColumns";
 import type { NextPage } from "next";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/router";
+import Loading from "@/components/loading";
 
 const SelectStorage: NextPage = () => {
   const { data, isLoading } = api.itemStorage.getAllForUser.useQuery();
   const router = useRouter();
 
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
   console.log(data);
 

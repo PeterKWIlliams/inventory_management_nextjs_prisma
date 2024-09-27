@@ -6,6 +6,7 @@ import type { FC } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
+import Loading from "@/components/loading";
 
 interface SingleItemViewProps {
   id: string;
@@ -28,10 +29,10 @@ const SingleItemView: FC<SingleItemViewProps> = ({ id }) => {
   const onClickDelete = () => {
     deleteItem({ id });
   };
-  if (!data) return <div>no data</div>;
+  if (!data) return <Loading />;
   const itemInfo = data.ItemInfo[0];
 
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <Loading />;
   if (!itemInfo) return <div>no item info</div>;
 
   return (

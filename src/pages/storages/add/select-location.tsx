@@ -6,11 +6,12 @@ import {
 } from "@/components/dataTables/addManagedLocationColumns";
 import { type FC } from "react";
 import { api } from "~/utils/api";
+import Loading from "@/components/loading";
 
 const selectLocation: FC = ({}) => {
   const { data, isLoading } = api.managedLocation.getAllForUser.useQuery();
 
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
 
   const transformedData: AddManagedLocationTableData[] = data.map(

@@ -15,6 +15,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Toaster position="bottom-center" />
+
       <SignedOut>
         <LandingPage></LandingPage>
       </SignedOut>

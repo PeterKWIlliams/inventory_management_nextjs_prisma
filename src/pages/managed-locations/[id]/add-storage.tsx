@@ -10,6 +10,7 @@ import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import { type ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
+import Loading from "@/components/loading";
 interface SpecificLocationAddStorageProps {
   id: string;
 }
@@ -37,7 +38,7 @@ const SpecificLocationAddStorage: FC<SpecificLocationAddStorageProps> = ({
       managedLocationId: id,
     });
   };
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
 
   return (

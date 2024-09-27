@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { AiFillEnvironment } from "react-icons/ai";
 import { api } from "~/utils/api";
 import { type ProfileFormDataType } from "~/utils/validations/profile-form";
+import Loading from "@/components/loading";
 
 const MyProfile: NextPage = ({}) => {
   const user = useUser();
@@ -56,7 +57,7 @@ const MyProfile: NextPage = ({}) => {
     setButtonAction("SUBMIT");
     setDisabled(false);
   };
-  if (profileDataLoading) return <div>Loading</div>;
+  if (profileDataLoading) return <Loading />;
   return (
     <Sidebar>
       <div className="mt-9 flex flex-col items-center">

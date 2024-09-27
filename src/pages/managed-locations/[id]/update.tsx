@@ -8,13 +8,13 @@ import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
 import { useRouter } from "next/router";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import { type GetStaticProps } from "next";
+import Loading from "@/components/loading";
 
 interface updateManagedLocationProps {
   id: string;
 }
 
 const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
-  
   const router = useRouter();
   const { data: managedLocation, isLoading } =
     api.managedLocation.getById.useQuery(id);
@@ -48,7 +48,7 @@ const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
     });
   };
 
-  if (isLoading) return <div>IsLoading</div>;
+  if (isLoading) return <Loading />;
 
   return (
     <Sidebar>
