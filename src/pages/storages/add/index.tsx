@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import { type ItemStorageFormDataType } from "~/utils/validations/add-itemStorage";
 
 const ItemStorageSetup: FC = () => {
+  const ctx = api.useUtils();
   const managedLocations = api.managedLocation.getAllForUser
     .useQuery()
     .data?.map((location) => {
@@ -18,6 +19,7 @@ const ItemStorageSetup: FC = () => {
     },
     onSuccess: () => {
       toast.success("Item Storage added!");
+      void ctx.itemStorage.getAllForUser.invalidate();
     },
   });
   if (!managedLocations) return <div>no managedlocations to add </div>;

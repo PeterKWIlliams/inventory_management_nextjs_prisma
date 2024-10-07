@@ -10,12 +10,14 @@ import { type StoredItemFormDataType } from "~/utils/validations/item-form";
 const AddItem: FC = () => {
   const router = useRouter();
   const storageId = router.query.id as string;
+  const ctx = api.useUtils();
   const addItem = api.storedItem.add.useMutation({
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: () => {
       void router.push(`/storages/${storageId}`);
+      void ctx.storedItem.getAllForUser.invalidate();
       toast.success("Item added!");
     },
   });

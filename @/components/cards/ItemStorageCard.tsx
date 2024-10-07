@@ -51,7 +51,16 @@ const ItemStorageCard: FC<ItemStorageCardProps> = ({
             <CardDescription className="text-gray-500"></CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col">
-            <p className="text-gray-700">{storageData.id}</p>
+            <ul>
+              <li className="text-gray-700">
+                Created At:
+                {storageData.createdAt.toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "2-digit",
+                })}
+              </li>
+            </ul>
           </CardContent>
           <div className="absolute bottom-2 right-2" style={{ color: "red" }}>
             <Dialog>

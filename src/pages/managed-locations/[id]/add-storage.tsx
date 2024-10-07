@@ -19,6 +19,7 @@ const SpecificLocationAddStorage: FC<SpecificLocationAddStorageProps> = ({
   id,
 }) => {
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
+  const ctx = api.useUtils();
 
   const router = useRouter();
 
@@ -27,6 +28,11 @@ const SpecificLocationAddStorage: FC<SpecificLocationAddStorageProps> = ({
       toast.error(error.message);
     },
     onSuccess: (data) => {
+      ctx.itemStorage.getAllForUser.setData(undefined, (oldData) => {
+        return oldData
+          ? oldData.filter((item) => item.id !== data.id)
+          : oldData;
+      });
       void router.push(`/storages/${data.id}`);
       toast.success("Item Storage added!");
     },

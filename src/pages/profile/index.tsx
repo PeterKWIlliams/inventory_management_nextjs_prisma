@@ -14,7 +14,7 @@ const MyProfile: NextPage = ({}) => {
 
   const { data: profileData, isLoading: profileDataLoading } =
     api.user.getById.useQuery();
-  const ctx = api.useContext();
+  const ctx = api.useUtils();
   const [buttonAction, setButtonAction] = useState("UPDATE");
   const [disabled, setDisabled] = useState(true);
   const [defaultValues, setDefaultValues] = useState({} as ProfileFormDataType);

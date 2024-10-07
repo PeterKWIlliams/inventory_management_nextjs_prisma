@@ -33,23 +33,33 @@ export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
     },
   },
   {
-    accessorKey: "itemId",
-    header: () => <div className="hidden"></div>,
-    cell: () => <div className="hidden"></div>,
-  },
-  //This is hidden as it is only used to access the storageId -look for a better solution later-.
-  {
-    accessorKey: "managedLocationId",
-    header: () => <div className="hidden"></div>,
-    cell: () => <div className="hidden"></div>,
+    accessorKey: "storageName",
+    header: () => <div>Storage Name</div>,
+    cell: ({ row }) => {
+      const rowValue: string = row.getValue("storageName");
+      const storageId: string = row.getValue("storageId");
+      return (
+        <Link href={`/storages/${storageId}`} className="h-full grow">
+          <div className=" text-blue-600 hover:font-semibold hover:text-violet-600">
+            {rowValue}
+          </div>
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "managedLocation",
-    header: () => <div className="text-right">Managed Location</div>,
+    header: () => <div>Managed Location</div>,
     cell: ({ row }) => {
+      const managedLocationId: string = row.getValue("managedLocationId");
       const rowValue: string = row.getValue("managedLocation");
-
-      return <div className="text-right">{rowValue}</div>;
+      return (
+        <Link href={`/managed-locations/${managedLocationId}`}>
+          <div className=" text-blue-600 hover:font-semibold hover:text-violet-600">
+            {rowValue}
+          </div>
+        </Link>
+      );
     },
   },
   //This is hidden as it is only used to access the storageId -look for a better solution later-.
@@ -57,15 +67,6 @@ export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
     accessorKey: "storageId",
     header: () => <div className="hidden"></div>,
     cell: () => <div className="hidden"></div>,
-  },
-  {
-    accessorKey: "storageName",
-    header: () => <div className="text-right">Storage Name</div>,
-    cell: ({ row }) => {
-      const rowValue: string = row.getValue("storageName");
-
-      return <div className="text-right">{rowValue}</div>;
-    },
   },
   {
     accessorKey: "storageLocation",
@@ -83,17 +84,26 @@ export const ItemsColumns: ColumnDef<ItemsTableData>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="float-right"
         >
           Price
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className=" h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const rowValue: string = row.getValue("price");
-
-      return <div className="text-right">{rowValue}</div>;
+      return <div className="flex  justify-center">{rowValue}</div>;
     },
+  },
+  {
+    accessorKey: "itemId",
+    header: () => <div className="hidden"></div>,
+    cell: () => <div className="hidden"></div>,
+  },
+  //This is hidden as it is only used to access the storageId -look for a better solution later-.
+  {
+    accessorKey: "managedLocationId",
+    header: () => <div className="hidden"></div>,
+    cell: () => <div className="hidden"></div>,
   },
 ];

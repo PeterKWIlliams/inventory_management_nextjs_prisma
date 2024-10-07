@@ -18,15 +18,22 @@ interface SingleManagedLocationProps {
 
 const SingleManagedLocation: FC<SingleManagedLocationProps> = ({ id }) => {
   const router = useRouter();
+  const ctx = api.useUtils();
   const { data, isLoading } = api.managedLocation.getById.useQuery(id);
   const { mutate: deleteManagedLocation } =
     api.managedLocation.deleteById.useMutation({
       onError: (error) => {
         toast.error(error.message);
       },
-      onSuccess: () => {
-        toast.success("Location Deleted");
+      onSuccess: async () => {
+        void ctx.managedLocation.getAllForUser.setData(undefined, (oldData) => {
+          return oldData
+            ? oldData.filter((location) => location.id !== id)
+            : oldData;
+        });
         void router.push("/managed-locations");
+        await ctx.managedLocation.invalidate();
+        toast.success("Location Deleted");
       },
     });
 

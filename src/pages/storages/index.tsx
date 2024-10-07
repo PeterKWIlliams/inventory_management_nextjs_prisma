@@ -49,13 +49,6 @@ const Index: FC = () => {
           {" "}
           Your storages
         </h1>
-        <h2>
-          {" "}
-          <div
-            className="mt-5 flex flex-shrink-0 
-          text-lg"
-          ></div>
-        </h2>
       </div>
 
       <div className="container mx-auto max-w-4xl py-10">

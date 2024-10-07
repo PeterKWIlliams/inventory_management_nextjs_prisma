@@ -12,17 +12,17 @@ const ManagedLocationSetup: FC = () => {
   const user = useUser();
   const userId = user.user?.id;
   const router = useRouter();
-
+  const ctx = api.useUtils();
   if (!userId) {
     return <div>you are not signed in</div>;
   }
-
   const addManagedLocation = api.managedLocation.add.useMutation({
     onError: (error) => {
       toast.error(error.message);
     },
     onSuccess: (data) => {
       void router.push(`/managed-locations/${data.id}`);
+      void ctx.managedLocation.getAllForUser.invalidate();
       toast.success("Successfully created new location.");
     },
   });

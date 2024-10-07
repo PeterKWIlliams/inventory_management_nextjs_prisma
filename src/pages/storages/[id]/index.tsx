@@ -13,26 +13,35 @@ import { api } from "~/utils/api";
 import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import Loading from "@/components/loading";
 
 interface SingleStorageProps {
   id: string;
 }
 
 const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
-  const router = useRouter();
   const { data, isLoading } = api.itemStorage.getById.useQuery(id);
+  const router = useRouter();
+  const ctx = api.useUtils();
+
   const { mutate: deleteItemStorage } = api.itemStorage.deleteById.useMutation({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: () => {
-      toast.success("Location Deleted");
+    onSuccess: async () => {
+      ctx.itemStorage.getAllForUser.setData(undefined, (oldData) => {
+        return oldData
+          ? oldData.filter((itemStorage) => itemStorage.id !== id)
+          : oldData;
+      });
       void router.push("/storages");
+      await ctx.itemStorage.invalidate();
+      toast.success("Location Deleted");
     },
   });
 
   if (!data) return <div>no data</div>;
-  if (isLoading) return <div>loading</div>;
+  if (isLoading) return <Loading />;
 
   const onClickDelete = () => {
     deleteItemStorage({ id });
@@ -48,9 +57,9 @@ const SingleStorage: FC<SingleStorageProps> = ({ id }) => {
 
   return (
     <Sidebar>
-      <div className="flex justify-center text-lg">
-        <h1>{data.name}</h1>
-      </div>
+      <h1 className="mb-20  flex  justify-center text-5xl">
+        <span className="border-b border-t border-black ">{data.name}</span>
+      </h1>
 
       <div className=" flex h-full w-full items-center justify-center ">
         <ItemStorageCard

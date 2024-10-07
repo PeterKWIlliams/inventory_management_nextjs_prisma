@@ -1,5 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
+import { type ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/Button";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
@@ -19,17 +18,26 @@ export type StorageTableData = {
 export const StorageColumns: ColumnDef<StorageTableData>[] = [
   {
     accessorKey: "storageName",
-    header: () => <div>Storage Name</div>,
+    header: () => <div className="font-bold">Storage Name</div>,
     cell: ({ row }) => {
       const rowValue: string = row.getValue("storageName");
       const storageId: string = row.getValue("storageId");
       return (
-        <Link href={`/storages/${storageId}`}>
+        <Link href={`/storages/${storageId}`} className="h-full grow">
           <div className=" text-blue-600 hover:font-semibold hover:text-violet-600">
             {rowValue}
           </div>
         </Link>
       );
+    },
+  },
+  {
+    accessorKey: "storageLocation",
+    header: () => <div>Storage Location</div>,
+    cell: ({ row }) => {
+      const rowValue: string = row.getValue("storageLocation");
+
+      return <div>{rowValue}</div>;
     },
   },
   {
@@ -61,33 +69,22 @@ export const StorageColumns: ColumnDef<StorageTableData>[] = [
   },
 
   {
-    accessorKey: "storageLocation",
-    header: () => <div className="text-right">Storage Location</div>,
-    cell: ({ row }) => {
-      const rowValue: string = row.getValue("storageLocation");
-
-      return <div className="text-right">{rowValue}</div>;
-    },
-  },
-
-  {
     accessorKey: "itemCount",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="float-right"
         >
           Item Count
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          <ArrowUpDown className="ml-2 h-4 w-4 hover:text-purple-300" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const rowValue: string = row.getValue("itemCount");
 
-      return <div className="text-right">{rowValue}</div>;
+      return <div>{rowValue}</div>;
     },
   },
 ];

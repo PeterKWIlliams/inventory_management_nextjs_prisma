@@ -15,11 +15,16 @@ interface SingleItemViewProps {
 const SingleItemView: FC<SingleItemViewProps> = ({ id }) => {
   const { data, isLoading } = api.storedItem.getById.useQuery(id);
   const router = useRouter();
+  const ctx = api.useUtils();
 
   const { mutate: deleteItem } = api.storedItem.deleteById.useMutation({
     onSuccess: () => {
-      toast.success("Items successfully deleted");
+      ctx.storedItem.getAllForUser.setData(undefined, (oldData) => {
+        return oldData ? oldData.filter((item) => item.id !== id) : oldData;
+      });
+      void ctx.storedItem.invalidate();
       void router.push("/items");
+      toast.success("Items successfully deleted");
     },
     onError: (error) => {
       console.log(error.message);

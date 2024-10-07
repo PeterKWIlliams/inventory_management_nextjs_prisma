@@ -15,7 +15,6 @@ const SelectStorage: NextPage = () => {
 
   if (isLoading) return <Loading />;
   if (!data) return <div>no data</div>;
-  console.log(data);
 
   const transformedData: AddItemTableData[] = data.map((data) => {
     return {
