@@ -1,28 +1,81 @@
-# Create T3 App
+# Inventory Management System
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is an simple inventory management system built using Next.js for the mangement of mulitple storage addreses and locations from one portal.
+If you dont want to sign in through google or give over you email you can use a temporary email service such as ([https://temp-mail.org/](https://temp-mail.org/)).
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- **Product Management:** Add, edit, delete, and view product details.
+- **User Authentication:** Secure access with user login and registration.
+- **File Uploads:** Upload product images or other relevant files .
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Getting Started
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+### Prerequisites
 
-## Learn More
+- Node.js (version 14 or higher recommended)
+- package manager such as bun, npm, etc.
+- PostgreSQL database (you'll need to set up a database instance on Neon or elsewhere)
+- A Clerk account ([https://clerk.com/](https://clerk.com/))
+- An UploadThing account ([https://uploadthing.com/](https://uploadthing.com/))
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Installation
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+1. **Clone the repository:**
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+   ```bash
+   git clone <your-repository-url>
+   cd <your-repository-name>
+   ```
 
-## How do I deploy this?
+2. **Install dependencies:**
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables:**
+
+   Create a `.env.local` file in the root of your project and add the following, replacing the placeholder values with your actual secrets:
+
+   ```
+   DATABASE_URL=''
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=''
+   CLERK_SECRET_KEY=''
+   UPLOADTHING_SECRET=''
+   UPLOADTHING_APP_ID=''
+   ```
+
+   **Important:**
+
+   - **`DATABASE_URL`:** This is your PostgreSQL database connection string. Make sure your database is set up and accessible.
+   - **`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`:** Your Clerk publishable key (frontend).
+   - **`CLERK_SECRET_KEY`:** Your Clerk secret key (backend).
+   - **`WEBHOOK_SECRET`:** Webhook used to sync clerks internal database with applications on user sign up.
+   - **`UPLOADTHING_SECRET`:** Your UploadThing secret key (backend).
+   - **`UPLOADTHING_APP_ID`:** Your UploadThing App ID.
+
+4. **Database setup:**
+
+- when you have created you database and want to generate tables run
+  ```bash
+  npx prisma db push
+  ```
+
+5. **Run the development server:**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+   This will start the Next.js development server, usually on `http://localhost:3000`.
+
+### Usage
+
+- Visit `http://localhost:3000` in your browser to access the application.
+- You'll likely be prompted to sign up or log in (using Clerk).
+- Once logged in, you can start managing your inventory.
