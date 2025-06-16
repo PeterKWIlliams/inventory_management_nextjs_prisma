@@ -1,35 +1,14 @@
-import { authMiddleware } from "@clerk/nextjs";
-// const publicRoutes = [
-//   "/",
-//   "/sign-in",
-//   "/sign-up",
-//   "/api(.*)",
-//   "/info(.*)",
-//   "/proxy(.*)",
-// ];
+import { clerkMiddleware } from '@clerk/nextjs/server';
+import { createRouteMatcher } from '@clerk/nextjs/server';
 
-// export default authMiddleware({
-//   afterAuth(auth, req) {
+const isProtectedRoute = createRouteMatcher(['/managed-locations(.*)']);
 
-//     const profileAdd = new URL("/profile/add", req.url);
-//     return NextResponse.redirect(profileAdd);
-//   },
-// });
-//
-
-export default authMiddleware({
-  publicRoutes: ["/api/webhook", "/api/uploadthing", "/"],
-});
+export default clerkMiddleware({});
 
 export const config = {
   matcher: [
-    "/((?!.+\\.[\\w]+$|_next).*)",
-    "/",
-    "/(api|trpc)(.*)",
-    "/((?!static|.*\\..*|_next|favicon.ico).*)",
-    "/((?!_next/image|_next/static|favicon.ico).*)",
-    "/((?!.*\\..*|_next).*)",
-    "/",
-    "/(api|trpc)(.*)",
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
+    isProtectedRoute,
   ],
 };
