@@ -14,9 +14,9 @@
  *
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 
-import { prisma } from "~/server/db";
+import { prisma } from '~/server/db';
 
 /**
  * This helper generates the "internals" for a tRPC context. If you need to use it, you can export
@@ -41,21 +41,16 @@ import { prisma } from "~/server/db";
 
 // };
 
-import { TRPCError, initTRPC } from "@trpc/server";
-import type { inferAsyncReturnType } from "@trpc/server";
-import superjson from "superjson";
-import { ZodError } from "zod";
-import { getAuth } from "@clerk/nextjs/server";
-import type {
-  SignedInAuthObject,
-  SignedOutAuthObject,
-} from "@clerk/nextjs/server";
+import { TRPCError, initTRPC } from '@trpc/server';
+import superjson from 'superjson';
+import { ZodError } from 'zod';
+import { getAuth } from '@clerk/nextjs/server';
 
-interface AuthContext {
-  auth: SignedInAuthObject | SignedOutAuthObject;
-}
-// eslint-disable-next-line @typescript-eslint/require-await
-export const createContextInner = async ({ auth }: AuthContext) => {
+export const createContextInner = async ({
+  auth,
+}: {
+  auth: ReturnType<typeof getAuth>;
+}) => {
   const userId = auth.userId;
   return {
     userId: userId,
@@ -71,7 +66,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     ...contextInner,
   };
 };
-export type Context = inferAsyncReturnType<typeof createTRPCContext>;
+export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
 
 /**
  * 2. INITIALIZATION
@@ -119,7 +114,7 @@ export const createTRPCRouter = t.router;
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.userId) {
     throw new TRPCError({
-      code: "BAD_REQUEST",
+      code: 'BAD_REQUEST',
     });
   }
 
