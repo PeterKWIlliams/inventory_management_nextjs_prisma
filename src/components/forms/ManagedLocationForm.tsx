@@ -1,9 +1,9 @@
-import { type FC } from "react";
-import { Button } from "../ui/Button";
+import { type FC } from 'react';
+import { Button } from '../ui/Button';
 import {
   type ManagedLocationFormDataType,
   ManagedLocationFormSchema,
-} from "~/utils/validations/add-managedLocation";
+} from '~/utils/validations/add-managedLocation';
 import {
   Form,
   FormControl,
@@ -11,21 +11,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/Form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/Input";
+} from '../ui/Form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '../ui/Input';
 
 interface ManagedLocationProps {
   onSubmit: (data: ManagedLocationFormDataType) => void;
   buttonAction: string;
   defaultValues?: ManagedLocationFormDataType;
+  inProgress: boolean;
 }
 
 const ManagedLocationForm: FC<ManagedLocationProps> = ({
   buttonAction,
   onSubmit,
   defaultValues,
+  inProgress,
 }) => {
   const form = useForm<ManagedLocationFormDataType>({
     resolver: zodResolver(ManagedLocationFormSchema),
@@ -48,7 +50,6 @@ const ManagedLocationForm: FC<ManagedLocationProps> = ({
                 <FormControl>
                   <Input placeholder="eg. Family home" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -99,7 +100,7 @@ const ManagedLocationForm: FC<ManagedLocationProps> = ({
           />
         </div>
         <div className="mt-6 flex justify-center">
-          <Button disabled={true} type="submit">
+          <Button disabled={inProgress} type="submit">
             {buttonAction}
           </Button>
         </div>

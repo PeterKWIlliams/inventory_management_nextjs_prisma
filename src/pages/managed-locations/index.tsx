@@ -1,11 +1,11 @@
-import { Icons } from "@/components/Icons";
-import ManagedLocationCard from "@/components/cards/ManagedLocationCard";
-import Sidebar from "@/components/Sidebar";
-import Link from "next/link";
-import React from "react";
-import { type FC } from "react";
-import { api } from "~/utils/api";
-import Loading from "@/components/loading";
+import { Icons } from '@/components/Icons';
+import ManagedLocationCard from '@/components/cards/ManagedLocationCard';
+import Sidebar from '@/components/Sidebar';
+import Link from 'next/link';
+import React from 'react';
+import { type FC } from 'react';
+import { api } from '~/utils/api';
+import Loading from '@/components/loading';
 
 const ManagedLocations: FC = () => {
   const { data, isLoading } = api.managedLocation.getAllForUser.useQuery();

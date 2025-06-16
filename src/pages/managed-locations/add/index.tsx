@@ -1,12 +1,12 @@
-import { type FC } from "react";
-import { api } from "~/utils/api";
-import toast from "react-hot-toast";
-import Sidebar from "@/components/Sidebar";
-import { AiFillEnvironment } from "react-icons/ai";
-import { useUser } from "@clerk/nextjs";
-import { type ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
-import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
-import { useRouter } from "next/router";
+import { type FC } from 'react';
+import { api } from '~/utils/api';
+import toast from 'react-hot-toast';
+import Sidebar from '@/components/Sidebar';
+import { AiFillEnvironment } from 'react-icons/ai';
+import { useUser } from '@clerk/nextjs';
+import { type ManagedLocationFormDataType } from '~/utils/validations/add-managedLocation';
+import ManagedLocationForm from '@/components/forms/ManagedLocationForm';
+import { useRouter } from 'next/router';
 
 const ManagedLocationSetup: FC = () => {
   const user = useUser();
@@ -16,19 +16,20 @@ const ManagedLocationSetup: FC = () => {
   if (!userId) {
     return <div>you are not signed in</div>;
   }
-  const addManagedLocation = api.managedLocation.add.useMutation({
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSuccess: (data) => {
-      void router.push(`/managed-locations/${data.id}`);
-      void ctx.managedLocation.getAllForUser.invalidate();
-      toast.success("Successfully created new location.");
-    },
-  });
+  const { mutate: addManagedLocation, isPending: inProgress } =
+    api.managedLocation.add.useMutation({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: (data) => {
+        void router.push(`/managed-locations/${data.id}`);
+        void ctx.managedLocation.getAllForUser.invalidate();
+        toast.success('Successfully created new location.');
+      },
+    });
 
   const onSubmit = (data: ManagedLocationFormDataType) => {
-    addManagedLocation.mutate({
+    addManagedLocation({
       ...data,
       userId: userId,
     });
@@ -38,7 +39,11 @@ const ManagedLocationSetup: FC = () => {
       <div className="mt-9 flex flex-col items-center">
         <h1 className="mb-7 text-5xl font-bold">Add Location</h1>
         <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
-        <ManagedLocationForm buttonAction={"Done!"} onSubmit={onSubmit} />
+        <ManagedLocationForm
+          buttonAction={'Done!'}
+          inProgress={inProgress}
+          onSubmit={onSubmit}
+        />
       </div>
     </Sidebar>
   );

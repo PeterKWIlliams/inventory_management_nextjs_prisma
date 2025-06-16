@@ -79,17 +79,6 @@ export default function LandingPage() {
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-12 px-6 md:grid-cols-2">
             <div className="flex flex-col items-center text-center">
-              <Image
-                alt="Testimonial Avatar"
-                className="mb-4 rounded-full"
-                height="64"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "64/64",
-                  objectFit: "cover",
-                }}
-                width="64"
-              />
               <p className="mb-4 text-gray-600 dark:text-gray-400">
                 {"InventoryMaster has revolutionized our inventory management."}
                 <br />
@@ -98,17 +87,6 @@ export default function LandingPage() {
               <p className="font-medium">John Doe, ACME Inc.</p>
             </div>
             <div className="flex flex-col items-center text-center">
-              <Image
-                alt="Testimonial Avatar"
-                className="mb-4 rounded-full"
-                height="64"
-                src="/placeholder.svg"
-                style={{
-                  aspectRatio: "64/64",
-                  objectFit: "cover",
-                }}
-                width="64"
-              />
               <p className="mb-4 text-gray-600 dark:text-gray-400">
                 {"We love the mobile access feature."}
                 <br />
