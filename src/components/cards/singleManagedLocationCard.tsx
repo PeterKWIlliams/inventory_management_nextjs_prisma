@@ -1,13 +1,7 @@
-import { type FC } from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "../ui/Card";
-import Image from "next/image";
-import { Icons } from "../Icons";
+import { type FC } from 'react';
+import { Card, CardContent } from '../ui/Card';
+import Image from 'next/image';
+import { Icons } from '../Icons';
 import {
   Dialog,
   DialogContent,
@@ -15,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/Dialog";
-import { Button } from "../ui/Button";
+} from '../ui/Dialog';
+import { Button } from '../ui/Button';
 
-import { type managedLocationGetById } from "~/types/routerOutputTypes";
+import { type managedLocationGetById } from '~/types/routerOutputTypes';
 
 interface SingleManagedLocationCardProps {
   data: managedLocationGetById;
@@ -32,7 +26,7 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
   if (!data) return null;
   return (
     <Card className="relative grid grid-cols-1 rounded-md border border-black bg-zinc-50 shadow-md">
-      <div className="h-56 w-80 ">
+      <div className="h-56 w-80">
         <Image
           className="h-full w-full rounded-tl-md rounded-tr-md"
           alt="Location"
@@ -40,16 +34,17 @@ const SingleManagedLocationCard: FC<SingleManagedLocationCardProps> = ({
           width={0}
           height={0}
           sizes="100vw"
+          unoptimized
         />
       </div>
-      <div className="flex flex-col items-center  justify-center ">
+      <div className="flex flex-col items-center justify-center">
         <div>
           <CardContent className="flex flex-col">
             <p className="text-gray-700">{data?.location.address.street}</p>
             <p className="text-gray-700">{data?.location.address.city}</p>
             <p className="text-gray-700">{data?.location.address.postcode}</p>
           </CardContent>
-          <div className="absolute bottom-2 right-2" style={{ color: "red" }}>
+          <div className="absolute bottom-2 right-2" style={{ color: 'red' }}>
             <Dialog>
               <DialogTrigger>
                 <Icons.BadgeX className="hover:text-purple-600" />

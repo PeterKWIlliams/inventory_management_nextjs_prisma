@@ -1,13 +1,13 @@
-import { type FC } from "react";
+import { type FC } from 'react';
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from "../ui/Card";
-import Image from "next/image";
-import type { ItemInfo } from "@prisma/client";
+} from '../ui/Card';
+import Image from 'next/image';
+import type { ItemInfo } from '@prisma/client';
 import {
   Dialog,
   DialogContent,
@@ -15,9 +15,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/Dialog";
-import { Button } from "../ui/Button";
-import { Icons } from "../Icons";
+} from '../ui/Dialog';
+import { Button } from '../ui/Button';
+import { Icons } from '../Icons';
 
 interface SingleItemCardProps {
   itemName: string;
@@ -33,19 +33,20 @@ const SingleItemCard: FC<SingleItemCardProps> = ({
   return (
     <>
       <Card className="relative grid grid-cols-1 rounded-md border border-black bg-zinc-50 shadow-md">
-        <div className="h-56 w-80 ">
+        <div className="h-56 w-80">
           <Image
             className="h-full w-full rounded-tl-md rounded-tr-md"
             alt="Location"
             src={
-              "https://utfs.io/f/1064e2c0-2731-4949-97bf-2f358e2ff6af-dtspzk.webp"
+              'https://utfs.io/f/1064e2c0-2731-4949-97bf-2f358e2ff6af-dtspzk.webp'
             }
             width={0}
             height={0}
             sizes="100vw"
+            unoptimized
           />
         </div>
-        <div className="flex flex-col items-center  justify-center ">
+        <div className="flex flex-col items-center justify-center">
           <div>
             <CardHeader>
               <CardTitle className="text-xl font-semibold text-gray-700">
@@ -59,7 +60,7 @@ const SingleItemCard: FC<SingleItemCardProps> = ({
               <p className="text-gray-700">{itemInfo.purchasePrice}</p>
               <p className="text-gray-700">{itemInfo.desiredQuantity}</p>
             </CardContent>
-            <div className="absolute bottom-2 right-2" style={{ color: "red" }}>
+            <div className="absolute bottom-2 right-2" style={{ color: 'red' }}>
               <Dialog>
                 <DialogTrigger>
                   <Icons.BadgeX className="hover:text-purple-600" />
