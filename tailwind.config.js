@@ -25,6 +25,11 @@ module.exports = withUt({
       colors: {
         'dark-purple': '#081A51',
         'light-white': 'rgba(255,255,255,0.18)',
+        'eerie-black': '#1C1C1C',
+        platinum: '#DADDD8',
+        alabaster: '#ECEBE4',
+        'anti-flash-white': '#EEF0F2',
+        'ghost-white': '#FAFAFF',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

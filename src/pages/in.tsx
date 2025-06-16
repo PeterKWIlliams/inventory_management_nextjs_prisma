@@ -1,14 +1,13 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/Button";
-import { SignInButton } from "@clerk/nextjs";
-import Image from "next/image";
-import { AiFillEnvironment } from "react-icons/ai";
-import { type SVGProps } from "react";
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { SignInButton } from '@clerk/nextjs';
+import { AiFillEnvironment } from 'react-icons/ai';
+import { type SVGProps } from 'react';
 
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between bg-white px-6 py-4 dark:bg-gray-800">
+      <header className="flex items-center justify-between bg-white px-6 py-4">
         <div className="flex-1">
           <Link className="flex items-center gap-2 font-semibold" href="#">
             <Package2Icon className="h-6 w-6" />
@@ -21,15 +20,15 @@ export default function LandingPage() {
         <div className="flex flex-1 justify-end">
           <nav>
             <SignInButton>
-              <Button size={"default"} className="hover:bg-purple-400">
+              <Button size={'default'} className="hover:bg-purple-400">
                 SIGN IN
               </Button>
             </SignInButton>
           </nav>
         </div>
       </header>
-      <main className="flex-1">
-        <section className="flex flex-col items-center justify-center bg-gray-100 py-24 dark:bg-gray-900">
+      <main className="flex-1 bg-platinum">
+        <section className="flex flex-col items-center justify-center bg-alabaster py-24">
           <h1 className="text-center text-4xl font-bold">
             Simplify Your Inventory Management
           </h1>
@@ -38,7 +37,7 @@ export default function LandingPage() {
             reduce errors, and make data-driven decisions.
           </p>
           <SignInButton>
-            <Button size={"lg"} className="mt-8 hover:bg-purple-400">
+            <Button size={'lg'} className="mt-8 hover:bg-purple-400">
               SIGN IN
             </Button>
           </SignInButton>
@@ -55,7 +54,7 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <SmartphoneIcon className="mb-4 h-12 w-12" />
+              <HomeIcon className="mb-4 h-12 w-12" />
               <h3 className="mb-2 text-xl font-medium">Unlimited Creations</h3>
               <p className="text-center text-gray-600 dark:text-gray-400">
                 Manage multiple locations from once central location.
@@ -71,7 +70,7 @@ export default function LandingPage() {
           </div>
         </section>
         <section
-          className="bg-gray-100 py-24 dark:bg-gray-900"
+          className="bg-alabaster py-24 dark:bg-gray-900"
           id="testimonials"
         >
           <h2 className="text-center text-3xl font-bold">
@@ -80,7 +79,7 @@ export default function LandingPage() {
           <div className="mt-12 grid grid-cols-1 gap-12 px-6 md:grid-cols-2">
             <div className="flex flex-col items-center text-center">
               <p className="mb-4 text-gray-600 dark:text-gray-400">
-                {"InventoryMaster has revolutionized our inventory management."}
+                {'InventoryMaster has revolutionized our inventory management.'}
                 <br />
                 {" It's easy to use and provides real-time data."}
               </p>
@@ -88,16 +87,16 @@ export default function LandingPage() {
             </div>
             <div className="flex flex-col items-center text-center">
               <p className="mb-4 text-gray-600 dark:text-gray-400">
-                {"We love the mobile access feature."}
+                {'We love the mobile access feature.'}
                 <br />
-                {" It allows us to check our inventory levels on the go."}
+                {' It allows us to check our inventory levels on the go.'}
               </p>
               <p className="font-medium">Jane Smith, XYZ Corp.</p>
             </div>
           </div>
         </section>
 
-        <section className="bg-gray-100 py-24 dark:bg-gray-900">
+        <section className="bg-anti-flash-white py-24 dark:bg-gray-900">
           <div className="flex flex-col items-center space-y-4 text-center">
             <h2 className="text-3xl font-bold">
               Ready to Simplify Your Inventory Management?
@@ -231,7 +230,7 @@ function Package2Icon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function SmartphoneIcon(props: SVGProps<SVGSVGElement>) {
+function HomeIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -241,9 +240,6 @@ function SmartphoneIcon(props: SVGProps<SVGSVGElement>) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="#000000"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
     >
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
       <polyline points="9 22 9 12 15 12 15 22"></polyline>
