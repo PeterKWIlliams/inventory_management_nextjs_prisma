@@ -99,7 +99,9 @@ const ManagedLocationForm: FC<ManagedLocationProps> = ({
           />
         </div>
         <div className="mt-6 flex justify-center">
-          <Button type="submit">{buttonAction}</Button>
+          <Button disabled={true} type="submit">
+            {buttonAction}
+          </Button>
         </div>
       </form>
     </Form>

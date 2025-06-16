@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Button } from "../ui/Button";
 import {
   Card,
   CardContent,
@@ -7,9 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/Card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { RecentSales } from "./recent-sales";
-import { CalendarDateRangePicker } from "./date-range-picker";
 import type { FC } from "react";
 import DashboardCard from "./cards/dashboardCard";
 import Overview from "./overview";
