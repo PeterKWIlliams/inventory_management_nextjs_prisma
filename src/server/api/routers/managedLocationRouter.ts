@@ -1,7 +1,7 @@
-import { managedLocationBaseImgUrl } from "~/utils/constants";
-import { createTRPCRouter, privateProcedure } from "../trpc";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
+import { managedLocationBaseImgUrl } from '~/utils/constants';
+import { createTRPCRouter, privateProcedure } from '../trpc';
+import z from 'zod';
+import { TRPCError } from '@trpc/server';
 
 export const managedLocationRouter = createTRPCRouter({
   add: privateProcedure
@@ -12,7 +12,7 @@ export const managedLocationRouter = createTRPCRouter({
         street: z.string(),
         postcode: z.string(),
         userId: z.string(), // Ensure userId is a valid UUID
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -52,8 +52,8 @@ export const managedLocationRouter = createTRPCRouter({
       } catch (error) {
         console.error(error);
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Something went wrong with managedLocation add route",
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Something went wrong with managedLocation add route',
         });
       }
     }),
@@ -120,13 +120,11 @@ export const managedLocationRouter = createTRPCRouter({
             },
           },
         },
-      }
+      },
     );
     return managedLocationsWithItems;
   }),
   getAllForUserWithStorage: privateProcedure.query(async ({ ctx }) => {
-    try {
-    } catch (error) {}
     const managedLocationsWithStorage =
       await ctx.prisma.managedLocation.findMany({
         where: {
@@ -163,15 +161,23 @@ export const managedLocationRouter = createTRPCRouter({
         city: z.string(),
         street: z.string(),
         postcode: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.managedLocation.findFirstOrThrow({
-          where: {
-            id: input.managedLocationId,
-          },
-        });
+        const existingLocation =
+          await ctx.prisma.managedLocation.findFirstOrThrow({
+            where: {
+              id: input.managedLocationId,
+            },
+          });
+
+        if (!existingLocation) {
+          throw new TRPCError({
+            code: 'NOT_FOUND',
+            message: `Managed Location with ID ${input.managedLocationId} not found.`,
+          });
+        }
 
         await ctx.prisma.managedLocation.update({
           where: {
@@ -193,10 +199,12 @@ export const managedLocationRouter = createTRPCRouter({
           },
         });
       } catch (error) {
+        console.error(error);
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
+          code: 'INTERNAL_SERVER_ERROR',
           message:
-            "Something went wrong with managedLocation update route while trying to update managed location",
+            'Something went wrong while trying to update the managed location.',
+          cause: error,
         });
       }
     }),
@@ -218,9 +226,10 @@ export const managedLocationRouter = createTRPCRouter({
         });
       } catch (error) {
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
+          code: 'INTERNAL_SERVER_ERROR',
           message:
-            "Something went wrong with managedLocation delete route while deleting a managed location",
+            'Something went wrong with managedLocation delete route while deleting a managed location',
+          cause: error,
         });
       }
     }),

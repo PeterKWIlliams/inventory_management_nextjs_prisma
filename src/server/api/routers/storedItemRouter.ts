@@ -1,6 +1,6 @@
-import { createTRPCRouter, privateProcedure } from "../trpc";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
+import { createTRPCRouter, privateProcedure } from '../trpc';
+import z from 'zod';
+import { TRPCError } from '@trpc/server';
 export const storedItemRouter = createTRPCRouter({
   add: privateProcedure
     .input(
@@ -14,7 +14,7 @@ export const storedItemRouter = createTRPCRouter({
         itemStorageId: z.string(),
         expiryDate: z.coerce.date(),
         supplierName: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -47,8 +47,9 @@ export const storedItemRouter = createTRPCRouter({
       await ctx.prisma.storedItem.deleteMany({});
     } catch (error) {
       throw new TRPCError({
-        code: "UNPROCESSABLE_CONTENT",
-        message: "All items could not be deleted",
+        code: 'UNPROCESSABLE_CONTENT',
+        message: 'All items could not be deleted',
+        cause: error,
       });
     }
   }),
@@ -97,9 +98,11 @@ export const storedItemRouter = createTRPCRouter({
       });
       return item;
     } catch (error) {
-      throw new Error(
-        "The item you are trying to get dosent exist does not exist"
-      );
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'Could not get item',
+        cause: error,
+      });
     }
   }),
   deleteById: privateProcedure
@@ -113,8 +116,9 @@ export const storedItemRouter = createTRPCRouter({
         });
       } catch (error) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Item could not be deleted",
+          code: 'BAD_REQUEST',
+          message: 'Item could not be deleted',
+          cause: error,
         });
       }
     }),
@@ -131,7 +135,7 @@ export const storedItemRouter = createTRPCRouter({
         itemStorageId: z.string(),
         expiryDate: z.coerce.date(),
         supplierName: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -149,7 +153,11 @@ export const storedItemRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        throw new Error("something went wrong when trying to delete item");
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Item could not be updated',
+          cause: error,
+        });
       }
     }),
 });

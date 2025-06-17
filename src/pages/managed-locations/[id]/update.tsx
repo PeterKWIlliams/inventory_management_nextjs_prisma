@@ -1,14 +1,14 @@
-import { type FC, useEffect, useState } from "react";
-import { api } from "~/utils/api";
-import toast from "react-hot-toast";
-import Sidebar from "@/components/Sidebar";
-import { AiFillEnvironment } from "react-icons/ai";
-import { type ManagedLocationFormDataType } from "~/utils/validations/add-managedLocation";
-import ManagedLocationForm from "@/components/forms/ManagedLocationForm";
-import { useRouter } from "next/router";
-import { generateSSGHelper } from "~/utils/helpers/serverSideHelper";
-import { type GetStaticProps } from "next";
-import Loading from "@/components/loading";
+import { type FC, useEffect, useState } from 'react';
+import { api } from '~/utils/api';
+import toast from 'react-hot-toast';
+import Sidebar from '@/components/Sidebar';
+import { AiFillEnvironment } from 'react-icons/ai';
+import { type ManagedLocationFormDataType } from '~/utils/validations/add-managedLocation';
+import ManagedLocationForm from '@/components/forms/ManagedLocationForm';
+import { useRouter } from 'next/router';
+import { generateSSGHelper } from '~/utils/helpers/serverSideHelper';
+import { type GetStaticProps } from 'next';
+import Loading from '@/components/loading';
 
 interface updateManagedLocationProps {
   id: string;
@@ -19,30 +19,31 @@ const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
   const { data: managedLocation, isLoading } =
     api.managedLocation.getById.useQuery(id);
   const [defaultValues, setDefaultValues] = useState(
-    {} as ManagedLocationFormDataType
+    {} as ManagedLocationFormDataType,
   );
 
   useEffect(() => {
     setDefaultValues({
-      city: managedLocation?.location.address.city || "",
-      name: managedLocation?.location.name || "",
-      postcode: managedLocation?.location.address.postcode || "",
-      street: managedLocation?.location.address.street || "",
+      city: managedLocation?.location.address.city || '',
+      name: managedLocation?.location.name || '',
+      postcode: managedLocation?.location.address.postcode || '',
+      street: managedLocation?.location.address.street || '',
     });
   }, [managedLocation]);
 
-  const updateManagedLocation = api.managedLocation.update.useMutation({
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSuccess: () => {
-      void router.push(`/managed-locations/${id}`);
-      toast.success("Managed Location updated!");
-    },
-  });
+  const { mutate: updateManagedLocation, isPending: inProgress } =
+    api.managedLocation.update.useMutation({
+      onError: (error) => {
+        toast.error(error.message);
+      },
+      onSuccess: () => {
+        void router.push(`/managed-locations/${id}`);
+        toast.success('Managed Location updated!');
+      },
+    });
 
   const onSubmit = (data: ManagedLocationFormDataType) => {
-    updateManagedLocation.mutate({
+    updateManagedLocation({
       ...data,
       managedLocationId: id,
     });
@@ -57,8 +58,9 @@ const UpdateManagedLocation: FC<updateManagedLocationProps> = ({ id }) => {
         <AiFillEnvironment className="mb-20 rounded bg-amber-300 text-8xl text-dark-purple" />
         <ManagedLocationForm
           defaultValues={defaultValues}
-          buttonAction={"Update"}
+          buttonAction={'Update'}
           onSubmit={onSubmit}
+          inProgress={inProgress}
         />
       </div>
     </Sidebar>
@@ -82,5 +84,5 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export const getStaticPaths = () => {
-  return { paths: [], fallback: "blocking" };
+  return { paths: [], fallback: 'blocking' };
 };

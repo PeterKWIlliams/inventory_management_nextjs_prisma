@@ -1,8 +1,8 @@
-import { TRPCError } from "@trpc/server";
-import { createTRPCRouter, privateProcedure } from "../trpc";
+import { TRPCError } from '@trpc/server';
+import { createTRPCRouter, privateProcedure } from '../trpc';
 
-import z from "zod";
-import { itemStorageBaseImgUrl } from "~/utils/constants";
+import z from 'zod';
+import { itemStorageBaseImgUrl } from '~/utils/constants';
 
 export const itemStorageRouter = createTRPCRouter({
   add: privateProcedure
@@ -11,10 +11,10 @@ export const itemStorageRouter = createTRPCRouter({
         name: z.string(),
         location: z.string(),
         managedLocationId: z.string().cuid(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("im hitting");
+      console.log('im hitting');
       const itemStorage = await ctx.prisma.itemStorage.create({
         data: {
           name: input.name,
@@ -26,8 +26,8 @@ export const itemStorageRouter = createTRPCRouter({
 
       if (!itemStorage)
         throw new TRPCError({
-          code: "UNPROCESSABLE_CONTENT",
-          message: "storage could not be created",
+          code: 'UNPROCESSABLE_CONTENT',
+          message: 'storage could not be created',
         });
 
       return itemStorage;
@@ -42,7 +42,7 @@ export const itemStorageRouter = createTRPCRouter({
         storedItem: true,
       },
     });
-    if (!itemStorage) throw new Error("Error getting storage");
+    if (!itemStorage) throw new Error('Error getting storage');
     return itemStorage;
   }),
   getAllForUser: privateProcedure.query(async ({ ctx }) => {
@@ -80,7 +80,7 @@ export const itemStorageRouter = createTRPCRouter({
         location: z.string(),
         managedLocationId: z.string().cuid(),
         name: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.itemStorage.update({
@@ -104,9 +104,12 @@ export const itemStorageRouter = createTRPCRouter({
           },
         });
       } catch (error) {
-        throw new Error(
-          "something went wrong when trying to delete the item storage"
-        );
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message:
+            'something went wrong when trying to delete the item storage',
+          cause: error,
+        });
       }
     }),
 });

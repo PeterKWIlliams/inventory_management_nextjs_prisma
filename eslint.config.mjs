@@ -1,11 +1,11 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import pluginReact from 'eslint-plugin-react';
 
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -16,26 +16,27 @@ export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ["**/*.{jsx,tsx}"],
+    files: ['**/*.{jsx,tsx}'],
     plugins: {
       react: pluginReact,
     },
     rules: {
       ...pluginReact.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-uses-react": "off",
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
+      'react/prop-types': 'off',
     },
     settings: {
       react: {
-        version: "detect",
+        version: 'detect',
       },
     },
   },
   {
-    files: ["next.config.{js,mjs,ts}"],
+    files: ['next.config.{js,mjs,ts}'],
     rules: {
-      "@typescript-eslint/no-unused-expressions": [
-        "error",
+      '@typescript-eslint/no-unused-expressions': [
+        'error',
         {
           allowShortCircuit: true,
           allowTernary: true,

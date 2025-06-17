@@ -1,6 +1,6 @@
-import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
-import { TRPCError } from "@trpc/server";
-import { ProfileFormSchema } from "~/utils/validations/profile-form";
+import { createTRPCRouter, privateProcedure, publicProcedure } from '../trpc';
+import { TRPCError } from '@trpc/server';
+import { ProfileFormSchema } from '~/utils/validations/profile-form';
 
 export const userRouter = createTRPCRouter({
   add: privateProcedure
@@ -16,10 +16,10 @@ export const userRouter = createTRPCRouter({
         },
       });
       if (user) {
-        console.log("user already exists");
+        console.log('user already exists');
         return;
       }
-      console.log("user does not exist");
+      console.log('user does not exist');
       const address = await ctx.prisma.address.create({
         data: {
           city: input.city,
@@ -29,8 +29,8 @@ export const userRouter = createTRPCRouter({
       });
       if (!address)
         throw new TRPCError({
-          code: "UNPROCESSABLE_CONTENT",
-          message: "Address could not be created",
+          code: 'UNPROCESSABLE_CONTENT',
+          message: 'Address could not be created',
         });
       try {
         const user = await ctx.prisma.user.create({
@@ -45,15 +45,16 @@ export const userRouter = createTRPCRouter({
         if (!user) throw new Error();
       } catch (error) {
         throw new TRPCError({
-          code: "UNPROCESSABLE_CONTENT",
-          message: "User could not be created",
+          code: 'UNPROCESSABLE_CONTENT',
+          message: 'User could not be created',
+          cause: error,
         });
       }
     }),
   getAllData: publicProcedure.query(async ({ ctx }) => {
     try {
       const userId = ctx.userId;
-      if (!userId) throw new Error("not logged in ");
+      if (!userId) throw new Error('not logged in ');
       const data = await ctx.prisma.managedLocation.findMany({
         where: {
           userId: userId,
@@ -70,10 +71,10 @@ export const userRouter = createTRPCRouter({
           },
         },
       });
-      if (!data) throw new Error("");
+      if (!data) throw new Error('');
       return data;
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   }),
   getById: privateProcedure.query(async ({ ctx }) => {
@@ -90,8 +91,8 @@ export const userRouter = createTRPCRouter({
     });
     if (!profileData)
       throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "User could not be found",
+        code: 'BAD_REQUEST',
+        message: 'User could not be found',
       });
     return profileData;
   }),
@@ -141,7 +142,7 @@ export const userRouter = createTRPCRouter({
             });
           }
         } else {
-          throw new Error("User not found."); // Or handle this case as needed.
+          throw new Error('User not found.'); // Or handle this case as needed.
         }
       } catch (error) {
         throw new Error(`Profile update failed: ${(error as Error).message}}`);
