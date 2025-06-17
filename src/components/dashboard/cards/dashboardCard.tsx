@@ -1,5 +1,5 @@
-import { FC, ReactElement } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/Card";
+import { FC } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/Card';
 
 interface dashboardCardProps {
   extraInfo: string;

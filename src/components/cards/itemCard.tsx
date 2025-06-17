@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC } from 'react';
 
-const itemCard: FC = ({}) => {
+const itemCard: FC = () => {
   return <div>itemCard</div>;
 };
 

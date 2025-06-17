@@ -1,8 +1,7 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { z } from "zod";
-import { Button } from "../ui/Button";
-import { ArrowUpDown } from "lucide-react";
-import Link from "next/link";
+import { ColumnDef } from '@tanstack/react-table';
+import { Button } from '../ui/Button';
+import { ArrowUpDown } from 'lucide-react';
+import Link from 'next/link';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -16,16 +15,16 @@ export type SingleItemStorageTableData = {
 export const SingleItemStorageColumns: ColumnDef<SingleItemStorageTableData>[] =
   [
     {
-      accessorKey: "itemId",
+      accessorKey: 'itemId',
       header: () => <div className="hidden"></div>,
       cell: () => <div className="hidden"></div>,
     },
     {
-      accessorKey: "itemName",
-      header: "Item",
+      accessorKey: 'itemName',
+      header: 'Item',
       cell: ({ row }) => {
-        const rowValue: string = row.getValue("itemName");
-        const itemId: string = row.getValue("itemId");
+        const rowValue: string = row.getValue('itemName');
+        const itemId: string = row.getValue('itemId');
         return (
           <Link href={`/items/${itemId}`}>
             <div className="text-blue-600 hover:font-semibold hover:text-purple-600">
@@ -37,12 +36,12 @@ export const SingleItemStorageColumns: ColumnDef<SingleItemStorageTableData>[] =
     },
 
     {
-      accessorKey: "price",
+      accessorKey: 'price',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             className="float-right"
           >
             Price
@@ -51,7 +50,7 @@ export const SingleItemStorageColumns: ColumnDef<SingleItemStorageTableData>[] =
         );
       },
       cell: ({ row }) => {
-        const rowValue: string = row.getValue("price");
+        const rowValue: string = row.getValue('price');
 
         return <div className="float-right"> {rowValue}</div>;
       },
